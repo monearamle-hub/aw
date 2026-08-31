@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>امتحان التواصل والعرض الفعّال — ليلة الامتحان</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ===== المتغيرات ===== */
+:root{
+  --bg:#f2ecdd; --surface:#fffdf7; --surface2:#f7f1e3;
+  --ink:#2c2a23; --muted:#8a8171;
+  --line:#e2d9c2; --line2:#d2c7a9;
+  --accent:#0e7a68; --accent-soft:rgba(14,122,104,.13);
+  --gold:#a87511; --gold-soft:rgba(168,117,17,.11);
+  --ok:#1a8a55; --ok-bg:#e5f4e9; --no:#cf4050; --no-bg:#fbeceb;
+  --btn-ink:#fff; --ok-ink:#fff; --no-ink:#fff;
+  --sticky:rgba(246,240,228,.9);
+  --cloud:rgba(255,255,255,.92); --cloud-d:rgba(200,213,224,.6);
+  --hill1:#a9bf92; --hill2:#83a06d;
+  --shadow:0 18px 45px -18px rgba(70,60,30,.35);
+}
+body.night{
+  --bg:#0b0f1d; --surface:#131a2c; --surface2:#182136;
+  --ink:#eae7d9; --muted:#8b93aa;
+  --line:#242e4b; --line2:#2e3a5e;
+  --accent:#3fc9ab; --accent-soft:rgba(63,201,171,.14);
+  --gold:#e2b45c; --gold-soft:rgba(226,180,92,.11);
+  --ok:#3ecf8e; --ok-bg:rgba(62,207,142,.12); --no:#ff6b76; --no-bg:rgba(255,107,118,.12);
+  --btn-ink:#062b21; --ok-ink:#052e1b; --no-ink:#3f0a10;
+  --sticky:rgba(11,15,29,.9);
+  --cloud:rgba(146,160,205,.13); --cloud-d:rgba(16,22,42,.4);
+  --hill1:#0e1629; --hill2:#080d1b;
+  --shadow:0 20px 50px -20px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;min-height:100vh;display:flex;flex-direction:column;transition:background .7s ease,color .7s ease}
+main{flex:1}
+::selection{background:var(--accent);color:var(--btn-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hidden{display:none!important}
+.container{width:100%;max-width:920px;margin-inline:auto;padding-inline:22px}
+h1,h2,h3,.btn,.brand-txt strong{font-family:'Alexandria',sans-serif}
+
+/* ===== السماء ===== */
+.sky{position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:415px;
+  --sky-ink:#1d3f5c;--sky-gold:#9a6710;--sky-chip-bg:rgba(255,255,255,.34);--sky-chip-bd:rgba(29,63,92,.22)}
+body.night .sky{--sky-ink:#f4f1e4;--sky-gold:#ffd97a;--sky-chip-bg:rgba(255,255,255,.1);--sky-chip-bd:rgba(255,255,255,.22)}
+.sky-layer{position:absolute;inset:0;transition:opacity 1.2s ease}
+.sky-day{background:linear-gradient(180deg,#77bce0 0%,#b3dbed 46%,#ecdfc2 100%)}
+.sky-night{background:linear-gradient(180deg,#04060f 0%,#0a1124 52%,#1b2a4a 100%);opacity:0}
+body.night .sky-night{opacity:1}
+body.night .sky-day{opacity:0}
+.stars{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity 1.3s;pointer-events:none}
+body.night .stars{opacity:1}
+.star{position:absolute;border-radius:50%;background:#eee7c9;animation:twinkle var(--d) ease-in-out var(--dl) infinite}
+.spark{position:absolute;display:block;animation:twinkle var(--d) ease-in-out var(--dl) infinite}
+@keyframes twinkle{0%,100%{opacity:.12;transform:scale(.65)}50%{opacity:1;transform:scale(1)}}
+.traveler{position:absolute;top:0;left:0;z-index:2;pointer-events:none;will-change:transform}
+.t-fade{transition:opacity .4s linear}
+.t-body{position:relative;width:88px;height:88px;display:grid;place-items:center;transition:opacity .95s ease,transform .95s ease}
+.halo{position:absolute;inset:-32px;border-radius:50%}
+.halo-moon{background:radial-gradient(circle,rgba(243,232,196,.32),rgba(243,232,196,0) 68%)}
+.halo-sun{background:radial-gradient(circle,rgba(255,199,88,.38),rgba(255,199,88,0) 68%)}
+body:not(.night) #moonBody{opacity:0;transform:scale(.45) rotate(40deg)}
+body.night #sunBody{opacity:0;transform:scale(.45) rotate(-40deg)}
+.rays{transform-box:fill-box;transform-origin:center;animation:spin 32s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#sunBody svg{animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.045)}}
+.cloud{position:absolute;z-index:3;left:0;pointer-events:none;animation:drift var(--t) linear infinite;animation-delay:var(--dl)}
+.cloud.c1{top:15%;--t:95s;--dl:-28s}
+.cloud.c2{top:40%;--t:135s;--dl:-90s;opacity:.85}
+.cloud.c3{top:7%;--t:170s;--dl:-140s;opacity:.7}
+.c2 svg{width:185px}.c3 svg{width:145px}
+.cloud-fill{fill:var(--cloud);transition:fill 1.2s}
+.cloud-shade{fill:var(--cloud-d);transition:fill 1.2s}
+.cloud-inner{animation:bob 11s ease-in-out infinite alternate;display:block}
+@keyframes bob{from{transform:translateY(-6px)}to{transform:translateY(7px)}}
+@keyframes drift{from{transform:translateX(-330px)}to{transform:translateX(calc(100vw + 330px))}}
+.hills{position:absolute;bottom:-2px;left:0;width:100%;height:92px;z-index:4;pointer-events:none}
+.hill-far{fill:var(--hill1);transition:fill 1.2s}
+.hill-near{fill:var(--hill2);transition:fill 1.2s}
+.sky-head{position:relative;z-index:5;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-top:20px}
+.brand{display:flex;align-items:center;gap:12px;color:var(--sky-ink)}
+.brand-mark{width:46px;height:46px;flex:none;border-radius:14px;background:var(--sky-chip-bg);border:1px solid var(--sky-chip-bd);backdrop-filter:blur(6px);display:grid;place-items:center}
+.brand-over{display:block;font-size:11.5px;font-weight:600;letter-spacing:.4px;opacity:.75}
+.brand-txt strong{font-size:18px;font-weight:700;line-height:1.3;display:block}
+.theme-toggle{position:relative;width:62px;height:32px;flex:none;border-radius:99px;background:var(--sky-chip-bg);border:1px solid var(--sky-chip-bd);backdrop-filter:blur(8px);cursor:pointer}
+.tt-knob{position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.3);transition:transform .45s cubic-bezier(.5,1.6,.4,1)}
+body.night .tt-knob{transform:translateX(-30px)}
+.tt-sun,.tt-moon{grid-area:1/1;display:grid;place-items:center;transition:opacity .3s,transform .45s}
+.tt-sun{color:#d98324}.tt-moon{color:#39435c;opacity:0;transform:rotate(90deg) scale(.4)}
+body.night .tt-sun{opacity:0;transform:rotate(-90deg) scale(.4)}
+body.night .tt-moon{opacity:1;transform:none}
+
+/* ===== دخلة المطورين ===== */
+.sky-hero{position:relative;z-index:5;margin-top:auto;padding-bottom:80px;color:var(--sky-ink);text-shadow:0 1px 14px rgba(8,12,25,.15);text-align:center;display:flex;flex-direction:column;align-items:center}
+.dev-hero{display:flex;flex-direction:column;align-items:center;margin-bottom:14px}
+.dev-pop{animation:photoPop .95s cubic-bezier(.2,1.5,.35,1) both}
+@keyframes photoPop{0%{opacity:0;transform:scale(.15) rotate(-16deg)}65%{opacity:1;transform:scale(1.09) rotate(3deg)}100%{opacity:1;transform:none}}
+.dev-frame{position:relative;width:150px;height:150px;animation:floaty 5.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.dev-ring{position:absolute;inset:-7px;border-radius:50%;background:conic-gradient(from 0deg,#3fc9ab,#e2b45c,#fff3c4,#3fc9ab,#e2b45c,#3fc9ab);animation:spin 7s linear infinite;filter:saturate(1.15)}
+.dev-ring2{position:absolute;inset:-16px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.45);animation:spin 24s linear infinite reverse}
+.dev-img-wrap{position:absolute;inset:0;border-radius:50%;overflow:hidden;border:4px solid #fff;box-shadow:0 12px 32px -8px rgba(5,10,25,.5);transition:transform .35s cubic-bezier(.2,1.4,.4,1);cursor:zoom-in}
+.dev-frame:hover .dev-img-wrap{transform:scale(1.06) rotate(-2deg)}
+.dev-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.dev-shine{position:absolute;top:-60%;left:-40%;width:42%;height:220%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.6),transparent);transform:rotate(16deg);animation:shineSweep 4.2s ease-in-out 1.2s infinite}
+@keyframes shineSweep{0%,55%{left:-45%}100%{left:135%}}
+.orbit{position:absolute;inset:-26px;border-radius:50%;animation:spin var(--t) linear infinite;pointer-events:none}
+.orbit i{position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#ffd97a;box-shadow:0 0 12px #ffd97a,0 0 3px #fff}
+.orbit.o1{--t:9s}
+.orbit.o2{inset:-33px;animation-direction:reverse;--t:14s}
+.orbit.o2 i{width:7px;height:7px;top:auto;bottom:-4px;background:#7ef0cf;box-shadow:0 0 10px #7ef0cf}
+.dev-cred{margin-top:20px;text-align:center;animation:fadeSlide .6s .35s both}
+.dev-cred strong{font-family:'Alexandria';font-weight:800;font-size:22px;letter-spacing:.6px;display:block;line-height:1.4;
+  background:linear-gradient(90deg,var(--sky-gold),#fff2c8,var(--sky-gold));background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:goldFlow 3.6s linear infinite;text-shadow:none}
+@keyframes goldFlow{to{background-position:200% 0}}
+.dev-cred span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;opacity:.88;margin-top:4px;color:var(--sky-ink);text-shadow:0 1px 8px rgba(8,12,25,.2)}
+.dev-cred span svg{filter:drop-shadow(0 0 4px rgba(255,215,120,.8))}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.sky-hero h1{font-weight:800;font-size:clamp(26px,4.4vw,40px);line-height:1.45;animation:fadeSlide .6s .2s both}
+.sky-hero h1 em{font-style:normal;color:var(--sky-gold)}
+.sky-hero .lead{margin-top:10px;font-size:15px;max-width:560px;opacity:.92;font-weight:500;animation:fadeSlide .6s .3s both}
+.stat-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;justify-content:center;animation:fadeSlide .6s .45s both}
+.s-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:99px;font-size:13px;font-weight:600;background:var(--sky-chip-bg);border:1px solid var(--sky-chip-bd);backdrop-filter:blur(5px)}
+.s-chip svg{color:var(--sky-gold);flex:none}
+
+/* ===== تاب المطورين الجانبي ===== */
+.dev-dock{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:70}
+.dev-handle{position:relative;width:54px;height:54px;border-radius:16px;border:2.5px solid var(--gold);background:var(--surface);cursor:pointer;padding:0;display:block;transition:transform .3s cubic-bezier(.2,1.4,.4,1);box-shadow:0 8px 22px -6px rgba(0,0,0,.45)}
+.dev-handle img{width:100%;height:100%;object-fit:cover;display:block;border-radius:13px}
+.dev-handle:hover{transform:scale(1.1) rotate(-3deg)}
+.dev-ping{position:absolute;inset:-3px;border-radius:18px;border:2px solid var(--gold);opacity:0;animation:ping 2.8s ease-out infinite;pointer-events:none}
+@keyframes ping{0%{opacity:.9;transform:scale(1)}70%,100%{opacity:0;transform:scale(1.4)}}
+.dev-flyout{position:absolute;left:68px;top:50%;transform:translate(-16px,-50%);opacity:0;pointer-events:none;transition:.38s cubic-bezier(.2,.9,.3,1);display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 18px 10px 12px;box-shadow:var(--shadow);white-space:nowrap}
+.dev-dock:hover .dev-flyout,.dev-dock.open .dev-flyout{opacity:1;transform:translate(0,-50%);pointer-events:auto}
+.dev-flyout img{width:46px;height:46px;border-radius:12px;object-fit:cover;border:2px solid var(--gold);flex:none}
+.dev-flyout strong{font-family:'Alexandria';display:block;font-size:15px;font-weight:800;color:var(--gold);line-height:1.5}
+.dev-flyout span{font-size:12px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:5px}
+
+/* ===== الهيكل ===== */
+main{position:relative;z-index:6;margin-top:-38px;padding-bottom:30px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);transition:background .7s,border-color .7s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 22px;border-radius:13px;border:1.5px solid transparent;cursor:pointer;font-family:'Alexandria';font-weight:700;font-size:14.5px;transition:transform .2s,box-shadow .25s,background .3s,color .3s,border-color .3s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:var(--btn-ink);box-shadow:0 10px 24px -10px var(--accent)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-outline{border-color:var(--accent);color:var(--accent);background:transparent}
+.btn-outline:hover{background:var(--accent-soft)}
+.btn-ghost{background:transparent;color:var(--muted)}
+.btn-ghost:hover{color:var(--ink);border-color:var(--line)}
+.btn-danger{background:var(--no);color:var(--no-ink);box-shadow:0 10px 24px -10px var(--no)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none!important}
+.btn-lg{padding:14px 30px;font-size:16px}
+
+/* ===== شاشة الإعداد ===== */
+.setup-card{padding:26px}
+.setup-head{display:flex;gap:14px;align-items:center;margin-bottom:20px}
+.setup-ico{width:44px;height:44px;border-radius:13px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.setup-head h2{font-size:20px;font-weight:700}
+.setup-head p{color:var(--muted);font-size:13.5px}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:'Alexandria';font-weight:600;font-size:13px;color:var(--muted);margin-bottom:9px}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{font-family:inherit;padding:9px 15px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--muted);font-size:13.5px;font-weight:600;cursor:pointer;transition:.22s}
+.seg button:hover{border-color:var(--accent);color:var(--ink)}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--btn-ink);box-shadow:0 6px 16px -7px var(--accent)}
+.setup-foot{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:6px;padding-top:18px;border-top:1px dashed var(--line)}
+.switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;font-size:13.5px;color:var(--muted);user-select:none}
+.switch input{display:none}
+.switch .track{width:44px;height:24px;border-radius:99px;background:var(--line2);position:relative;transition:.3s;flex:none}
+.switch .track::after{content:"";position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.25);transition:.3s}
+.switch input:checked+.track{background:var(--accent)}
+.switch input:checked+.track::after{transform:translateX(-20px)}
+.q-count{margin-inline-start:auto;font-family:'Alexandria';font-weight:700;font-size:14px;color:var(--gold);background:var(--gold-soft);padding:8px 16px;border-radius:99px}
+.best{display:flex;align-items:center;gap:9px;margin-top:16px;padding:11px 16px;border-radius:12px;background:var(--gold-soft);color:var(--gold);font-size:13.5px;font-weight:600}
+.note{display:flex;align-items:center;gap:9px;margin-top:14px;color:var(--muted);font-size:13px}
+.note svg{flex:none;color:var(--gold)}
+
+/* ===== شريط الامتحان ===== */
+#exam,#results{display:flex;flex-direction:column;gap:16px}
+.exam-sticky{position:sticky;top:10px;z-index:40;background:var(--sticky);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:16px;padding:11px 13px;box-shadow:var(--shadow)}
+.exam-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.exam-meta,.exam-live{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;font-size:12.5px;font-weight:600;background:var(--surface2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip svg{flex:none}
+button.chip{font-family:inherit;cursor:pointer}
+.c-pos{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.c-score{color:var(--gold);border-color:var(--gold);background:var(--gold-soft)}
+.c-exit{color:var(--no);background:transparent}
+.c-exit:hover{border-color:var(--no)}
+.chip.pop{animation:chipPop .5s ease}
+@keyframes chipPop{45%{transform:scale(1.25)}}
+.progress{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:10px}
+#progFill{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .45s ease}
+
+/* ===== كارت السؤال ===== */
+.q-card{padding:26px;animation:cardIn .45s cubic-bezier(.25,.8,.3,1);scroll-margin-top:88px}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.q-text{font-size:18.5px;font-weight:600;line-height:1.85;border-inline-start:3px solid var(--accent);padding-inline-start:15px;min-height:40px;margin-bottom:18px}
+.hint-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1.5px dashed var(--gold);color:var(--gold);padding:7px 16px;border-radius:99px;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;transition:.25s;margin-bottom:14px}
+.hint-btn:hover:not([disabled]){background:var(--gold-soft)}
+.hint-btn[disabled]{opacity:.5;cursor:default}
+.hint-box{display:flex;gap:11px;align-items:flex-start;background:var(--gold-soft);border:1.5px dashed var(--gold);border-radius:14px;padding:13px 16px;font-size:14px;margin-bottom:18px;animation:fadeSlide .35s ease}
+.hint-box svg{flex:none;color:var(--gold);margin-top:4px}
+.answers.tf{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ans{display:flex;align-items:center;justify-content:center;gap:11px;padding:17px;border-radius:15px;border:2px solid var(--line);background:var(--surface2);font-family:'Alexandria';font-weight:700;font-size:19px;color:var(--ink);cursor:pointer;transition:.22s}
+.ans svg{flex:none}
+.ans:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 18px -10px var(--accent)}
+.answers.mc{display:grid;gap:11px}
+.opt{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface2);cursor:pointer;text-align:start;font-family:inherit;font-size:15px;font-weight:500;color:var(--ink);transition:.2s;width:100%}
+.opt .letter{width:33px;height:33px;flex:none;border-radius:10px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;font-family:'Alexandria';font-weight:700;font-size:13.5px;color:var(--muted);transition:.2s}
+.opt:hover:not(.locked){border-color:var(--accent);transform:translateX(-4px)}
+.opt:hover:not(.locked) .letter{border-color:var(--accent);color:var(--accent)}
+.locked{pointer-events:none}
+.is-correct{background:var(--ok-bg)!important;border-color:var(--ok)!important;color:var(--ok)!important}
+.is-correct .letter{background:var(--ok)!important;border-color:var(--ok)!important;color:var(--ok-ink)!important}
+.is-wrong{background:var(--no-bg)!important;border-color:var(--no)!important;color:var(--no)!important;animation:shake .45s ease}
+.is-wrong .letter{background:var(--no)!important;border-color:var(--no)!important;color:var(--no-ink)!important}
+@keyframes shake{20%{transform:translateX(7px)}55%{transform:translateX(-7px)}85%{transform:translateX(3px)}}
+.feedback{margin-top:20px;border-radius:16px;padding:18px 20px;border:1.5px solid;animation:fadeSlide .4s ease}
+.feedback.ok{background:var(--ok-bg);border-color:var(--ok)}
+.feedback.no{background:var(--no-bg);border-color:var(--no)}
+.fb-head{display:flex;align-items:center;gap:10px;font-family:'Alexandria';font-weight:800;font-size:16.5px;margin-bottom:9px}
+.feedback.ok .fb-head{color:var(--ok)}
+.feedback.no .fb-head{color:var(--no)}
+.fb-body{font-size:14.5px;line-height:1.9}
+.good{color:var(--ok);font-weight:700}
+.bad{color:var(--no);font-weight:700}
+.fb-exp b{font-family:'Alexandria';color:var(--gold)}
+.q-nav{display:flex;justify-content:space-between;gap:12px}
+.btn-primary.attn{animation:attn 1.5s ease-in-out infinite}
+@keyframes attn{50%{transform:translateY(-3px);box-shadow:0 16px 34px -12px var(--accent)}}
+.map{padding:10px 12px}
+.map-toggle{display:flex;align-items:center;gap:10px;width:100%;background:transparent;border:none;color:var(--muted);font-family:'Alexandria';font-weight:600;font-size:13.5px;cursor:pointer;padding:5px 8px}
+.map-toggle .chev{margin-inline-start:auto;transition:transform .3s;display:grid}
+.map.open .chev{transform:rotate(-90deg)}
+.map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:5px;padding:12px 4px 4px;animation:fadeSlide .3s}
+.m-dot{height:30px;border-radius:9px;border:1.5px solid var(--line);background:var(--surface2);font-family:'Alexandria';font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;transition:.18s;padding:0}
+.m-dot:hover{transform:scale(1.14);border-color:var(--accent);color:var(--accent)}
+.m-dot.cur{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.m-dot.ok{background:var(--ok);border-color:var(--ok);color:var(--ok-ink)}
+.m-dot.no{background:var(--no);border-color:var(--no);color:var(--no-ink)}
+
+/* ===== النتيجة ===== */
+.res-panel{padding:30px}
+.res-hero{display:flex;gap:30px;align-items:center;flex-wrap:wrap}
+.ring{position:relative;width:172px;height:172px;flex:none;margin-inline:auto}
+.ring svg{transform:rotate(-90deg);display:block}
+.bgc{fill:none;stroke:var(--line);stroke-width:11}
+.fgc{fill:none;stroke:var(--accent);stroke-width:11;stroke-linecap:round;stroke-dasharray:439.82;stroke-dashoffset:439.82;transition:stroke-dashoffset 1.7s cubic-bezier(.3,.75,.3,1),stroke .8s}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.ring-num{font-family:'Alexandria';font-weight:800;font-size:34px;line-height:1}
+.ring-grade{font-family:'Alexandria';font-weight:700;font-size:14px;color:var(--gold)}
+.res-info{flex:1;min-width:250px}
+.res-info h2{font-size:23px;font-weight:800}
+.res-sub{color:var(--gold);font-weight:700;margin:4px 0 8px}
+.res-msg{color:var(--muted);font-size:14.5px}
+.res-stats{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.r-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:99px;font-size:13px;font-weight:600}
+.r-chip b{font-family:'Alexandria';font-size:15px}
+.r-chip.ok{background:var(--ok-bg);color:var(--ok)}
+.r-chip.no{background:var(--no-bg);color:var(--no)}
+.r-chip.t{background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+.res-chapters{margin-top:24px;display:flex;flex-direction:column;gap:12px}
+.chap-row{display:grid;grid-template-columns:120px 1fr 64px;align-items:center;gap:12px}
+.chap-name{font-size:13px;font-weight:600;color:var(--muted)}
+.chap-bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.chap-bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width 1s cubic-bezier(.3,.75,.3,1)}
+.chap-num{font-family:'Alexandria';font-weight:700;font-size:13px;text-align:left}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.wrong-panel{padding:26px}
+.wrong-head{font-size:17px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:9px;color:var(--no)}
+.w-item{border:1px solid var(--line);border-inline-start:4px solid var(--no);border-radius:14px;padding:16px 18px;margin-bottom:11px;background:var(--surface2)}
+.w-q{font-weight:600;font-size:15px;line-height:1.8;margin-bottom:7px}
+.w-meta{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:6px}
+.w-exp{font-size:13.5px;color:var(--muted);line-height:1.85}
+
+/* ===== عام ===== */
+footer{padding:26px 20px 30px;text-align:center;color:var(--muted);font-size:12.5px;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+.f-cred{display:inline-flex;align-items:center;gap:9px;font-weight:600}
+.f-cred img{width:28px;height:28px;border-radius:9px;object-fit:cover;border:1.5px solid var(--gold)}
+.f-cred b{font-family:'Alexandria';color:var(--gold)}
+.modal-back{position:fixed;inset:0;z-index:100;background:rgba(5,8,18,.55);backdrop-filter:blur(5px);display:grid;place-items:center;animation:fade .25s ease}
+@keyframes fade{from{opacity:0}}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:30px 26px;max-width:400px;width:calc(100% - 40px);text-align:center;box-shadow:var(--shadow);animation:pop .4s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{opacity:0;transform:scale(.88)}}
+.modal h3{font-size:19px;font-weight:800;margin-bottom:8px}
+.modal p{color:var(--muted);font-size:14px;margin-bottom:22px}
+.modal-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,16px);background:var(--ink);color:var(--bg);padding:12px 24px;border-radius:13px;font-size:13.5px;font-weight:600;opacity:0;transition:.35s ease;z-index:110;pointer-events:none;box-shadow:0 14px 34px -10px rgba(0,0,0,.4);max-width:calc(100vw - 40px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+#fx{position:fixed;inset:0;z-index:105;pointer-events:none}
+
+/* معاينة الصورة كبيرة عند الضغط */
+.dev-lightbox{position:fixed;inset:0;z-index:120;background:rgba(5,8,18,.72);backdrop-filter:blur(8px);display:grid;place-items:center;animation:fade .25s ease;cursor:zoom-out}
+.dev-lightbox figure{position:relative;max-width:min(86vw,460px);animation:pop .45s cubic-bezier(.2,1.4,.4,1);text-align:center}
+.dev-lightbox img{width:100%;border-radius:20px;border:4px solid var(--gold);box-shadow:0 30px 70px -20px rgba(0,0,0,.6);display:block}
+.dev-lightbox figcaption{margin-top:14px;font-family:'Alexandria';font-weight:800;font-size:19px;color:#ffe9ad}
+.dev-lightbox figcaption small{display:block;font-family:'IBM Plex Sans Arabic';font-weight:600;font-size:13px;color:rgba(255,233,173,.75);margin-top:3px}
+
+@media(max-width:1100px){
+  .dev-dock{top:auto;bottom:78px;transform:none}
+}
+@media(max-width:640px){
+  .sky{min-height:0}
+  .sky-head{padding-top:16px}
+  .brand-txt strong{font-size:15px}
+  .sky-hero{padding-bottom:64px}
+  .container{padding-inline:14px}
+  main{margin-top:-28px}
+  .panel{border-radius:16px}
+  .setup-card,.res-panel,.wrong-panel,.q-card{padding:18px}
+  .q-text{font-size:16.5px}
+  .ans{font-size:17px;padding:15px}
+  .q-nav .btn{flex:1}
+  .chap-row{grid-template-columns:96px 1fr 52px}
+  .res-hero{gap:18px;text-align:center}
+  .res-stats{justify-content:center}
+  .t-body{width:70px;height:70px}
+  #moonBody svg,#sunBody svg{width:70px;height:70px}
+  .q-count{margin-inline-start:0}
+  .dev-frame{width:118px;height:118px}
+  .dev-cred strong{font-size:18px}
+  .dev-handle{width:44px;height:44px}
+  .dev-flyout{left:56px}
+  .dev-flyout img{width:38px;height:38px}
+}
+@media (prefers-reduced-motion:reduce){
+  .dev-ring,.dev-ring2,.orbit,.dev-shine,.dev-frame,.dev-ping{animation:none!important}
+}
+</style>
+</head>
+<body class="night">
+
+<script>
+/* صورة المطورين + بديل تلقائي لو اللينك وقف */
+const DEV_IMG="dev.jpg";
+function devFallback(img){
+  img.onerror=null;
+  var s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e7a68"/><stop offset="1" stop-color="#a87511"/></linearGradient></defs><rect width="100" height="100" fill="url(#g)"/><circle cx="50" cy="38" r="15" fill="rgba(255,255,255,.9)"/><path d="M22 92c3-19 14-28 28-28s25 9 28 28Z" fill="rgba(255,255,255,.9)"/></svg>';
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+}
+</script>
+
+<!-- ===================== السماء ===================== -->
+<div class="sky" id="sky">
+  <div class="sky-layer sky-day"></div>
+  <div class="sky-layer sky-night"></div>
+  <div class="stars" id="stars"></div>
+
+  <!-- الشمس -->
+  <div class="traveler" id="sunT"><div class="t-fade"><div class="t-body" id="sunBody">
+    <div class="halo halo-sun"></div>
+    <svg width="86" height="86" viewBox="0 0 120 120" aria-hidden="true">
+      <defs><radialGradient id="sunG" cx="50%" cy="42%" r="60%">
+        <stop offset="0%" stop-color="#fff3c4"/><stop offset="55%" stop-color="#ffd662"/><stop offset="100%" stop-color="#f5a52f"/>
+      </radialGradient></defs>
+      <g class="rays" stroke="#ffd873" stroke-width="5" stroke-linecap="round" fill="none">
+        <path d="M104 60h14M60 104v14M16 60H2M60 16V2"/>
+        <path d="M91.1 91.1l9.9 9.9M28.9 91.1 19 101M28.9 28.9 19 19M91.1 28.9 101 19"/>
+      </g>
+      <circle cx="60" cy="60" r="36" fill="url(#sunG)"/>
+    </svg>
+  </div></div></div>
+
+  <!-- القمر -->
+  <div class="traveler" id="moonT"><div class="t-fade"><div class="t-body" id="moonBody">
+    <div class="halo halo-moon"></div>
+    <svg width="88" height="88" viewBox="0 0 100 100" aria-hidden="true">
+      <defs>
+        <radialGradient id="moonG" cx="40%" cy="36%" r="75%">
+          <stop offset="0%" stop-color="#fdf7e3"/><stop offset="55%" stop-color="#f0e3c2"/><stop offset="100%" stop-color="#d7c396"/>
+        </radialGradient>
+        <radialGradient id="moonSh" cx="66%" cy="70%" r="62%">
+          <stop offset="0%" stop-color="rgba(15,12,5,0)"/><stop offset="82%" stop-color="rgba(15,12,5,.08)"/><stop offset="100%" stop-color="rgba(15,12,5,.5)"/>
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="42" fill="url(#moonG)"/>
+      <g fill="#c9b586" opacity=".4">
+        <ellipse cx="57" cy="41" rx="12" ry="9" transform="rotate(-18 57 41)"/>
+        <ellipse cx="37" cy="53" rx="9" ry="7" transform="rotate(14 37 53)"/>
+      </g>
+      <g fill="#c3ac7c">
+        <ellipse cx="36" cy="35" rx="7" ry="6"/><ellipse cx="63" cy="29" rx="5" ry="4.5"/>
+        <ellipse cx="69" cy="58" rx="9" ry="8"/><ellipse cx="45" cy="66" rx="5" ry="4"/>
+        <ellipse cx="30" cy="58" rx="4" ry="3.5"/><ellipse cx="53" cy="48" rx="3.2" ry="2.8"/>
+      </g>
+      <g fill="#a8946a" opacity=".65">
+        <ellipse cx="34.6" cy="34.4" rx="4.4" ry="3.7"/><ellipse cx="61.9" cy="28.6" rx="3" ry="2.7"/>
+        <ellipse cx="67.6" cy="56.6" rx="5.4" ry="4.8"/><ellipse cx="44.2" cy="65.1" rx="3" ry="2.4"/>
+        <ellipse cx="29.5" cy="57.5" rx="2.4" ry="2.1"/>
+      </g>
+      <circle cx="50" cy="50" r="42" fill="url(#moonSh)"/>
+    </svg>
+  </div></div></div>
+
+  <!-- السحاب -->
+  <div class="cloud c1"><span class="cloud-inner"><svg viewBox="0 0 260 110" width="250" aria-hidden="true">
+    <g class="cloud-fill"><ellipse cx="75" cy="72" rx="55" ry="26"/><circle cx="108" cy="50" r="30"/><circle cx="152" cy="58" r="25"/><ellipse cx="190" cy="75" rx="48" ry="22"/></g>
+    <g class="cloud-shade"><ellipse cx="80" cy="84" rx="48" ry="11"/><ellipse cx="180" cy="86" rx="44" ry="10"/></g>
+  </svg></span></div>
+  <div class="cloud c2"><span class="cloud-inner"><svg viewBox="0 0 260 110" width="250" aria-hidden="true">
+    <g class="cloud-fill"><ellipse cx="75" cy="72" rx="55" ry="26"/><circle cx="108" cy="50" r="30"/><circle cx="152" cy="58" r="25"/><ellipse cx="190" cy="75" rx="48" ry="22"/></g>
+    <g class="cloud-shade"><ellipse cx="80" cy="84" rx="48" ry="11"/><ellipse cx="180" cy="86" rx="44" ry="10"/></g>
+  </svg></span></div>
+  <div class="cloud c3"><span class="cloud-inner"><svg viewBox="0 0 260 110" width="250" aria-hidden="true">
+    <g class="cloud-fill"><ellipse cx="75" cy="72" rx="55" ry="26"/><circle cx="108" cy="50" r="30"/><circle cx="152" cy="58" r="25"/><ellipse cx="190" cy="75" rx="48" ry="22"/></g>
+    <g class="cloud-shade"><ellipse cx="80" cy="84" rx="48" ry="11"/><ellipse cx="180" cy="86" rx="44" ry="10"/></g>
+  </svg></span></div>
+
+  <!-- التلال -->
+  <svg class="hills" viewBox="0 0 1200 140" preserveAspectRatio="none" aria-hidden="true">
+    <path class="hill-far" d="M0 140V96 Q140 30 320 64 T640 46 T980 84 L1200 64V140Z"/>
+  </svg>
+  <svg class="hills" viewBox="0 0 1200 100" preserveAspectRatio="none" aria-hidden="true">
+    <path class="hill-near" d="M0 100V64 Q190 18 430 50 T860 42 L1200 58V100Z"/>
+  </svg>
+
+  <!-- المحتوى فوق السماء -->
+  <div class="sky-head container">
+    <div class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 14.2A8.5 8.5 0 1 1 9.8 3.8a7 7 0 0 0 10.4 10.4Z"/><path d="M17.6 4.6l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5Z" fill="currentColor" stroke="none"/></svg></span>
+      <div class="brand-txt"><span class="brand-over">مراجعة شاملة · ليلة الامتحان</span><strong>مرصد التواصل</strong></div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="true" aria-label="تبديل بين الليل والنهار">
+      <span class="tt-knob">
+        <span class="tt-sun"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5 5l1.4 1.4M17.6 17.6 19 19M19 5l-1.4 1.4M6.4 17.6 5 19"/></svg></span>
+        <span class="tt-moon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 14.2A8.6 8.6 0 1 1 9.8 3.4a6.8 6.8 0 0 0 10.8 10.8Z"/></svg></span>
+      </span>
+    </button>
+  </div>
+
+  <div class="sky-hero container">
+    <!-- صورة المطورين -->
+    <div class="dev-hero">
+      <div class="dev-pop">
+        <div class="dev-frame">
+          <span class="dev-ring"></span>
+          <span class="dev-ring2"></span>
+          <div class="dev-img-wrap" id="devHeroImg" title="اضغط لتكبير الصورة">
+            <img src="dev.jpg" alt="إسماعيل وأحمد" onerror="devFallback(this)"/>
+            <span class="dev-shine"></span>
+          </div>
+          <span class="orbit o1"><i></i></span>
+          <span class="orbit o2"><i></i></span>
+        </div>
+      </div>
+      <div class="dev-cred">
+        <strong>Ismail &amp; Ahmed</strong>
+        <span><svg viewBox="0 0 24 24" width="14" height="14" fill="#ffd97a"><path d="M13 2 4.5 13.5H11L9.5 22 19 10h-6.5L13 2Z"/></svg> مطورين المستقبل</span>
+      </div>
+    </div>
+
+    <h1>امتحان <em>التواصل والعرض الفعّال</em></h1>
+    <p class="lead">شامل لأول أربعة فصول بالكامل: 80 سؤال صح وخطأ + 60 اختيار من متعدد — بتصحيح فوري وتصويب وتلميح لكل سؤال.</p>
+    <div class="stat-chips">
+      <span class="s-chip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l1.7 7.3L21 12l-7.3 1.7L12 21l-1.7-7.3L3 12l7.3-1.7Z"/></svg> 140 سؤالًا شاملًا</span>
+      <span class="s-chip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg> 80 صح وخطأ</span>
+      <span class="s-chip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h13M4 12h13M4 18h13"/><path d="M20.5 5.6v1M20.5 11.6v1M20.5 17.6v1" stroke-width="2.6"/></svg> 60 اختياري</span>
+      <span class="s-chip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13A2.5 2.5 0 0 1 6.5 3Z"/><path d="M20 16.5H6.5A2.5 2.5 0 0 0 4 19"/></svg> 4 فصول كاملة</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== تاب المطورين الجانبي ===================== -->
+<div class="dev-dock" id="devDock">
+  <button class="dev-handle" id="devHandle" aria-label="فريق التطوير — إسماعيل وأحمد">
+    <img src="dev.jpg" alt="إسماعيل وأحمد" onerror="devFallback(this)"/>
+    <span class="dev-ping"></span>
+  </button>
+  <div class="dev-flyout">
+    <img src="dev.jpg" alt="إسماعيل وأحمد" onerror="devFallback(this)"/>
+    <div>
+      <strong>Ismail &amp; Ahmed</strong>
+      <span><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M13 2 4.5 13.5H11L9.5 22 19 10h-6.5L13 2Z"/></svg> مطورين المستقبل</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== المحتوى ===================== -->
+<main><div class="container">
+
+  <!-- شاشة الإعداد -->
+  <section id="setup">
+    <div class="panel setup-card">
+      <div class="setup-head">
+        <span class="setup-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h9M17 17h3"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="12" r="2.2"/><circle cx="15" cy="17" r="2.2"/></svg></span>
+        <div><h2>جهّز امتحانك</h2><p>اختَر الفصول ونوع الأسئلة — التصحيح فوري مع التصويب والتلميح.</p></div>
+      </div>
+      <div class="field">
+        <label>الفصول</label>
+        <div class="seg" id="chapSeg">
+          <button data-v="all" class="on">الكل</button>
+          <button data-v="1">1 · تاريخ الاتصال</button>
+          <button data-v="2">2 · أنواع الاتصال</button>
+          <button data-v="3">3 · الاتصال الرقمي</button>
+          <button data-v="4">4 · تكنولوجيا المعلومات</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>نوع الأسئلة</label>
+        <div class="seg" id="typeSeg">
+          <button data-v="all" class="on">الكل (140)</button>
+          <button data-v="tf">صح وخطأ (80)</button>
+          <button data-v="mc">اختياري (60)</button>
+        </div>
+      </div>
+      <div class="setup-foot">
+        <label class="switch"><input type="checkbox" id="shuffle" checked/><span class="track"></span> خلط ترتيب الأسئلة</label>
+        <div class="q-count" id="qCount">140 سؤال جاهز</div>
+        <button class="btn btn-primary btn-lg" id="startBtn"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M17 5.5v13L6.5 12Z" fill="currentColor"/></svg> ابدأ الامتحان</button>
+      </div>
+      <div class="best hidden" id="bestRow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4.5a5 5 0 0 1-10 0Z"/><path d="M7 5.5H4a3 3 0 0 0 3.2 3.4M17 5.5h3a3 3 0 0 1-3.2 3.4"/></svg> أفضل نتيجة سابقة: <b id="bestVal"></b></div>
+    </div>
+    <p class="note"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5M10.5 21h3M12 3a6 6 0 0 0-3.7 10.7c.55.5.7 1.2.7 2.3h6c0-1.1.15-1.8.7-2.3A6 6 0 0 0 12 3Z"/></svg> بعد كل إجابة بيظهر التصويب فورًا — لو غلط، شوف الصح ليه صح قبل ما تعدّي.</p>
+  </section>
+
+  <!-- شاشة الامتحان -->
+  <section id="exam" class="hidden">
+    <div class="exam-sticky">
+      <div class="exam-top">
+        <div class="exam-meta">
+          <span class="chip c-pos" id="posChip">السؤال 1 / 140</span>
+          <span class="chip" id="chapterChip"></span>
+          <span class="chip" id="typeChip"></span>
+        </div>
+        <div class="exam-live">
+          <span class="chip c-score" id="scoreChip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg> 0</span>
+          <span class="chip" id="timerChip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg> 00:00</span>
+          <button class="chip c-exit" id="exitBtn"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg> إنهاء</button>
+        </div>
+      </div>
+      <div class="progress"><span id="progFill"></span></div>
+    </div>
+
+    <article class="q-card panel" id="qCard">
+      <p class="q-text" id="qText"></p>
+      <button class="hint-btn" id="hintBtn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5M10.5 21h3M12 3a6 6 0 0 0-3.7 10.7c.55.5.7 1.2.7 2.3h6c0-1.1.15-1.8.7-2.3A6 6 0 0 0 12 3Z"/></svg> تلميح</button>
+      <div class="hint-box hidden" id="hintBox"></div>
+      <div class="answers tf" id="tfWrap">
+        <button class="ans" data-i="0"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg> صح</button>
+        <button class="ans" data-i="1"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg> خطأ</button>
+      </div>
+      <div class="answers mc hidden" id="mcWrap"></div>
+      <div class="feedback hidden" id="feedback">
+        <div class="fb-head" id="fbHead"></div>
+        <div class="fb-body" id="fbBody"></div>
+      </div>
+    </article>
+
+    <div class="q-nav">
+      <button class="btn btn-ghost" id="prevBtn"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6 16 12l-6.5 6"/></svg> السابق</button>
+      <button class="btn btn-primary" id="nextBtn">التالي <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6 8 12l6.5 6"/></svg></button>
+    </div>
+
+    <div class="map panel" id="mapPanel">
+      <button class="map-toggle" id="mapToggle"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"/></svg> خريطة الأسئلة <span class="chev"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6 8 12l6.5 6"/></svg></span></button>
+      <div class="map-grid hidden" id="mapGrid"></div>
+    </div>
+  </section>
+
+  <!-- شاشة النتيجة -->
+  <section id="results" class="hidden">
+    <div class="panel res-panel">
+      <div class="res-hero">
+        <div class="ring">
+          <svg width="172" height="172" viewBox="0 0 172 172">
+            <circle class="bgc" cx="86" cy="86" r="70"/>
+            <circle class="fgc" id="ringFg" cx="86" cy="86" r="70"/>
+          </svg>
+          <div class="ring-center"><div class="ring-num" id="ringNum">0%</div><div class="ring-grade" id="resGrade"></div></div>
+        </div>
+        <div class="res-info">
+          <h2>نتيجة الامتحان</h2>
+          <p class="res-sub" id="resSub"></p>
+          <p class="res-msg" id="resMsg"></p>
+          <div class="res-stats">
+            <span class="r-chip ok"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg> <b id="okCount">0</b> صح</span>
+            <span class="r-chip no"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg> <b id="noCount">0</b> غلط</span>
+            <span class="r-chip t"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg> <b id="resTime">00:00</b></span>
+          </div>
+        </div>
+      </div>
+      <div class="res-chapters" id="resChapters"></div>
+      <div class="res-actions">
+        <button class="btn btn-primary" id="retryBtn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5A8 8 0 1 0 18.7 15.5"/><path d="M20 4.5v7h-7"/></svg> إعادة نفس الامتحان</button>
+        <button class="btn btn-outline" id="wrongBtn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg> امتحن أخطائي</button>
+        <button class="btn btn-ghost" id="newBtn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"/></svg> إعدادات جديدة</button>
+      </div>
+    </div>
+    <div class="panel wrong-panel">
+      <h3 class="wrong-head" id="wrongHead"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.2"/><path d="M15 9l-6 6M9 9l6 6"/></svg> مراجعة الأخطاء</h3>
+      <div id="wrongList"></div>
+    </div>
+  </section>
+
+</div></main>
+
+<footer>
+  <span class="f-cred">
+    <img src="dev.jpg" alt="" onerror="devFallback(this)"/>
+    <span><b>Ismail &amp; Ahmed</b> · مطورين المستقبل</span>
+  </span>
+  <span>·</span>
+  <span>كل الأسئلة مبنية على ملخص «التواصل والعرض الفعّال — أول 4 فصول» · بالتوفيق في امتحانك</span>
+</footer>
+
+<div class="modal-back hidden" id="modalBack">
+  <div class="modal">
+    <h3 id="modalTitle"></h3>
+    <p id="modalMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="modalCancel">تراجع</button>
+      <button class="btn btn-primary" id="modalOk">متابعة</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<canvas id="fx"></canvas>
+
+<script>
+/* =============== بنك الأسئلة =============== */
+/* صح وغلط: a=1 يعني "صح" — e = التصويب — h = التلميح */
+const TF=[
+/* ---- الفصل الأول (25) ---- */
+{ch:1,q:"بدأ الاتصال الإنساني معقّدًا ثم تبسّط مع مرور الوقت.",a:0,e:"بدأ بسيطًا بالإشارات والكلام، ثم تطوّر مع البيئة والاختراعات إلى الكتابة والطباعة فوسائل الاتصال الحديثة والحاسب والشبكات.",h:"الاتصال بدأ إزاي؟ أصوات وإشارات ولا معادلات؟"},
+{ch:1,q:"في مرحلة ما قبل اللغة كان الاتصال شفويًا ورمزيًا بالأصوات والإشارات الجسدية والنار.",a:1,e:"ما قبل اللغة: أصوات وإشارات جسدية والنار وغيرها؛ اتصال شفوري ورمزي.",h:"النار نفسها كانت وسيلة اتصال."},
+{ch:1,q:"نشوء اللغة يعني تحوّل الإشارات إلى رموز صوتية.",a:1,e:"في مرحلة نشوء اللغة تحوّلت الإشارات إلى رموز صوتية.",h:"من إشارة صامتة لصوت له معنى."},
+{ch:1,q:"مع ظهور الكتابة أصبح وجود المرسل والمستقبل معًا شرطًا لازمًا للاتصال.",a:0,e:"الكتابة وسّعت دائرة الاتصال ولم يعد وجود المرسل والمستقبل معًا شرطًا.",h:"الكتابة كسرت شرط الحضور."},
+{ch:1,q:"أسهمت الطباعة في انتشار الكتب والمجلات والصحف والعلوم والثقافة.",a:1,e:"الطباعة ارتبطت باسم جوتنبرج وأسهمت في انتشار الكتب والمجلات والصحف والعلوم والثقافة.",h:"الطباعة غيّرت شكل انتشار المعرفة."},
+{ch:1,q:"لغويًا تعني كلمة «الاتصال» الوصول أو بلوغ الشيء.",a:1,e:"الاتصال لغويًا = الوصول أو بلوغ الشيء، وأصل Communication مرتبط بالمشاركة.",h:"«بلوغ» و«وصول»."},
+{ch:1,q:"أصل كلمة Communication مرتبط بالعزلة والانفراد.",a:0,e:"أصلها مرتبط بالمشاركة، لا بالعزلة.",h:"Communication أصلها Sharing."},
+{ch:1,q:"مفهوم الاتصال في الكتاب يقتصر على نقل المعلومات دون المشاعر والمواقف.",a:0,e:"المفهوم الجامع يجمع نقل وتوصيل وتبادل الأفكار والمعلومات والمواقف والمشاعر.",h:"المفهوم أوسع من المعلومات."},
+{ch:1,q:"يرى علم الاجتماع أن الاتصال تفاعل بين طرفين للوصول إلى مجال مشترك.",a:1,e:"علم الاجتماع: تفاعل بين طرفين للوصول إلى مجال مشترك، ووظيفة اجتماعية.",h:"اجتماع = مجال مشترك."},
+{ch:1,q:"في علم النفس، الاتصال نقل انطباع أو تأثير من منطقة إلى أخرى دون نقل مادة.",a:1,e:"هذا هو تعريف علم النفس للاتصال حرفيًا.",h:"تأثير ينتقل دون مادة تنتقل."},
+{ch:1,q:"يرى علم التربية أن الاتصال نقل التغيّر في مجال سلوكي إلى مجال آخر عبر العملية التربوية.",a:1,e:"تعريف التربية للاتصال كما ورد.",h:"نقل تغيّر سلوكي بين مجالات."},
+{ch:1,q:"القاعدة المشتركة بين العلوم أن الاتصال عملية اجتماعية ديناميكية وليست كيانًا ثابتًا.",a:1,e:"القاعدة المشتركة: عملية اجتماعية ديناميكية.",h:"ديناميكي = حي ومتحرك."},
+{ch:1,q:"نموذج لاسويل يتكون من خمسة عناصر.",a:1,e:"من يقول؟ ماذا يقول؟ بأي وسيلة؟ لمن؟ بأي تأثير؟ = خمسة عناصر.",h:"عُدّ الأسئلة الخمسة."},
+{ch:1,q:"المرسل هو أهم حلقة في عملية الاتصال.",a:0,e:"المتلقي هو أهم حلقة في العملية لأنه يفسّر الرسالة وفق خصائصه واتجاهاته.",h:"مين اللي بيفسّر ويتخذ الموقف؟"},
+{ch:1,q:"نجاح المرسل يرتبط بحسن الترميز والقدرة على الإقناع.",a:1,e:"المرسل يبدأ العملية ويصوغ الفكرة في رموز واضحة، ونجاحه مرتبط بالترميز والإقناع.",h:"دور المرسل الأساسي."},
+{ch:1,q:"تباعد الخبرات بين المرسل والمتلقي يسهّل التفاهم.",a:0,e:"تشابه الخبرات يسهّل التفاهم، وتباعدها قد يصعّب التفاعل.",h:"التشابه بيقرّب."},
+{ch:1,q:"الرسالة هي القناة التي تنتقل عبرها المعلومات.",a:0,e:"الرسالة مضمون السلوك الاتصالي في صورة رموز، أما القناة فهي الوسيلة.",h:"فرّق بين المضمون والقناة."},
+{ch:1,q:"قد تكون الوسيلة سمعية أو بصرية أو سمعية بصرية أو حواس إنسانية.",a:1,e:"هذه هي صور الوسيلة كما وردت.",h:"سمع / بصر / سمعي بصري / حواس."},
+{ch:1,q:"التشويش كل ما يعوق إنتاج الرسالة أو استقبالها، ومنه الميكانيكي والدلالي.",a:1,e:"تعريف التشويش وأنواعه.",h:"أي حاجة تعوّق الإرسال أو الاستقبال."},
+{ch:1,q:"التغذية الراجعة هي إعادة المعلومات للمرسل لمعرفة مدى تحقق الهدف.",a:1,e:"وظيفتها معرفة تحقق الهدف وتعديل الرسالة.",h:"الرد بيرجع للبادئ ليه؟"},
+{ch:1,q:"الأثر نتيجة اتصالية قد تكون تغييرًا في المعرفة أو الاتجاه أو السلوك.",a:1,e:"الأثر تغيير في المعرفة أو الاتجاه أو السلوك، وقد يكون نفسيًا أو اجتماعيًا.",h:"ثلاث دوائر للتغيير."},
+{ch:1,q:"السياق هو الظروف الاجتماعية والزمانية والمكانية التي يتم فيها الاتصال.",a:1,e:"تعريف السياق، وقد يغيّر تأثير الرسالة.",h:"ظروف الاتصال المحيطة."},
+{ch:1,q:"الاتصال غير اللفظي أقل صدقًا من اللفظي في التعبير عن المشاعر.",a:0,e:"غير اللفظي أكثر صدقًا في التعبير عن المشاعر ويتجاوز حاجز اللغة.",h:"لغة الجسد لا تكذب."},
+{ch:1,q:"المعنى اللغوي هو الصورة الذهنية التي تستحضرها الكلمة.",a:0,e:"المعنى اللغوي هو شكل الكلمة وحروفها، أما الصورة الذهنية فهي المعنى السائد.",h:"الحروف حاجة والصورة حاجة تانية."},
+{ch:1,q:"أول مراحل عملية الاتصال هي الترميز.",a:0,e:"الترتيب: الإدراك ← الترميز ← اختيار الوسيلة ← فك الرموز ← الاستجابة؛ فالإدراك أولها.",h:"استقبل أولًا ثم رمّز."},
+/* ---- الفصل الثاني (23) ---- */
+{ch:2,q:"الاتصال الذاتي يحدث داخل ذات الفرد حيث يكون المرسل والمستقبل شخصًا واحدًا.",a:1,e:"تعريف الاتصال الذاتي: الشعور والوعي والتفكير والتقييم داخل الفرد.",h:"حوار داخلي مع النفس."},
+{ch:2,q:"فهم الاتصال الذاتي غير مهم لأنه لا يؤثر في التعامل مع الرسائل الأخرى.",a:0,e:"فهمه مهم لأنه يؤثر في رد فعل الفرد تجاه الرسائل التي يستقبلها في أشكال الاتصال الأخرى.",h:"النفس أولًا."},
+{ch:2,q:"الاتصال الشخصي يعتمد على وسائل جماهيرية كالراديو والمطبوعات.",a:0,e:"الاتصال الشخصي يحدث وجهًا لوجه دون الاعتماد على وسائل جماهيرية.",h:"مواجهة لا بث."},
+{ch:2,q:"يظهر الاتصال الشخصي بقوّة في الجماهير الغفيرة والعلاقات الرسمية البعيدة.",a:0,e:"يظهر بقوّة في الجماعات الصغيرة والعلاقات الحميمة.",h:"فين الألفة أعلى؟"},
+{ch:2,q:"الاستجابة في الاتصال الشخصي متأخرة وغير ظاهرة في تعبيرات الوجه.",a:0,e:"الاستجابة فورية وتظهر في الكلام وتعبيرات الوجه ولغة الجسم.",h:"بتشوف رد الفعل بعينك."},
+{ch:2,q:"وحدة الزمان والمكان بين المرسل والمستقبل تدعم الألفة والثقة.",a:1,e:"وجود المرسل والمستقبل معًا يدعم الألفة والثقة.",h:"اتنين في نفس المكان والوقت."},
+{ch:2,q:"الاتصال الشخصي جامد لا يمكن تعديل الرسالة أثناء الحوار.",a:0,e:"من خصائصه المرونة: يمكن تعديل الرسالة وفق استجابات الطرف الآخر.",h:"خاصية المرونة."},
+{ch:2,q:"حضور الحواس الخمس من خصائص الاتصال الشخصي.",a:1,e:"سمع وبصر وشم وذوق ولمس وفق الموقف.",h:"كل الحواس حاضرة."},
+{ch:2,q:"الاتصال الشخصي إقناعي قوي لأنه مباشر وتفاعلي ويكشف رد الفعل بسرعة.",a:1,e:"سبب قوة الإقناع في الاتصال الشخصي.",h:"المواجهة بتكسب."},
+{ch:2,q:"يُنصح المرسل بمهاجمة المستمع شخصيًا عند الاختلاف لفرض الفكرة.",a:0,e:"من عوامل الفعالية: عدم مهاجمة المستمع شخصيًا ومناقشة الفكرة نفسها.",h:"هاجم الفكرة لا الشخص."},
+{ch:2,q:"من عوامل فعالية الرسالة تحديد الهدف: ترفيه أو إقناع أو تعليم أو تثقيف.",a:1,e:"تحديد الهدف أول عوامل فعالية الرسالة.",h:"الرسالة لازم تعرف هدفها."},
+{ch:2,q:"يُفضل التحدث بسرعة كبيرة لإنهاء عرض الرسالة.",a:0,e:"من عوامل الفعالية: عدم التحدث بسرعة واختيار الوقت والمكان المناسب.",h:"السرعة عدو الوضوح."},
+{ch:2,q:"معرفة حاجات المستمعين ورغباتهم من عوامل فعالية الاتصال الشخصي.",a:1,e:"يرد ضمن عوامل الجمهور المستهدف.",h:"اعرف جمهورك."},
+{ch:2,q:"الاتصال الوسيطي يقع بين الاتصال الشخصي والجماهيري.",a:1,e:"الوسيطي يجمع بعض خصائص الشخصي وبعض خصائص الجماهيري عبر وسيلة اتصالية.",h:"من اسمه: وسيط."},
+{ch:2,q:"التليفون والتلفزيون من أمثلة وسائل الاتصال الوسيطي.",a:1,e:"ورد الأمثال نصًا: التلفزيون أو التليفون.",h:"وسيلة من غير جماهيرية كاملة."},
+{ch:2,q:"الاتصال الجماهيري عملية عشوائية غير منظمة ترسل رسائل خاصة إلى أفراد محددين.",a:0,e:"الاتصال الجماهيري اتصال منظم يرسل رسائل علنية عامة من مؤسسة إعلامية عبر وسيلة جماهيرية إلى جمهور عريض.",h:"منظم + علني + جمهور عريض."},
+{ch:2,q:"الاتصال الجماهيري غالبًا يسير في اتجاهين متبادلين.",a:0,e:"غالبًا يسير في اتجاه واحد، ولذلك معرفة المرسل بدرجة فهم الجمهور محدودة.",h:"بث لا حوار."},
+{ch:2,q:"أفراد الجمهور الجماهيري غالبًا معروفون لبعضهم وللقائم بالاتصال.",a:0,e:"الجمهور عريض ومتباين، وأفراده غالبًا غير معروفين لبعضهم وللقائم بالاتصال.",h:"مين اللي بيتفرج على التلفزيون؟"},
+{ch:2,q:"جعل البث الفضائي العالم أقرب من حيث الزمن والمسافة.",a:1,e:"ورد ضمن خصائص الاتصال الجماهيري.",h:"الأقمار قصّرت المسافات."},
+{ch:2,q:"المحتوى الجماهيري متجدد وتُستهلك الرسالة بسرعة.",a:1,e:"من خصائصه: فورية وسرعة انتشار واستهلاك سريع للمحتوى.",h:"الأخبار بتعيش ساعات."},
+{ch:2,q:"تكلفة الإنتاج الجماهيري منخفضة دائمًا.",a:0,e:"تكلفة الإنتاج قد تكون مرتفعة.",h:"الإنتاج التلفزيوني مكلف."},
+{ch:2,q:"حارس البوابة شكل من الرقابة قد تمر الرسالة عبره.",a:1,e:"قد تمر الرسالة عبر الرقابة/حارس البوابة.",h:"من بيصفّي الرسالة قبل البث؟"},
+{ch:2,q:"التغذية الراجعة في الاتصال الجماهيري قوية وفورية.",a:0,e:"التغذية الراجعة في الجماهيري غالبًا أضعف ومتأخرة.",h:"قارنها بالشخصي الفوري."},
+/* ---- الفصل الثالث (17) ---- */
+{ch:3,q:"الاتصال الرقمي عملية اجتماعية يتم فيها الاتصال من بُعد عبر النظم الرقمية.",a:1,e:"التعريف: أطراف يتبادلون الأدوار في بث الرسائل واستقبالها من خلال النظم الرقمية ووسائلها.",h:"بُعد + نظم رقمية."},
+{ch:3,q:"الاتصال الرقمي يلغي الطابع الإنساني والاجتماعي للاتصال.",a:0,e:"يظل إنسانيًا واجتماعيًا، لكنه يتم عبر نظم رقمية وعن بُعد.",h:"الآلة وسيطة والإنسان جوهر العملية."},
+{ch:3,q:"يتيح الاتصال الرقمي الاتصال الشخصي والجمعي والجماهيري دون اشتراط المواجهة.",a:1,e:"من إضافات الاتصال الرقمي للاتصال الإنساني.",h:"مش شرط توجّه حد."},
+{ch:3,q:"الرقمنة تلغي التشويش تمامًا.",a:0,e:"لا تلغي الرقمنة التشويش؛ تظل هناك مشكلات شبكية وبيئية ودلالية.",h:"الشبكة لسه بتقطع."},
+{ch:3,q:"يمكن أن يحافظ الاتصال الرقمي على دائرية الاتصال وتبادل الأدوار مع غياب اللقاء الوجاهي.",a:1,e:"من إضافات الاتصال الرقمي: أبعاد المواجهة مع غياب اللقاء.",h:"الدوران ممكن من غير لقاء."},
+{ch:3,q:"التفاعلية تحوّل المتلقي من مستقبل فقط إلى مشارك يؤثر ويبني المحتوى.",a:1,e:"جوهر خاصية التفاعلية.",h:"المستخدم لم يعد متفرجًا."},
+{ch:3,q:"التنوع في الاتصال الرقمي يعني تنوع الأشكال والمحتوى والوسائط والروابط والاختيارات.",a:1,e:"تعريف خاصية التنوع.",h:"كل حاجة في بيئة واحدة."},
+{ch:3,q:"التكامل يعني جمع نظم الاتصال والمحتوى والوسائل في منظومة واحدة مع التخزين والطباعة وإعادة الإرسال.",a:1,e:"تعريف التكامل.",h:"كل الوسائل في شبكة واحدة."},
+{ch:3,q:"الأنظمة الرقمية تدعم الخصوصية والتحكم الذاتي مع مراعاة حقوق الملكية الفكرية.",a:1,e:"من الفردية والخصوصية في الفصل الثالث.",h:"سرية + تحكم + ملكية فكرية."},
+{ch:3,q:"الإنترنت لا يتجاوز الحدود الجغرافية والثقافية.",a:0,e:"الإنترنت يتجاوز الحدود الجغرافية والثقافية ويسهّل الاتصال العالمي.",h:"خاصية التجاوز."},
+{ch:3,q:"يمكن أن يكون الاتصال الرقمي متزامنًا أو غير متزامن.",a:1,e:"تجاوز وحدة المكان والزمان: متزامن أو غير متزامن.",h:"دلوقتي ولا بعدين؟ الاتنين."},
+{ch:3,q:"الدردشة والحوار المباشر مثال على الاتصال الرقمي غير المتزامن.",a:0,e:"الدردشة والحوار المباشر متزامنة؛ أما البريد الإلكتروني وبعض المواد التعليمية فغير متزامنة.",h:"الدردشة مباشرة."},
+{ch:3,q:"الاستغراق يعني الامتناع التام عن استخدام الأنظمة الرقمية.",a:0,e:"الاستغراق هو قضاء وقت طويل في التصفح والتعلم والاستخدام بسبب التفاعل وتعدد المحتوى.",h:"بتغرق في التصفح مش بتمتنع."},
+{ch:3,q:"من مستويات الاتصال الرقمي الاتصال بالحاسب وبرامجه والاتصال بقواعد البيانات.",a:1,e:"المستويات أربعة: الحاسب وبرامجه، قواعد البيانات، المباشر عبر الشبكات، مواقع الوسائل الإعلامية.",h:"فيه 4 مستويات."},
+{ch:3,q:"الاتصال بقواعد البيانات يتم عبر شبكات محلية أو الإنترنت أو الإنترانت أو الإكسترانت.",a:1,e:"يتم عبر تلك الشبكات حسب التنظيم.",h:"أنواع الشبكات."},
+{ch:3,q:"وسائل الإعلام لا تستفيد من مواقع الإنترنت في نشر رسائلها.",a:0,e:"تستخدم وسائل الإعلام مواقعها لنشر وبث المحتوى إلى جمهور الشبكة بجانب جمهورها التقليدي.",h:"كل قناة ليها موقع."},
+{ch:3,q:"خصوصية الاتصال الرقمي تأتي من مجرد استخدام أي وسيلة إلكترونية.",a:0,e:"خصوصيته تأتي من اعتماد الاتصال على النظم الرقمية ومستحدثاتها في الترميز والمعالجة والإرسال والاستقبال.",h:"مش أي جهاز إلكتروني."},
+/* ---- الفصل الرابع (15) ---- */
+{ch:4,q:"تسمح تكنولوجيا المعلومات بتسجيل كميات ضخمة من المعلومات على وسائط صغيرة.",a:1,e:"من مدخل الفصل الرابع: عصر المعلومة.",h:"وسائط صغيرة وحجم مهول."},
+{ch:4,q:"ربط وسائل الاتصال بوسائل معالجة المعلومات خلق نظامًا مترابطًا وأطلق ثورة إعلامية ومعلوماتية.",a:1,e:"نص المدخل: ترابط المجالين أطلق الثورة.",h:"اتصال + معالجة = ثورة."},
+{ch:4,q:"ارتبطت الثورة المعلوماتية بالتقدم التقني في وسائل الاتصال الذي سرّع نشر المعلومات وتبادلها.",a:1,e:"تعريف الثورة المعلوماتية.",h:"معلومات + اتصال متطور."},
+{ch:4,q:"تعتمد الثورة التكنولوجية على المعرفة المتقدمة والعقول المبدعة والاستخدام الأمثل للقدرات.",a:1,e:"نص التعريف.",h:"العقل البشري وقودها."},
+{ch:4,q:"اعتمد الجيل الأول من الحاسوب على الترانزستور.",a:0,e:"الجيل الأول (1946–1959) استخدم الصمامات المفرغة، والترانزستور جاء في الجيل الثاني.",h:"الأقدم قبل الترانزستور."},
+{ch:4,q:"تميّز الجيل الأول من الحاسوب بحجم كبير واستهلاك عالٍ للطاقة وحرارة مرتفعة.",a:1,e:"خصائص الجيل الأول.",h:"عيوب الصمامات."},
+{ch:4,q:"الترانزستور في الجيل الثاني زاد الحرارة والتوقف واستهلاك الطاقة.",a:0,e:"الترانزستور خفّض الحرارة والتوقف واستهلاك الطاقة مقارنة بالصمامات.",h:"الترانزستور جاب تحسن."},
+{ch:4,q:"تطورت لغات البرمجة مثل BASIC وPascal في الجيل الثالث.",a:1,e:"الجيل الثالث (1964–1970): دوائر إلكترونية دقيقة وحجم أصغر وذاكرات أفضل وتطور اللغات.",h:"لغات الجيل الثالث."},
+{ch:4,q:"اعتمد الجيل الرابع على المعالجات الدقيقة ودمج مكونات أكثر على شريحة واحدة.",a:1,e:"الجيل الرابع من 1970: المعالجات الدقيقة وذاكرات صغيرة ذات سعة كبيرة.",h:"جيل الشرائح."},
+{ch:4,q:"الجيل الخامس أبحاث نحو حواسيب ذكية تتعامل مع اللغة العادية والتواصل الصوتي.",a:1,e:"اتجاه الجيل الخامس.",h:"حواسيب بتفهمك."},
+{ch:4,q:"التليتكس تطوير يجمع بين التلكس ومعالجة النصوص والتخزين.",a:1,e:"تعريف التليتكس ضمن تطور أجهزة الاتصال.",h:"تلكس + معالجة نصوص."},
+{ch:4,q:"الفاكس يحوّل الوثيقة إلى إشارات تنتقل عبر الهاتف ثم يعيد إنتاج نسخة منها عند المستقبل.",a:1,e:"طريقة عمل الفاكس.",h:"ورقة بتتحول لإشارات."},
+{ch:4,q:"تُستخدم الأقمار الصناعية في البث التلفزيوني فقط.",a:0,e:"تستخدم في الصوت والصورة والبيانات والوثائق والمؤتمرات عن بعد والأرصاد والاستشعار عن بعد والبث التلفزيوني والخدمات الهاتفية.",h:"استخداماتها كتير جدًا."},
+{ch:4,q:"البرامج هي حلقة الوصل بين المستخدم والآلة.",a:1,e:"البرامج مجموعة تعليمات وأوامر توجه المكونات المادية للحاسوب لتحقيق نتائج مطلوبة.",h:"البرامج بتكلّم الآلة."},
+{ch:4,q:"أنظمة التشغيل هي التي تؤدي وظائف محددة مثل الكتابة والمحاسبة والجرافيك.",a:0,e:"أنظمة التشغيل تشغّل الحاسب وتدير الموارد؛ أما الوظائف المحددة فتؤديها البرامج الملحقة/التطبيقات.",h:"النظام مدير، والتطبيقات متخصصين."},
+];
+
+/* اختيار من متعدد: a = رقم الإجابة الصحيحة (0 إلى 3) */
+const MC=[
+/* ---- الفصل الأول (20) ---- */
+{ch:1,q:"أي من الآتي يمثّل الترتيب الصحيح للتطور التاريخي للاتصال؟",o:["الإشارات ← الكلام ← الكتابة ← الطباعة ← تكنولوجيا الاتصالات","الكلام ← الكتابة ← الإشارات ← الطباعة","الكتابة ← الإشارات ← الكلام ← الأقمار الصناعية","الطباعة ← الكلام ← الإشارات ← الهاتف"],a:0,e:"التطور: ما قبل اللغة ← نشوء اللغة ← الكتابة ← الطباعة ← تكنولوجيا الاتصالات.",h:"ابدأ من الأبسط (الإشارة) واختم بالأحدث (الشبكات)."},
+{ch:1,q:"المرحلة التي تحوّلت فيها الإشارات إلى رموز صوتية هي:",o:["ما قبل اللغة","نشوء اللغة","الكتابة","الطباعة"],a:1,e:"في مرحلة نشوء اللغة تحوّلت الإشارات إلى رموز صوتية.",h:"الصوت هو الفيصل."},
+{ch:1,q:"ارتبطت الطباعة باسم:",o:["ماركوني","جوتنبرج","بيل","إديسون"],a:1,e:"الطباعة ارتبطت باسم جوتنبرج وأسهمت في انتشار الكتب والصحف والعلوم والثقافة.",h:"صاحب المطبعة."},
+{ch:1,q:"معنى «الاتصال» لغويًا:",o:["المشاركة فقط","الوصول أو بلوغ الشيء","النقل المادي للأشياء","الحوار الكتابي"],a:1,e:"لغويًا: الوصول أو بلوغ الشيء، وأصل Communication مرتبط بالمشاركة.",h:"«بلوغ»."},
+{ch:1,q:"«رسائل واقعية أو خيالية إلى أعداد كبيرة مع مشاركة في المعلومات وتغذية راجعة» تعريف للاتصال في:",o:["علم الاجتماع","الإعلام","التربية","الإدارة"],a:1,e:"هذا تعريف الإعلام للاتصال.",h:"جماهير + رسائل."},
+{ch:1,q:"يربط تعريف الإدارة للاتصال بين نقل الفكرة و:",o:["الترفيه عن العاملين","رفع الروح المعنوية وتحسين الأداء","زيادة الإنتاج المادي فقط","الإعلانات التجارية"],a:1,e:"الإدارة: نقل فكرة أو معنى بما يساعد في رفع الروح المعنوية وتحسين الأداء.",h:"أثر إداري داخلي."},
+{ch:1,q:"«من يقول؟» في نموذج لاسويل يقابلها عنصر:",o:["الرسالة","المرسل","الوسيلة","المتلقي"],a:1,e:"Who = المرسل، Says What = الرسالة، In Which Channel = الوسيلة، To Whom = المتلقي، With What Effect = الأثر.",h:"Who؟"},
+{ch:1,q:"أهم حلقة في عملية الاتصال هي:",o:["المرسل","الوسيلة","المتلقي","الرسالة"],a:2,e:"المتلقي أهم حلقة لأنه يفسّر الرسالة وفق خصائصه النفسية والاجتماعية والتعليمية واتجاهاته.",h:"اللي بيفسّر الرسالة ويتخذ الموقف."},
+{ch:1,q:"كل ما يعوق إنتاج الرسالة أو استقبالها هو:",o:["السياق","التشويش","التغذية الراجعة","الأثر"],a:1,e:"التشويش، ومنه الميكانيكي والدلالي.",h:"ضجيج الاتصال."},
+{ch:1,q:"إعادة المعلومات للمرسل لمعرفة مدى تحقق الهدف هي:",o:["الأثر","التشويش","التغذية الراجعة","الترميز"],a:2,e:"وظيفة التغذية الراجعة معرفة تحقق الهدف وتعديل الرسالة.",h:"الرد بيرجع للبادئ."},
+{ch:1,q:"مضمون السلوك الاتصالي في صورة رموز لغوية أو غير لغوية هو:",o:["الوسيلة","الرسالة","السياق","الخبرة المشتركة"],a:1,e:"تعريف الرسالة، ويجب أن تكون مفهومة.",h:"المحتوى نفسه."},
+{ch:1,q:"من مستويات المعنى في الاتصال اللفظي، «شكل الكلمة وحروفها» هو:",o:["المعنى السائد","المعنى الدلالي","المعنى اللغوي","المعنى الضمني"],a:2,e:"اللغوي = شكل الكلمة وحروفها؛ السائد = الصورة الذهنية؛ الدلالي = أثر الكلمة في الذهن.",h:"حروف الكلمة نفسها."},
+{ch:1,q:"الصورة الذهنية التي تستحضرها الكلمة تُسمى:",o:["المعنى اللغوي","المعنى السائد","المعنى الدلالي","المعنى الرمزي"],a:1,e:"المعنى السائد هو الصورة الذهنية للكلمة.",h:"اللي بييجي في دماغك لما تسمعها."},
+{ch:1,q:"الترتيب الصحيح لمراحل عملية الاتصال:",o:["الترميز ← الإدراك ← الوسيلة ← فك الرموز ← الاستجابة","الإدراك ← الترميز ← اختيار الوسيلة ← فك الرموز ← الاستجابة","الاستجابة ← الإدراك ← الترميز ← الوسيلة ← فك الرموز","الإدراك ← الوسيلة ← الترميز ← الاستجابة ← فك الرموز"],a:1,e:"الترتيب: إدراك ← ترميز ← اختيار وسيلة ← فك رموز ← استجابة.",h:"استقبل، رمّز، اختر، فُك، استجب."},
+{ch:1,q:"تحويل الأفكار والمشاعر إلى رموز لفظية أو غير لفظية مناسبة للمستقبل والموقف هو:",o:["الإدراك","فك الرموز","الترميز","الاستجابة"],a:2,e:"تعريف الترميز.",h:"التعبير عن الفكرة برموز."},
+{ch:1,q:"في نمط «العجلة»، يتركز القرار في يد:",o:["كل الأعضاء بالتساوي","العضو الأوسط","الرئيس / المحور","العضو الأخير في الخط"],a:2,e:"العجلة: رئيس/محور يتصل بالأعضاء والتواصل بينهم يمر عبره، فالقرار يتركز في يده.",h:"الكلف بيدور حوالين المحور."},
+{ch:1,q:"النمط الذي يملك فيه العضو الأوسط أكبر نفوذ بحكم موقعه هو:",o:["الدائرة","السلسلة","العجلة","الكامل المتشابك"],a:1,e:"السلسلة: الأعضاء في خط واحد والعضو الأوسط الأكبر نفوذًا.",h:"طابور طويل، والأوسط في النص."},
+{ch:1,q:"مكونات الاتجاه الثلاثة هي:",o:["معرفي، عاطفي، سلوكي","لغوي، اجتماعي، نفسي","فردي، جماعي، جماهيري","شفوي، كتابي، رمزي"],a:0,e:"الاتجاه: معرفي (معتقدات/حقائق) + عاطفي (مشاعر) + سلوكي (عمل).",h:"فكر + إحساس + تنفيذ."},
+{ch:1,q:"تصنيف الاتصال «حسب القناة» ينقسم إلى:",o:["اتجاه واحد ونصف مزدوج وكامل الازدواجية","رسمي وغير رسمي","متسلسل ومتوازٍ","نازل وصاعد وأفقي"],a:1,e:"حسب القناة: رسمي/غير رسمي؛ حسب الاتجاه: واحد/نصف مزدوج/كامل؛ حسب الأسلوب: متسلسل/متوازٍ.",h:"الرسمية صفة القناة."},
+{ch:1,q:"الاتصال الرسمي الداخلي يشمل: نازلة وصاعدة وأفقية و:",o:["قُطرية","خارجة","داخلة","متوازية"],a:0,e:"الداخلي: نازلة وصاعدة وأفقية وقُطرية؛ والخارجي: داخلة وخارجة.",h:"الرابع الداخلي."},
+/* ---- الفصل الثاني (16) ---- */
+{ch:2,q:"النوع الذي يكون فيه المرسل والمستقبل شخصًا واحدًا هو الاتصال:",o:["الذاتي","الشخصي","الوسيطي","التنظيمي"],a:0,e:"الاتصال الذاتي يحدث داخل ذات الفرد.",h:"حوار مع النفس."},
+{ch:2,q:"يشمل الاتصال الذاتي الشعور والوعي و:",o:["البث الجماهيري","التفكير والتقييم وإعطاء معنى للأفكار والأحداث","التبادل التجاري","الرقابة الإدارية"],a:1,e:"الذاتي: الشعور والوعي والتفكير والتقييم وإعطاء معنى للأفكار والأحداث والتجارب.",h:"عمليات عقلية جوه."},
+{ch:2,q:"أبرز ما يميّز الاتصال الشخصي أنه:",o:["يتم عبر مؤسسة إعلامية","وجهًا لوجه دون وسائل جماهيرية","يوجَّه لجمهور عريض","يحدث داخل الذات فقط"],a:1,e:"الاتصال الشخصي: بين مرسل ومستقبل وجهًا لوجه دون الاعتماد على وسائل جماهيرية.",h:"مواجهة مش بث."},
+{ch:2,q:"سبب قوة الإقناع في الاتصال الشخصي أنه:",o:["بطيء ومتأخر","مباشر وتفاعلي ويكشف رد الفعل بسرعة","يستخدم وسائل جماهيرية","يخلو من الحواس"],a:1,e:"قوة الإقناع سببها المباشرة والتفاعل وكشف رد الفعل بسرعة.",h:"المواجهة بتقنع."},
+{ch:2,q:"«وحدة الزمان والمكان» في الاتصال الشخصي تعني:",o:["انفصال الطرفين زمانيًا","وجود المرسل والمستقبل معًا","استخدام البريد","البث الفضائي"],a:1,e:"وجود المرسل والمستقبل معًا يدعم الألفة والثقة.",h:"اتنين في مكان ووقت واحد."},
+{ch:2,q:"الاتصال الذي يجمع بعض خصائص الشخصي وبعض خصائص الجماهيري عبر وسيلة مثل التلفزيون هو:",o:["الذاتي","الوسيطي","التنظيمي","بين الثقافات"],a:1,e:"تعريف الاتصال الوسيطي.",h:"من اسمه."},
+{ch:2,q:"من خصائص الاتصال الجماهيري أن التغذية الراجعة فيه:",o:["فورية وقوية","أضعف ومتأخرة","غير موجودة أبدًا","أقوى من الشخصي"],a:1,e:"التغذية الراجعة في الجماهيري غالبًا أضعف ومتأخرة.",h:"عكس الشخصي."},
+{ch:2,q:"«حارس البوابة» في الاتصال الجماهيري يشير إلى:",o:["الجمهور المستهدف","الرقابة التي قد تمر الرسالة عبرها","المتلقي النهائي","المرسل نفسه"],a:1,e:"قد تمر الرسالة عبر الرقابة/حارس البوابة قبل وصول الجمهور.",h:"مين بيصفّي الرسالة؟"},
+{ch:2,q:"اتجاه سير الاتصال الجماهيري غالبًا:",o:["تبادل فوري ثنائي","اتجاه واحد","دائري كامل","متوقف على التغذية الراجعة"],a:1,e:"غالبًا اتجاه واحد، ولذلك معرفة المرسل بدرجة فهم الجمهور محدودة.",h:"بث مش حوار."},
+{ch:2,q:"الاتصال الذي يسهم في تطوير أساليب العمل وتقوية العلاقات داخل المؤسسة هو:",o:["الجماهيري","الوسيطي","التنظيمي","الذاتي"],a:2,e:"الاتصال التنظيمي: منطوق ومكتوب داخل المؤسسة يسهم في تطوير العمل والعلاقات الاجتماعية.",h:"جوّه المؤسسة."},
+{ch:2,q:"مجموعة القواعد المشتركة التي تؤثر في الفكر والسلوك وتقييم سلوك الآخرين هي:",o:["الاتصال","الثقافة","التكنولوجيا","الرسالة"],a:1,e:"تعريف الثقافة في سياق الاتصال بين الثقافات.",h:"أعراف جماعة."},
+{ch:2,q:"التفاعل بين أبناء ثقافات مختلفة بتبادل الأدوار يسمى:",o:["الاتصال التنظيمي","الاتصال بين الثقافات","الاتصال الذاتي","الاتصال الوسيطي"],a:1,e:"تعريف الاتصال الثقافي/بين الثقافات.",h:"ثقافتين مختلفتين."},
+{ch:2,q:"من عوامل فعالية الاتصال الشخصي المتعلقة بالمرسل:",o:["تحديد هدف الرسالة","الصدق والثقة والجاذبية","معرفة عادات الجمهور","اختيار وقت الإرسال"],a:1,e:"الصدق والثقة والجاذبية والقدرة على الإقناع من عوامل المرسل.",h:"صفات في اللي بيتكلم."},
+{ch:2,q:"«معرفة اللغة والثقافة والدين والمهنة والعادات للمستمعين» يندرج تحت عوامل فعالية:",o:["المرسل","الرسالة","الجمهور المستهدف","الوسيلة"],a:2,e:"معرفة خصائص المستمعين وحاجاتهم ورغباتهم من عوامل الجمهور المستهدف.",h:"دراسة مين بيستمع إليك."},
+{ch:2,q:"من عوامل فعالية الرسالة:",o:["معرفة حاجات المستمعين","مخاطبة عقل المستمع ونفسه معًا","المعرفة والمعلومات الكافية","الشخصية والمكانة"],a:1,e:"مخاطبة العقل والنفس معًا وأمثلة واضحة ولغة مناسبة من عوامل الرسالة.",h:"محتوى اللي بيتقال."},
+{ch:2,q:"الوسيلة في الاتصال الوسيطي مثل التليفون تجعله:",o:["جماهيريًا خالصًا","بين الشخصي والجماهيري","ذاتيًا","تنظيميًا"],a:1,e:"الوسيطي يقع بين الشخصي والجماهيري ويجمع خصائص من كليهما.",h:"تليفون = وسيط."},
+/* ---- الفصل الثالث (12) ---- */
+{ch:3,q:"تعريف الاتصال الرقمي يركّز على:",o:["المواجهة الحضورية","الاتصال من بُعد عبر النظم الرقمية بتبادل الأدوار","الطباعة الورقية","الإشارات الجسدية"],a:1,e:"عملية اجتماعية يتم فيها الاتصال من بُعد عبر النظم الرقمية في الترميز والمعالجة والإرسال والاستقبال.",h:"بُعد + رقمي."},
+{ch:3,q:"تحوّل المتلقي إلى مشارك يختار ويؤثر ويبني المحتوى هو خاصية:",o:["الاستغراق","التفاعلية","الشمول","التمتة"],a:1,e:"التفاعلية تحوّل المتلقي من مستقبل فقط إلى مشارك.",h:"مشاركة لا مشاهدة."},
+{ch:3,q:"جمع وسائل ونظم ومحتوى الاتصال في منظومة واحدة مع التخزين والطباعة وإعادة الإرسال هو:",o:["التنوع","التكامل","الفردية","العالمية"],a:1,e:"تعريف خاصية التكامل.",h:"كل حاجة في شبكة واحدة."},
+{ch:3,q:"البريد الإلكتروني مثال على الاتصال الرقمي:",o:["المتزامن","غير المتزامن","الوجاهي المباشر","الجماهيري الفوري"],a:1,e:"غير المتزامن لا يشترط استقبال الرسالة وقت الإرسال — مثاله البريد الإلكتروني وبعض المواد التعليمية.",h:"تفتحه وقت ما تحب."},
+{ch:3,q:"من أمثلة الاتصال الرقمي المتزامن:",o:["البريد الإلكتروني","الدردشة والحوار المباشر","المواد التعليمية المؤرشفة","الوثائق المخزنة"],a:1,e:"المتزامن: الدردشة والحوار المباشر ومجموعات الحوار والمؤتمرات عن بعد.",h:"دلوقتي حالًا."},
+{ch:3,q:"قضاء وقت طويل في التصفح والتعلم والاستخدام بسبب التفاعل وتعدد المحتوى يسمى:",o:["الاستغراق","اللاتزامنية","المرونة","الوضوح"],a:0,e:"خاصية الاستغراق.",h:"بتغرق في التصفح."},
+{ch:3,q:"المستوى الذي تتصل فيه الحواسب الطرفية بقواعد بيانات على خادم هو الاتصال:",o:["بالحاسب وبرامجه","بقواعد البيانات","المباشر عبر الشبكات","بمواقع الوسائل الإعلامية"],a:1,e:"الاتصال بقواعد البيانات: عبر شبكات محلية أو الإنترنت/الإنترانت/الإكسترانت.",h:"خادم + قواعد."},
+{ch:3,q:"تستخدم وسائل الإعلام مواقع الإنترنت ل:",o:["إلغاء جمهورها التقليدي","نشر وبث رسائلها لجمهور الشبكة بجانب جمهورها التقليدي","منع التفاعل مع المحتوى","الطباعة الورقية فقط"],a:1,e:"الإنترنت وسيط بين الإعلام والجمهور مع خدمات إضافية كالحفظ والتسجيل وإعادة المشاهدة.",h:"إضافة لا إلغاء."},
+{ch:3,q:"من خصائص الاتصال الرقمي تجاوز:",o:["الحدود الجغرافية والثقافية ووحدة المكان والزمان","الاستغراق والتكامل","الوسيطية والذاتية","الرسمية وغير الرسمية"],a:0,e:"التجاوز يشمل الحدود الجغرافية والثقافية ووحدة المكان والزمان (متزامن/غير متزامن).",h:"الحدود بتاعة مكان وزمان وثقافة."},
+{ch:3,q:"تفتيت الجمهور إلى فئات وجماعات اهتمام دقيقة يرتبط بـ:",o:["الفردية والتخصيص","الجماهيرية العامة","الرسمية الإدارية","الإذاعة التقليدية"],a:0,e:"الأنظمة الرقمية تتيح تفتيت الجمهور وصولًا إلى التخصيص وفق الحاجات والتفضيلات.",h:"لكل واحد محتواه."},
+{ch:3,q:"الخصوصية في الاتصال الرقمي تدعمها:",o:["تصميمات سرية الاتصال والتحكم الذاتي","البث المفتوح للجميع","غياب حقوق الملكية الفكرية","الرقابة الورقية"],a:0,e:"مع مراعاة حقوق الملكية الفكرية.",h:"سرية وتحكم."},
+{ch:3,q:"المستوى الرابع من مستويات الاتصال الرقمي هو:",o:["الاتصال بالحاسب وبرامجه","الاتصال بقواعد البيانات","الاتصال المباشر عبر الشبكات","الاتصال بمواقع الوسائل الإعلامية"],a:3,e:"المستويات: 1 الحاسب وبرامجه، 2 قواعد البيانات، 3 المباشر عبر الشبكات، 4 مواقع الوسائل الإعلامية.",h:"رقم 4 من 4."},
+/* ---- الفصل الرابع (12) ---- */
+{ch:4,q:"الفرق بين البيانات والمعلومات أن المعلومات:",o:["حقائق غير منظمة","بيانات معالجة ومنظمة ذات معنى","استثمار المعرفة في القرارات","أحاسيس ومشاعر شخصية"],a:1,e:"البيانات حقائق غير منظمة ← معالجة ← معلومات منظمة ذات معنى.",h:"بعد المعالجة."},
+{ch:4,q:"حصيلة استخدام واستثمار المعلومات هي:",o:["البيانات","المعلومات","المعرفة","الإشارات"],a:2,e:"المعرفة = استخدام واستثمار المعلومات.",h:"أعلى حلقة في السلسلة."},
+{ch:4,q:"استخدم الجيل الأول من الحاسوب:",o:["المعالجات الدقيقة","الصمامات المفرغة","الترانزستور","الدوائر الإلكترونية الدقيقة"],a:1,e:"الجيل الأول (1946–1959): صمامات مفرغة وحجم كبير وطاقة وحرارة عالية.",h:"الجيل الأول = الصمامات."},
+{ch:4,q:"الجيل الذي بدأ استخدام الترانزستور بدلًا من الصمامات هو الجيل:",o:["الأول","الثاني","الثالث","الرابع"],a:1,e:"الجيل الثاني (1959–1965): الترانزستور مع تقليل الحرارة والتوقف والطاقة.",h:"الترانزستور في الثاني."},
+{ch:4,q:"ظهرت المعالجات الدقيقة والذاكرات الصغيرة ذات السعة الكبيرة في الجيل:",o:["الثاني","الثالث","الرابع","الخامس"],a:2,e:"الجيل الرابع من 1970: المعالجات الدقيقة ودمج مكونات أكثر على شريحة واحدة.",h:"جيل الشرائح."},
+{ch:4,q:"تطوير يجمع بين التلكس ومعالجة النصوص والتخزين هو:",o:["الفاكس","التليتكس","الهاتف","القمر الصناعي"],a:1,e:"التليتكس تطوير يجمع بين التلكس ومعالجة النصوص والتخزين.",h:"تلكس مطوّر."},
+{ch:4,q:"من استخدامات الأقمار الصناعية المذكورة غير البث التلفزيوني:",o:["المؤتمرات عن بعد والأرصاد والاستشعار عن بعد","طباعة الجرائد","معالجة النصوص المكتبية","تخزين الملفات المحلية"],a:0,e:"تستخدم في الصوت والصورة والبيانات والوثائق والمؤتمرات والأرصاد والاستشعار عن بعد والبث والهاتف.",h:"استخداماتها في السما."},
+{ch:4,q:"البرامج التي تؤدي وظائف محددة كالكتابة والمحاسبة والجرافيك هي:",o:["أنظمة التشغيل","البرامج الملحقة والتطبيقات","لغات التجميع","الشبكات"],a:1,e:"التطبيقات تؤدي وظائف محددة، أما أنظمة التشغيل فتشغّل الحاسب وتدير موارده.",h:"برامج المستخدم."},
+{ch:4,q:"تحويل البيانات الخام إلى نتائج ومعلومات مفهومة هو نشاط:",o:["الإدخال","المعالجة","الإخراج","التغذية العكسية"],a:1,e:"المعالجة (Processing) تحوّل البيانات الخام إلى معلومات مفهومة قابلة للاستخدام.",h:"قلب العملية."},
+{ch:4,q:"إعادة المخرجات كمدخلات لإجراء معالجة جديدة هي:",o:["التغذية العكسية","الإخراج","الإدخال","التخزين"],a:0,e:"التغذية العكسية (Feedback) في نظام تكنولوجيا المعلومات.",h:"دورة مكتملة."},
+{ch:4,q:"عناصر تكنولوجيا المعلومات الخمسة تشمل:",o:["الأفراد والأجهزة والبرامج وقواعد البيانات والشبكات","المرسل والمتلقي والرسالة والوسيلة","الإدراك والترميز والاستجابة","الصوت والصورة والنص والبيانات"],a:0,e:"العناصر: People + Hardware + Software + Databases + Networks.",h:"P · H · S · D · N"},
+{ch:4,q:"«توجيه الرسالة لفرد أو جماعة محددة بدل جمهور ضخم» يقصد بها خاصية:",o:["العالمية","اللا جماهيرية","الشيوع والانتشار","قابلية التحويل"],a:1,e:"اللا جماهيرية: توجيه الرسالة لفرد أو جماعة محددة.",h:"عكس الجماهيرية."},
+];
+
+/* =============== تجهيز عام =============== */
+const CH={1:"الفصل الأول",2:"الفصل الثاني",3:"الفصل الثالث",4:"الفصل الرابع"};
+const CHT={1:"تاريخ الاتصال",2:"أنواع الاتصال",3:"الاتصال الرقمي",4:"تكنولوجيا المعلومات"};
+const KIND={tf:"صح وخطأ",mc:"اختيار من متعدد"};
+const LTR=["أ","ب","ج","د"];
+const ALL=[];
+TF.forEach(x=>ALL.push({kind:"tf",ch:x.ch,q:x.q,a:x.a,exp:x.e,hint:x.h}));
+MC.forEach(x=>ALL.push({kind:"mc",ch:x.ch,q:x.q,opts:x.o,a:x.a,exp:x.e,hint:x.h}));
+
+const $=id=>document.getElementById(id);
+const I={
+check:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg>',
+okc:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M8.2 12.4l2.5 2.5 5-5.4"/></svg>',
+noc:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.2"/><path d="M15 9l-6 6M9 9l6 6"/></svg>',
+clock:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>',
+chevL:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6 8 12l6.5 6"/></svg>',
+bulb:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5M10.5 21h3M12 3a6 6 0 0 0-3.7 10.7c.55.5.7 1.2.7 2.3h6c0-1.1.15-1.8.7-2.3A6 6 0 0 0 12 3Z"/></svg>'
+};
+
+/* =============== الحالة =============== */
+let set=[],picks=[],cur=0,correct=0,streak=0,startedAt=0,timerId=null,lastWrong=[];
+let filt={chap:"all",type:"all"},shuffleOn=true;
+
+const show=id=>$(id).classList.remove("hidden");
+const hide=id=>$(id).classList.add("hidden");
+
+/* =============== تاب المطورين =============== */
+ $("devHandle").addEventListener("click",e=>{
+  e.stopPropagation();
+  $("devDock").classList.toggle("open");
+});
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".dev-dock"))$("devDock").classList.remove("open");
+});
+/* الضغط على صورة الدخلة = معاينة كبيرة */
+ $("devHeroImg").addEventListener("click",()=>{
+  const lb=document.createElement("div");
+  lb.className="dev-lightbox";
+  lb.innerHTML='<figure><img src="'+DEV_IMG+'" alt="إسماعيل وأحمد" onerror="devFallback(this)"/><figcaption>Ismail &amp; Ahmed<small>مطورين المستقبل</small></figcaption></figure>';
+  lb.addEventListener("click",()=>lb.remove());
+  document.body.appendChild(lb);
+});
+
+/* =============== السماء: نجوم ونجوم متلألئة =============== */
+(function(){
+  let html="";
+  for(let i=0;i<50;i++){
+    const s=(1.6+Math.random()*2.2).toFixed(1);
+    html+=`<i class="star" style="top:${(Math.random()*68).toFixed(1)}%;left:${(Math.random()*100).toFixed(1)}%;width:${s}px;height:${s}px;--d:${(2.4+Math.random()*3.4).toFixed(1)}s;--dl:-${(Math.random()*6).toFixed(1)}s"></i>`;
+  }
+  for(let i=0;i<8;i++){
+    const w=(9+Math.random()*10).toFixed(0);
+    html+=`<span class="spark" style="top:${(Math.random()*55).toFixed(1)}%;left:${(Math.random()*94).toFixed(1)}%;--d:${(3.5+Math.random()*3).toFixed(1)}s;--dl:-${(Math.random()*6).toFixed(1)}s"><svg viewBox="0 0 24 24" width="${w}" height="${w}"><path d="M12 2l1.8 8.2L22 12l-8.2 1.8L12 22l-1.8-8.2L2 12l8.2-1.8Z" fill="#f0e9cb"/></svg></span>`;
+  }
+  $("stars").innerHTML=html;
+})();
+
+/* =============== حركة القمر والشمس =============== */
+const sky=$("sky");
+let moonP=.3,sunP=.15,lastT=performance.now();
+const CYCLE=110; /* ثانية لعبور السماء كاملة */
+function place(el,p){
+  const W=sky.clientWidth,H=sky.clientHeight,sz=el.offsetWidth||88,m=95;
+  const x=m+(W-2*m)*(1-p);              /* من اليمين لليسار */
+  const y=H*.72-Math.sin(p*Math.PI)*H*.42; /* قوس بيطلع وينزل زي القمر الحقيقي */
+  el.style.transform=`translate(${x-sz/2}px,${y-sz/2}px)`;
+  const edge=Math.min(p,1-p);
+  el.firstElementChild.style.opacity=Math.max(0,Math.min(1,edge/.06)); /* تلاشي عند الأطراف */
+}
+function frame(now){
+  const dt=Math.min(.1,(now-lastT)/1000);lastT=now;
+  moonP=(moonP+dt/CYCLE)%1;sunP=(sunP+dt/CYCLE)%1;
+  place($("moonT"),moonP);place($("sunT"),sunP);
+  requestAnimationFrame(frame);
+}
+if(matchMedia("(prefers-reduced-motion: reduce)").matches){place($("moonT"),.35);place($("sunT"),.3);}
+else requestAnimationFrame(frame);
+
+/* =============== الوضع الليلي/النهاري =============== */
+function setTheme(night){
+  document.body.classList.toggle("night",night);
+  $("themeToggle").setAttribute("aria-checked",night);
+  try{localStorage.setItem("tw-night",night?"1":"0")}catch(e){}
+  if(night)moonP=.08; else sunP=.08; /* القمر/الشمس تشرق مع التبديل */
+}
+ $("themeToggle").onclick=()=>setTheme(!document.body.classList.contains("night"));
+(function(){
+  try{const s=localStorage.getItem("tw-night");if(s!=null)document.body.classList.toggle("night",s==="1");}catch(e){}
+})();
+
+/* =============== شاشة الإعداد =============== */
+function filtered(){
+  return ALL.filter(q=>(filt.chap==="all"||q.ch==+filt.chap)&&(filt.type==="all"||q.kind===filt.type));
+}
+function wireSeg(id,key){
+  $(id).addEventListener("click",e=>{
+    const b=e.target.closest("button");if(!b)return;
+    $(id).querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+    filt[key]=b.dataset.v;
+    $("qCount").textContent=filtered().length+" سؤال جاهز";
+  });
+}
+wireSeg("chapSeg","chap");wireSeg("typeSeg","type");
+ $("shuffle").onchange=e=>shuffleOn=e.target.checked;
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a}
+
+ $("startBtn").onclick=()=>{let l=filtered().slice();if(shuffleOn)shuffle(l);begin(l);};
+
+/* =============== منطق الامتحان =============== */
+function begin(list){
+  set=list;picks=new Array(list.length).fill(null);cur=0;correct=0;streak=0;lastWrong=[];
+  show("exam");hide("setup");hide("results");
+  $("scoreChip").innerHTML=I.check+" 0";
+  $("progFill").style.width="0%";
+  $("mapGrid").classList.add("hidden");$("mapPanel").classList.remove("open");
+  buildMap();renderQ();
+  startedAt=Date.now();clearInterval(timerId);
+  timerId=setInterval(()=>{$("timerChip").innerHTML=I.clock+" "+fmtTime(Date.now()-startedAt)},1000);
+  $("timerChip").innerHTML=I.clock+" 00:00";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function correctIndex(q){return q.kind==="tf"?(q.a?0:1):q.a}
+function isOk(q,pick){return pick===correctIndex(q)}
+
+function renderQ(){
+  const q=set[cur];
+  $("posChip").textContent=`السؤال ${cur+1} / ${set.length}`;
+  $("chapterChip").textContent=`${CH[q.ch]} · ${CHT[q.ch]}`;
+  $("typeChip").textContent=KIND[q.kind];
+  $("qText").textContent=q.q;
+  const hb=$("hintBox");hb.classList.add("hidden");hb.innerHTML="";
+  $("hintBtn").disabled=false;
+  $("hintBtn").classList.toggle("hidden",picks[cur]!=null);
+  if(q.kind==="tf"){
+    show("tfWrap");hide("mcWrap");
+    [...$("tfWrap").children].forEach(b=>b.classList.remove("is-correct","is-wrong","locked"));
+  }else{
+    hide("tfWrap");show("mcWrap");
+    $("mcWrap").innerHTML=q.opts.map((o,i)=>`<button class="opt" data-i="${i}"><span class="letter">${LTR[i]}</span><span>${o}</span></button>`).join("");
+  }
+  $("feedback").classList.add("hidden");
+  if(picks[cur]!=null)paintState();
+  $("prevBtn").disabled=cur===0;
+  $("nextBtn").innerHTML=(cur===set.length-1?"عرض النتيجة":"التالي")+" "+I.chevL;
+  $("nextBtn").classList.remove("attn");
+  const card=$("qCard");card.style.animation="none";void card.offsetWidth;card.style.animation="";
+  const r=card.getBoundingClientRect();
+  if(r.top<70)card.scrollIntoView({behavior:"smooth",block:"start"});
+  updateMap();
+}
+function paintState(){
+  const q=set[cur],pick=picks[cur],ok=isOk(q,pick);
+  const wrap=q.kind==="tf"?$("tfWrap"):$("mcWrap");
+  [...wrap.children].forEach(b=>{
+    const i=+b.dataset.i;
+    b.classList.add("locked");
+    if(i===correctIndex(q))b.classList.add("is-correct");
+    else if(i===pick&&!ok)b.classList.add("is-wrong");
+  });
+  showFeedback(ok,pick);
+}
+function showFeedback(ok,pick){
+  const q=set[cur],fb=$("feedback");
+  fb.className="feedback "+(ok?"ok":"no");
+  $("fbHead").innerHTML=ok?I.okc+" إجابة صحيحة":I.noc+" إجابة خاطئة";
+  let body="";
+  if(!ok){
+    const yours=q.kind==="tf"?(pick===0?"صح":"خطأ"):q.opts[pick];
+    const right=q.kind==="tf"?(q.a?"صح":"خطأ"):q.opts[q.a];
+    body+=`<p>إجابتك: <b class="bad">${yours}</b> — الإجابة الصحيحة: <b class="good">${right}</b></p>`;
+  }
+  body+=`<p class="fb-exp"><b>التصويب:</b> ${q.exp}</p>`;
+  $("fbBody").innerHTML=body;
+  fb.classList.remove("hidden");
+}
+function answer(pick){
+  if(picks[cur]!=null)return;
+  picks[cur]=pick;
+  const ok=isOk(set[cur],pick);
+  if(ok){correct++;streak++;if(streak%5===0)toast(streak+" إجابات صحيحة متتالية — على باراك الله!");}
+  else streak=0;
+  paintState();
+  $("scoreChip").innerHTML=I.check+" "+correct;
+  $("scoreChip").classList.remove("pop");void $("scoreChip").offsetWidth;$("scoreChip").classList.add("pop");
+  const done=picks.filter(v=>v!=null).length;
+  $("progFill").style.width=(done/set.length*100)+"%";
+  updateMap();
+  $("nextBtn").classList.add("attn");
+  $("feedback").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+ $("tfWrap").addEventListener("click",e=>{const b=e.target.closest(".ans");if(b)answer(+b.dataset.i)});
+ $("mcWrap").addEventListener("click",e=>{const b=e.target.closest(".opt");if(b)answer(+b.dataset.i)});
+ $("hintBtn").onclick=()=>{
+  const hb=$("hintBox");
+  hb.innerHTML=I.bulb+"<span>"+set[cur].hint+"</span>";
+  hb.classList.remove("hidden");
+  $("hintBtn").disabled=true;
+};
+ $("prevBtn").onclick=()=>{if(cur>0){cur--;renderQ();}};
+ $("nextBtn").onclick=()=>{
+  if(cur<set.length-1){cur++;renderQ();return;}
+  if(picks.filter(v=>v==null).length===0){finish();return;}
+  tryFinish();
+};
+ $("exitBtn").onclick=tryFinish;
+
+/* خريطة الأسئلة */
+function buildMap(){
+  $("mapGrid").innerHTML=set.map((_,i)=>`<button class="m-dot" data-i="${i}" aria-label="السؤال ${i+1}">${i+1}</button>`).join("");
+}
+ $("mapGrid").addEventListener("click",e=>{
+  const d=e.target.closest(".m-dot");if(!d)return;
+  cur=+d.dataset.i;renderQ();
+});
+ $("mapToggle").onclick=()=>{
+  $("mapGrid").classList.toggle("hidden");
+  $("mapPanel").classList.toggle("open");
+};
+function updateMap(){
+  const g=$("mapGrid");
+  set.forEach((q,i)=>{
+    const d=g.children[i];if(!d)return;
+    d.className="m-dot"+(i===cur?" cur":"")+(picks[i]==null?"":(isOk(q,picks[i])?" ok":" no"));
+  });
+}
+
+/* لوحة المفاتيح: 1-4 للإجابة، الأسهم للتنقل */
+document.addEventListener("keydown",e=>{
+  if($("exam").classList.contains("hidden"))return;
+  if(!$("modalBack").classList.contains("hidden"))return;
+  if(e.key>="1"&&e.key<="4"){
+    const q=set[cur],n=q.kind==="mc"?q.opts.length:2,i=+e.key-1;
+    if(i<n&&picks[cur]==null)answer(i);
+  }else if(e.key==="ArrowLeft"&&cur<set.length-1){cur++;renderQ();}
+  else if(e.key==="ArrowRight"&&cur>0){cur--;renderQ();}
+  else if(e.key==="Enter"&&picks[cur]!=null){$("nextBtn").click();}
+});
+
+/* المودال */
+function openModal(o){
+  $("modalTitle").textContent=o.title;$("modalMsg").textContent=o.msg;
+  const ok=$("modalOk");ok.textContent=o.ok;ok.className="btn "+(o.cls||"btn-primary");
+  ok.onclick=()=>{closeModal();o.onOk&&o.onOk();};
+  const c=$("modalCancel");c.textContent=o.cancel||"تراجع";
+  c.onclick=()=>{closeModal();o.onCancel&&o.onCancel();};
+  show("modalBack");
+}
+function closeModal(){hide("modalBack")}
+ $("modalBack").addEventListener("click",e=>{if(e.target.id==="modalBack")closeModal()});
+function tryFinish(){
+  const un=picks.filter(v=>v==null).length;
+  if(un>0){
+    openModal({title:"لسه في أسئلة شاغرة",msg:`عندك ${un} سؤال لسه مجاوبتش عليه — لو أنهيت الامتحان دلوقتي هتتحسب إجابات غلط.`,ok:"أنهِ واعرض النتيجة",cls:"btn-danger",cancel:"أكمل الحل",onOk:finish,
+      onCancel:()=>{cur=picks.findIndex(v=>v==null);renderQ();}});
+  }else{
+    openModal({title:"عرض النتيجة النهائية؟",msg:"جاوبت على كل الأسئلة — يلا نشوف الدرجة.",ok:"عرض النتيجة",onOk:finish});
+  }
+}
+
+/* =============== النتيجة =============== */
+function finish(){
+  clearInterval(timerId);
+  hide("exam");show("results");
+  computeResults();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function computeResults(){
+  const total=set.length,wrong=total-correct,pct=Math.round(correct/total*100);
+  const C=2*Math.PI*70,fg=$("ringFg");
+  fg.style.strokeDashoffset=C;void fg.getBoundingClientRect();
+  fg.style.strokeDashoffset=C*(1-pct/100);
+  fg.style.stroke=pct>=75?"var(--accent)":pct>=50?"var(--gold)":"var(--no)";
+  animNum($("ringNum"),pct,"%");
+  const g=pct>=90?["ممتاز","نتيجتك ممتازة — انت جاهز للامتحان، خد نظرة أخيرة على الأخطاء بس."]
+    :pct>=75?["جيد جدًا","مستوى قوي! راجع الأخطاء تحت وركّز على الفصل الأضعف."]
+    :pct>=60?["جيد","الأساس موجود — مراجعة مركزة على النقاط اللي سقطت فيها وهتوصل أعلى."]
+    :pct>=50?["مقبول","محتاج تعيد المراجعة بجدية — جرب زر «امتحن أخطائي» تحت."]
+    :["يحتاج مراجعة","ارجع للملخص وراجع الفصول الأربعة وبعدين جرب تاني — التكرار بيعلّم."];
+  $("resGrade").textContent=g[0];$("resMsg").textContent=g[1];
+  $("resSub").textContent=`${correct} صح من ${total} سؤال`;
+  $("okCount").textContent=correct;$("noCount").textContent=wrong;
+  $("resTime").textContent=fmtTime(Date.now()-startedAt);
+  const box=$("resChapters");box.innerHTML="";
+  [1,2,3,4].forEach(c=>{
+    const items=set.map((q,i)=>({q,i})).filter(x=>x.q.ch===c);
+    if(!items.length)return;
+    const cOk=items.filter(x=>isOk(x.q,picks[x.i])).length;
+    const p=Math.round(cOk/items.length*100);
+    box.insertAdjacentHTML("beforeend",
+      `<div class="chap-row"><span class="chap-name">${CH[c]}</span><div class="chap-bar"><i style="width:0%"></i></div><span class="chap-num">${cOk}/${items.length}</span></div>`);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{box.lastElementChild.querySelector("i").style.width=p+"%";}));
+  });
+  lastWrong=set.map((q,i)=>({q,i})).filter(x=>!isOk(x.q,picks[x.i])).map(x=>x.q);
+  $("wrongBtn").disabled=!lastWrong.length;
+  const wl=$("wrongList");wl.innerHTML="";
+  if(!lastWrong.length){
+    $("wrongHead").innerHTML=I.okc+" مافيش ولا غلطة — نتيجة كاملة!";
+    return;
+  }
+  $("wrongHead").innerHTML=I.noc+` مراجعة الأخطاء (${lastWrong.length})`;
+  set.forEach((q,i)=>{
+    if(isOk(q,picks[i]))return;
+    const pick=picks[i];
+    const yours=pick==null?"لم تُجب":(q.kind==="tf"?(pick===0?"صح":"خطأ"):q.opts[pick]);
+    const right=q.kind==="tf"?(q.a?"صح":"خطأ"):q.opts[q.a];
+    wl.insertAdjacentHTML("beforeend",`<div class="w-item">
+      <div class="w-q">${q.q}</div>
+      <div class="w-meta"><span>إجابتك: <b class="bad">${yours}</b></span><span>الصحيح: <b class="good">${right}</b></span></div>
+      <p class="w-exp"><b>التصويب:</b> ${q.exp}</p></div>`);
+  });
+  try{
+    const b=JSON.parse(localStorage.getItem("twasel-best")||"null");
+    if(!b||pct>b.p){localStorage.setItem("twasel-best",JSON.stringify({p:pct,n:total}));}
+  }catch(e){}
+  showBest();
+  if(pct>=80)starFX();
+}
+ $("retryBtn").onclick=()=>begin(set.slice());
+ $("wrongBtn").onclick=()=>{
+  if(!lastWrong.length){toast("مافيش أخطاء تامتحنها — برافو!");return;}
+  let l=lastWrong.slice();if(shuffleOn)shuffle(l);
+  begin(l);toast(`امتحان مراجعة بـ ${l.length} سؤال — يلا بينا!`);
+};
+ $("newBtn").onclick=()=>{hide("results");hide("exam");show("setup");window.scrollTo({top:0,behavior:"smooth"});};
+
+/* =============== أدوات =============== */
+function fmtTime(ms){
+  const s=Math.floor(ms/1000),m=Math.floor(s/60),h=Math.floor(m/60);
+  const p=n=>String(n).padStart(2,"0");
+  return (h?h+":":"")+p(m%60)+":"+p(s%60);
+}
+function animNum(el,to,suf){
+  const t0=performance.now();
+  (function step(now){
+    const k=Math.min(1,(now-t0)/1300),e=1-Math.pow(1-k,3);
+    el.textContent=Math.round(to*e)+suf;
+    if(k<1)requestAnimationFrame(step);
+  })(t0);
+}
+let toastT=null;
+function toast(msg){
+  const t=$("toast");t.textContent=msg;t.classList.add("show");
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2600);
+}
+function showBest(){
+  try{
+    const b=JSON.parse(localStorage.getItem("twasel-best")||"null");
+    if(b&&b.n>=10){show("bestRow");$("bestVal").textContent=b.p+"% ("+b.n+" سؤال)";}
+  }catch(e){}
+}
+showBest();
+
+/* أمطار نجوم ذهبية عند النتيجة العالية */
+function starFX(){
+  const cv=$("fx"),ctx=cv.getContext("2d");
+  cv.width=innerWidth;cv.height=innerHeight;
+  const cols=["#f5d67a","#ffe9ad","#e2b45c","#fff6d8"];
+  const P=Array.from({length:80},()=>({x:Math.random()*cv.width,y:-40-Math.random()*cv.height*.6,r:5+Math.random()*8,vx:(Math.random()-.5)*1.4,vy:1.6+Math.random()*2.4,rot:Math.random()*6.28,vr:(Math.random()-.5)*.12,c:cols[Math.random()*4|0]}));
+  const t0=performance.now();
+  (function loop(now){
+    const el=(now-t0)/1000,fade=Math.max(0,1-el/3.4);
+    ctx.clearRect(0,0,cv.width,cv.height);
+    if(fade<=0)return;
+    ctx.globalAlpha=fade;
+    P.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;ctx.fillStyle=p.c;
+      ctx.beginPath();
+      for(let i=0;i<10;i++){const R=i%2?p.r*.45:p.r,a=p.rot+i*Math.PI/5;ctx.lineTo(p.x+Math.sin(a)*R,p.y-Math.cos(a)*R);}
+      ctx.closePath();ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  })(t0);
+}
+</script>
+</body>
+</html>
