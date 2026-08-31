@@ -1,0 +1,3081 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار الاتصال الإنساني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F1E7;
+    --paper-2:#EDE6D6;
+    --ink:#252220;
+    --ink-soft:#5C554C;
+    --teal:#1F6B66;
+    --teal-deep:#134744;
+    --gold:#C89B3C;
+    --wrong:#A8402F;
+    --line:#D8CFBB;
+    --card:#FBF9F3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(31,107,102,0.07), transparent 40%),
+      radial-gradient(circle at 90% 85%, rgba(200,155,60,0.09), transparent 45%);
+    color:var(--ink);
+    font-family:'Tajawal', sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 60px;
+  }
+  .brand{
+    text-align:center;
+    margin-bottom:28px;
+    max-width:640px;
+  }
+  .brand .mark{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    color:var(--teal-deep);
+    font-weight:900;
+    font-size:13px;
+    letter-spacing:0.02em;
+    margin-bottom:10px;
+  }
+  .brand .mark svg{width:20px;height:20px;}
+  .brand h1{
+    font-family:'Amiri', serif;
+    font-size:clamp(28px,4.5vw,40px);
+    font-weight:700;
+    margin:0 0 8px;
+    color:var(--ink);
+    line-height:1.25;
+  }
+  .brand p{
+    color:var(--ink-soft);
+    font-size:15px;
+    margin:0;
+    line-height:1.7;
+  }
+
+  .stage{width:100%;max-width:640px;}
+
+  /* ---------- Setup screen ---------- */
+  .setup-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:28px 26px;
+  }
+  .setup-card h2{
+    font-family:'Amiri', serif;
+    font-size:20px;
+    margin:0 0 4px;
+  }
+  .setup-card .hint{
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0 0 20px;
+  }
+  .chapter-list{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    border-top:1px solid var(--line);
+  }
+  .chapter-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px 4px;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+  }
+  .chapter-item .ch-name{
+    font-size:15px;
+    font-weight:500;
+    line-height:1.5;
+  }
+  .chapter-item .ch-count{
+    flex:none;
+    font-size:13px;
+    color:var(--ink-soft);
+    font-variant-numeric:tabular-nums;
+  }
+  .chapter-item .ch-check{
+    flex:none;
+    width:18px;height:18px;
+    border:1.5px solid var(--ink-soft);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .15s, border-color .15s;
+  }
+  .chapter-item.checked .ch-check{
+    background:var(--teal);
+    border-color:var(--teal);
+  }
+  .chapter-item.checked .ch-check svg{display:block;}
+  .ch-check svg{display:none;width:11px;height:11px;stroke:white;}
+
+  .setup-actions{
+    margin-top:22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+  }
+  .count-note{font-size:13px;color:var(--ink-soft);}
+  .btn{
+    font-family:'Tajawal', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    border:none;
+    cursor:pointer;
+    padding:13px 26px;
+    background:var(--teal-deep);
+    color:var(--paper);
+    transition:background .15s;
+  }
+  .btn:hover{background:var(--teal);}
+  .btn:disabled{background:#B9B2A2;cursor:not-allowed;}
+  .btn-ghost{
+    background:transparent;
+    color:var(--teal-deep);
+    border:1.5px solid var(--teal-deep);
+    padding:11px 24px;
+  }
+  .btn-ghost:hover{background:rgba(31,107,102,0.08);}
+
+  /* ---------- Quiz screen ---------- */
+  .quiz-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .progress-track{
+    height:3px;
+    background:var(--line);
+    width:100%;
+    margin-bottom:22px;
+    position:relative;
+  }
+  .progress-fill{
+    position:absolute;
+    inset:0;
+    background:var(--teal);
+    width:0%;
+    transition:width .35s ease;
+  }
+
+  .q-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:30px 26px 26px;
+  }
+  .q-topline{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .q-chapter{
+    font-size:13px;
+    color:var(--teal-deep);
+    font-weight:700;
+  }
+  .hint-btn{
+    flex:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-family:'Tajawal', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--gold);
+    background:transparent;
+    border:1.5px solid var(--gold);
+    padding:6px 12px;
+    cursor:pointer;
+    transition:background .12s, opacity .12s;
+  }
+  .hint-btn:hover:not(:disabled){background:rgba(200,155,60,0.12);}
+  .hint-btn:disabled{
+    opacity:0.4;
+    cursor:default;
+  }
+  .hint-btn svg{width:15px;height:15px;}
+  .hint-note{
+    font-size:13px;
+    color:var(--gold);
+    font-weight:700;
+    margin:-8px 0 16px;
+    display:none;
+  }
+  .hint-note.show{display:block;}
+  .q-text{
+    font-family:'Amiri', serif;
+    font-size:clamp(19px,3vw,22px);
+    line-height:1.6;
+    margin:0 0 22px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .opt{
+    text-align:right;
+    font-family:'Tajawal', sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    padding:14px 16px;
+    border:1.5px solid var(--line);
+    background:var(--paper);
+    cursor:pointer;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:border-color .12s, background .12s;
+  }
+  .opt:hover:not(.locked){border-color:var(--teal);background:#F3EFE1;}
+  .opt .bullet{
+    flex:none;
+    width:20px;height:20px;
+    border:1.5px solid var(--ink-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    color:var(--ink-soft);
+  }
+  .opt.correct{border-color:var(--teal);background:rgba(31,107,102,0.12);}
+  .opt.correct .bullet{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--wrong);background:rgba(168,64,47,0.10);}
+  .opt.wrong .bullet{background:var(--wrong);border-color:var(--wrong);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:0.55;}
+
+  .feedback{
+    margin-top:18px;
+    font-size:14px;
+    font-weight:700;
+    display:none;
+    align-items:center;
+    gap:8px;
+  }
+  .feedback.show{display:flex;}
+  .feedback.ok{color:var(--teal-deep);}
+  .feedback.bad{color:var(--wrong);}
+
+  .q-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:22px;
+  }
+  .score-note{font-size:13px;color:var(--ink-soft);}
+  .next-btn{display:none;}
+  .next-btn.show{display:inline-block;}
+
+  /* ---------- Result screen ---------- */
+  .result-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:34px 28px;
+    text-align:center;
+  }
+  .result-card .big-score{
+    font-family:'Amiri', serif;
+    font-size:56px;
+    font-weight:700;
+    color:var(--teal-deep);
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .result-card .big-score span{font-size:24px;color:var(--ink-soft);font-family:'Tajawal',sans-serif;}
+  .result-card .result-label{
+    font-size:15px;
+    color:var(--ink-soft);
+    margin-bottom:26px;
+  }
+  .breakdown{
+    text-align:right;
+    border-top:1px solid var(--line);
+    margin-bottom:24px;
+  }
+  .bk-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:11px 2px;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .bk-row .bk-name{color:var(--ink);}
+  .bk-row .bk-val{color:var(--ink-soft);font-variant-numeric:tabular-nums;flex:none;}
+  .result-actions{display:flex;gap:12px;justify-content:center;}
+
+  .hidden{display:none !important;}
+
+  footer{
+    margin-top:36px;
+    font-size:12px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+
+  @media (max-width:480px){
+    .setup-card, .q-card, .result-card{padding:22px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="brand">
+  <div class="mark">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="2.4" fill="currentColor"/>
+      <path d="M7.8 7.8a6 6 0 000 8.4M16.2 7.8a6 6 0 010 8.4M4.6 4.6a10.6 10.6 0 000 14.8M19.4 4.6a10.6 10.6 0 010 14.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span>اختبار تفاعلي</span>
+  </div>
+  <h1>مبادئ الاتصال الإنساني</h1>
+  <p>٢٠٠ سؤال عبر فصول المقرر — اختر ما تريد مراجعته وابدأ</p>
+</div>
+
+<div class="stage">
+
+  <!-- SETUP SCREEN -->
+  <div id="setup-screen" class="setup-card">
+    <h2>اختر الفصول</h2>
+    <p class="hint">حدد فصلاً واحداً أو أكثر، أو اترك الكل محدداً لخوض الاختبار الشامل</p>
+    <div id="chapter-list" class="chapter-list"></div>
+    <div class="setup-actions">
+      <span id="count-note" class="count-note">٢٠٠ سؤال محدد</span>
+      <button id="start-btn" class="btn">ابدأ الاختبار</button>
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen" class="hidden">
+    <div class="quiz-head">
+      <span id="q-position">السؤال ١ من ٢٠٠</span>
+      <span id="q-score">الصحيح: ٠</span>
+    </div>
+    <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+    <div class="q-card">
+      <div class="q-topline">
+        <div id="q-chapter" class="q-chapter"></div>
+        <button id="hint-btn" class="hint-btn">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.5.36.8.95.8 1.6v.5h5.4v-.5c0-.65.3-1.24.8-1.6A6 6 0 0012 3z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="hint-label">تلميح</span>
+        </button>
+      </div>
+      <p id="q-text" class="q-text"></p>
+      <div id="options" class="options"></div>
+      <p id="hint-note" class="hint-note"></p>
+      <div id="feedback" class="feedback"></div>
+      <div class="q-foot">
+        <button id="prev-btn" class="btn btn-ghost" disabled>السابق</button>
+        <button id="next-btn" class="btn next-btn">التالي</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen" class="hidden result-card">
+    <div class="big-score"><span id="result-pct">٠٪</span></div>
+    <div class="result-label" id="result-label"></div>
+    <div id="breakdown" class="breakdown"></div>
+    <div class="result-actions">
+      <button id="retry-btn" class="btn">إعادة نفس الاختيار</button>
+      <button id="home-btn" class="btn btn-ghost">اختيار فصول أخرى</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>تُعرض الأسئلة بترتيب عشوائي في كل محاولة</footer>
+
+<script>
+const QUIZ_DATA = [
+    {
+        "id": 1,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "ما هو محور الحياة الاجتماعية الذي يميز الإنسان عن الكائنات الأخرى ويرتقي بالتفاعل والتفاهم؟",
+        "options": [
+            "الاتصال الإنساني",
+            "الإنتاج المادي",
+            "التطور البيولوجي",
+            "العزلة الفردية"
+        ],
+        "answer": "الاتصال الإنساني"
+    },
+    {
+        "id": 2,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "كيف تطور الاتصال الإنساني عبر التاريخ؟",
+        "options": [
+            "كان وليد المصادفة محضاً",
+            "تطور عبر مراحل متتابعة تتماشى مع تطور بيئة الإنسان واحتياجاته",
+            "ظهر فجأة في العصر الرقمي",
+            "لم يتغير منذ نشأة البشرية"
+        ],
+        "answer": "تطور عبر مراحل متتابعة تتماشى مع تطور بيئة الإنسان واحتياجاته"
+    },
+    {
+        "id": 3,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "كم عدد المرحلة الرئيسية التي يرى علماء الاتصال والاجتماع أن تطور الاتصال مر بها؟",
+        "options": [
+            "3 مراحل",
+            "4 مراحل",
+            "5 مراحل",
+            "7 مراحل"
+        ],
+        "answer": "5 مراحل"
+    },
+    {
+        "id": 4,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "ما هي المادة أو المصطلح الأساسي الذي يمثل البيانات الخام غير المعالجة؟",
+        "options": [
+            "البيانات (Data)",
+            "المعلومات (Information)",
+            "المعرفة (Knowledge)",
+            "الحكمة (Wisdom)"
+        ],
+        "answer": "البيانات (Data)"
+    },
+    {
+        "id": 5,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "تُعرف البيانات بأنها:",
+        "options": [
+            "حقائق وأرقام خام غير منظمة ولا تقدم معنى مباشراً بمفردها",
+            "معلومات تمت معالجتها وتفسيرها",
+            "حصيلة الخبرات والتجارب البشرية",
+            "وسائل الاتصال التكنولوجية"
+        ],
+        "answer": "حقائق وأرقام خام غير منظمة ولا تقدم معنى مباشراً بمفردها"
+    },
+    {
+        "id": 6,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "ما هي 'المعلومات' (Information) في سياق تكنولوجيا المعلومات والاتصال؟",
+        "options": [
+            "بيانات تم تنظيمها ومعالجتها ليصبح لها معنى وفائدة للمستقبل",
+            "مجموعة من الرموز العشوائية",
+            "الآلات والأجهزة المستخدمة في البث",
+            "الأفكار الضمنية في عقل المرسل"
+        ],
+        "answer": "بيانات تم تنظيمها ومعالجتها ليصبح لها معنى وفائدة للمستقبل"
+    },
+    {
+        "id": 7,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "أعلى مستويات الهرم المعرفي التي تتضمن الفهم العميق والتطبيق والتجربة هي:",
+        "options": [
+            "البيانات",
+            "المعلومات",
+            "المعرفة (Knowledge)",
+            "الرموز"
+        ],
+        "answer": "المعرفة (Knowledge)"
+    },
+    {
+        "id": 8,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "يشتق النمط اللغوي المكتوب والمنطوق للاتصال اللفظي من:",
+        "options": [
+            "قواعد اللغة الرسمية للجماعة",
+            "إشارات الجسد العفوية",
+            "حارس البوابة الإعلامي",
+            "البرمجيات الحاسوبية"
+        ],
+        "answer": "قواعد اللغة الرسمية للجماعة"
+    },
+    {
+        "id": 9,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "الأصل اللاتيني لكلمة الاتصال (Communication) هو الكلمة اللاتينية:",
+        "options": [
+            "Communicare",
+            "Connectum",
+            "Communis",
+            "Community"
+        ],
+        "answer": "Communicare"
+    },
+    {
+        "id": 10,
+        "chapter": "الفصل الأول: مدخل إلى تاريخ الاتصال الإنساني",
+        "question": "تعني الكلمة اللاتينية الأصلية للاتصال:",
+        "options": [
+            "المشاركة أو جعل الشيء مشتركاً أو عاماً",
+            "السيطرة والأمر",
+            "العزلة والسرية",
+            "التفكير الذاتي فقط"
+        ],
+        "answer": "المشاركة أو جعل الشيء مشتركاً أو عاماً"
+    },
+    {
+        "id": 11,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "كم عدد العناصر الأساسية المتكاملة لعملية الاتصال لضمان تدفق الرسالة بفعالية؟",
+        "options": [
+            "5 عناصر",
+            "7 عناصر",
+            "9 عناصر",
+            "12 عنصر"
+        ],
+        "answer": "9 عناصر"
+    },
+    {
+        "id": 12,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "من هو منشئ الرسالة ومصمم الرموز في عملية الاتصال؟",
+        "options": [
+            "المرسل (Sender)",
+            "المتلقي (Receiver)",
+            "حارس البوابة",
+            "رجع الصدى"
+        ],
+        "answer": "المرسل (Sender)"
+    },
+    {
+        "id": 13,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "يعتمد نجاح المرسل بشكل أساسي على:",
+        "options": [
+            "مهاراته التعبيرية والإقناعية وقدرته على صياغة أفكاره بوضوح",
+            "سعر الجهاز المستخدم",
+            "استخدام وسائل الإعلام الجماهيرية فقط",
+            "إلغاء رجع الصدى"
+        ],
+        "answer": "مهاراته التعبيرية والإقناعية وقدرته على صياغة أفكاره بوضوح"
+    },
+    {
+        "id": 14,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "الشخص أو الجمهور المستهدف بالرسالة والذي يعد أهم حلقة في العملية هو:",
+        "options": [
+            "المرسل",
+            "المتلقي / المستقبل (Receiver)",
+            "المحرر",
+            "المشوش"
+        ],
+        "answer": "المتلقي / المستقبل (Receiver)"
+    },
+    {
+        "id": 15,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "لماذا يجب على المرسل دراسة خصائص المتلقي وخلفيته الثقافية؟",
+        "options": [
+            "لضمان الاستجابة السريعة والفهم الصحيح للرسالة",
+            "لتغيير لغة الرسالة إلى رموز غير مفهومة",
+            "لفرض السيطرة المطلقة عليه",
+            "لتجنب قياس رجع الصدى"
+        ],
+        "answer": "لضمان الاستجابة السريعة والفهم الصحيح للرسالة"
+    },
+    {
+        "id": 16,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "مجموعة العادات والتقاليد والمعارف المشتركة بين المرسل والمستقبل تُعرف بـ:",
+        "options": [
+            "الخبرة المشتركة (Field of Experience)",
+            "سياق الاتصال",
+            "رجع الصدى",
+            "التشويش الدلالي"
+        ],
+        "answer": "الخبرة المشتركة (Field of Experience)"
+    },
+    {
+        "id": 17,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "كلما اتسعت مساحة الخبرة المشتركة بين طرفي الاتصال:",
+        "options": [
+            "تضاعفت فرص نجاح وتفاهم الأطراف بفعالية",
+            "قلت فرص التفاهم والنجاح",
+            "توقفت عملية الاتصال تماماً",
+            "ازداد التشويش الميكانيكي"
+        ],
+        "answer": "تضاعفت فرص نجاح وتفاهم الأطراف بفعالية"
+    },
+    {
+        "id": 18,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "المضمون الفكري أو الوجداني الذي يرغب المرسل في نقله مصاغاً في رموز هو:",
+        "options": [
+            "الرسالة (Message)",
+            "الوسيلة (Medium)",
+            "الأثر (Effect)",
+            "السياق (Context)"
+        ],
+        "answer": "الرسالة (Message)"
+    },
+    {
+        "id": 19,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "قد تصاغ الرسالة الاتصالية في صور متعددة منها:",
+        "options": [
+            "رموز لفظية أو غير لفظية مفهومة",
+            "أكواد برمجية غير معالجة فقط",
+            "بيانات ميكانيكية ملغاة",
+            "حركات لا إرادية فقط"
+        ],
+        "answer": "رموز لفظية أو غير لفظية مفهومة"
+    },
+    {
+        "id": 20,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "القناة أو الأداة التي تنقل الرسالة من المرسل إلى المستقبل تسمى:",
+        "options": [
+            "الوسيلة / الوسيط (Medium/Channel)",
+            "رجـع الصدى",
+            "حارس البوابة",
+            "الخبرة المشتركة"
+        ],
+        "answer": "الوسيلة / الوسيط (Medium/Channel)"
+    },
+    {
+        "id": 21,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "أي مما يلي يُعد مثالاً على الوسيلة (Channel) في الاتصال؟",
+        "options": [
+            "الحواس الطبيعية أو القنوات التكنولوجية ووسائل الإعلام",
+            "مدى استجابة الجمهور",
+            "الخلفية الثقافية للمستقبل",
+            "الأثر النفسي الناجم عن Message"
+        ],
+        "answer": "الحواس الطبيعية أو القنوات التكنولوجية ووسائل الإعلام"
+    },
+    {
+        "id": 22,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "العوائق الميكانيكية أو الدلالية التي تعيق إرسال الرسالة أو فك رموزها وتفسيرها هي:",
+        "options": [
+            "التشويش (Noise)",
+            "البيانات",
+            "التفاعلية",
+            "الاستغراق"
+        ],
+        "answer": "التشويش (Noise)"
+    },
+    {
+        "id": 23,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "كيف يؤثر التشويش على عملية الاتصال؟",
+        "options": [
+            "يؤثر سلباً على جودة الاتصال ودقة الوصول",
+            "يزيد من سرعة الفهم لدى المتلقي",
+            "يعزز الخبرة المشتركة",
+            "يلغي الحاجة إلى المرسل"
+        ],
+        "answer": "يؤثر سلباً على جودة الاتصال ودقة الوصول"
+    },
+    {
+        "id": 24,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "إعادة المعلومات والاستجابة من المتلقي إلى المرسل تُعرف بـ:",
+        "options": [
+            "رجـع الصدى (Feed Back)",
+            "السياق (Context)",
+            "الأثر (Effect)",
+            "التشويش"
+        ],
+        "answer": "رجـع الصدى (Feed Back)"
+    },
+    {
+        "id": 25,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "ما أهمية 'رجع الصدى' (Feed Back) للمرسل؟",
+        "options": [
+            "تمكينه من تقييم مدى دقة فهم الرسالة وتعديلها إذا لزم الأمر",
+            "إلغاء التأثير المطلوب",
+            "إيقاف الرسالة في منتصف الطريق",
+            "زيادة تكاليف البث الإعلامي"
+        ],
+        "answer": "تمكينه من تقييم مدى دقة فهم الرسالة وتعديلها إذا لزم الأمر"
+    },
+    {
+        "id": 26,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "النتيجة النهائية والتحول المعرفي أو السلوكي الذي تحدثه الرسالة في مواقف المتلقي تُسمى:",
+        "options": [
+            "الأثر (Effect)",
+            "الوسيلة",
+            "التشفير",
+            "حارس البوابة"
+        ],
+        "answer": "الأثر (Effect)"
+    },
+    {
+        "id": 27,
+        "chapter": "مكونات وعناصر عملية الاتصال",
+        "question": "الظروف والمواقف الاجتماعية والمكانية والزمانية التي تتم فيها العملية الاتصالية هي:",
+        "options": [
+            "السياق (Context)",
+            "التفاعل الرقمي",
+            "الترانزستور",
+            "الوسيط الميكانيكي"
+        ],
+        "answer": "السياق (Context)"
+    },
+    {
+        "id": 28,
+        "chapter": "أشكال عملية الاتصال وخصائصها",
+        "question": "ما هما الشكلان الرئيسيّان للاتصال الإنساني؟",
+        "options": [
+            "الاتصال اللفظي والاتصال غير اللفظي",
+            "الاتصال السلكي واللاسلكي",
+            "الاتصال التلفزيوني والإذاعي",
+            "الاتصال الفردي والمؤسسي"
+        ],
+        "answer": "الاتصال اللفظي والاتصال غير اللفظي"
+    },
+    {
+        "id": 29,
+        "chapter": "أشكال عملية الاتصال وخصائصها",
+        "question": "يشمل الاتصال اللفظي:",
+        "options": [
+            "الألفاظ المنطوقة والمكتوبة",
+            "إشارات اليد وحركات الجسد فقط",
+            "نبرات الصوت فقط دون كلمات",
+            "تعبيرات الوجه الصامتة"
+        ],
+        "answer": "الألفاظ المنطوقة والمكتوبة"
+    },
+    {
+        "id": 30,
+        "chapter": "أشكال عملية الاتصال وخصائصها",
+        "question": "بماذا يتميز الاتصال غير اللفظي (حركات الجسد، لغة الإشارة، تعبيرات الوجه)؟",
+        "options": [
+            "بكونه أكثر صدقاً وتأثيراً وتخطياً لحواجز اللغة المنطوقة",
+            "بأنه يعتمد كلياً على القواعد النحوية الرسمية",
+            "بأنه يحدث عبر الإنترنت فقط",
+            "بأنه يفتقر إلى التأثير الوجداني"
+        ],
+        "answer": "بكونه أكثر صدقاً وتأثيراً وتخطياً لحواجز اللغة المنطوقة"
+    },
+    {
+        "id": 31,
+        "chapter": "خصائص عملية الاتصال الديناميكية",
+        "question": "كم عدد الخصائص الديناميكية الرئيسية لعملية الاتصال؟",
+        "options": [
+            "4 خصائص",
+            "6 خصائص",
+            "8 خصائص",
+            "10 خصائص"
+        ],
+        "answer": "6 خصائص"
+    },
+    {
+        "id": 32,
+        "chapter": "خصائص عملية الاتصال الديناميكية",
+        "question": "كون الاتصال تفاعلاً اجتماعيّاً دائماً يتميز بالتأثير والتأثر المتبادل وتكيف السلوك يعني أنه:",
+        "options": [
+            "عملية ديناميكية (Dynamic Process)",
+            "عملية ثابته ومستقرة",
+            "عملية آلية خطية",
+            "عملية من طرف واحد"
+        ],
+        "answer": "عملية ديناميكية (Dynamic Process)"
+    },
+    {
+        "id": 33,
+        "chapter": "خصائص عملية الاتصال الديناميكية",
+        "question": "خاصية أن الاتصال حقيقة كونية طالما استمرت الحياة الإنسانية وليس لها بداية أو نهاية جامدة تعني أنه:",
+        "options": [
+            "عملية مستمرة (Continuous Process)",
+            "عملية دائرية",
+            "عملية قابلة للإلغاء",
+            "عملية معقدة"
+        ],
+        "answer": "عملية مستمرة (Continuous Process)"
+    },
+    {
+        "id": 34,
+        "chapter": "خصائص عملية الاتصال الديناميكية",
+        "question": "الاتصال لا يسير في خط مستقيم بل يتبادل فيه المشاركون الأدوار والرسائل والاستجابات، لذا يُوصف بأنه:",
+        "options": [
+            "عملية دائرية (Circular Process)",
+            "عملية خطية ناتجة",
+            "عملية رقمية مغلقة",
+            "عملية فردية"
+        ],
+        "answer": "عملية دائرية (Circular Process)"
+    },
+    {
+        "id": 35,
+        "chapter": "خصائص عملية الاتصال الديناميكية",
+        "question": "عدم القدرة على إعادة إنتاج نفس الموقف الاتصالي بنفس المعنى والشكل نظراً لتغير الوقت والأفراد يعكس أن الاتصال:",
+        "options": [
+            "عملية لا تعاد (Unrepeatable Process)",
+            "عملية دائرية",
+            "عملية وسيطة",
+            "عملية ذاتية"
+        ],
+        "answer": "عملية لا تعاد (Unrepeatable Process)"
+    },
+    {
+        "id": 36,
+        "chapter": "خصائص عملية الاتصال الديناميكية",
+        "question": "بمجرد بث الرسالة وحدوث التأثير يصعب سحب الكلمة أو إلغاء أثرها، وهذا ما يُعرف بكون الاتصال:",
+        "options": [
+            "عملية لا رجعة فيها (Irreversible)",
+            "عملية قابلة للتعديل اللحظي",
+            "عملية افتراضية",
+            "عملية ميكانيكية"
+        ],
+        "answer": "عملية لا رجعة فيها (Irreversible)"
+    },
+    {
+        "id": 37,
+        "chapter": "خصائص عملية الاتصال الديناميكية",
+        "question": "تداخل عشرات العوامل النفسية والثقافية والاجتماعية في الاتصال يجعله يُوصف بأنه:",
+        "options": [
+            "عملية معقدة (Complex Process)",
+            "عملية بسيطة ومباشرة",
+            "عملية تتكون من عنصر واحد",
+            "عملية مادية تجريدية"
+        ],
+        "answer": "عملية معقدة (Complex Process)"
+    },
+    {
+        "id": 38,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "التفاعل الذي يتم بالكامل داخل ذات الفرد وعقله ويشمل التفكير والوعي يُسمى:",
+        "options": [
+            "الاتصال الذاتي (Intrapersonal)",
+            "الاتصال الشخصي (Interpersonal)",
+            "الاتصال الجماهيري",
+            "الاتصال التنظيمي"
+        ],
+        "answer": "الاتصال الذاتي (Intrapersonal)"
+    },
+    {
+        "id": 39,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "ما هو أساس فهم كافة الأشكال الأخرى للاتصال البشري؟",
+        "options": [
+            "الاتصال الذاتي",
+            "الاتصال الجماهيري",
+            "الاتصال الرقمي",
+            "شبكة التلكس"
+        ],
+        "answer": "الاتصال الذاتي"
+    },
+    {
+        "id": 40,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "الاتصال الذي يتم مواجهة بين مرسل ومستقبل أو مجموعة صغيرة وجهاً لوجه دون وسائط إلكترونية هو:",
+        "options": [
+            "الاتصال الشخصي (Interpersonal)",
+            "الاتصال الذاتي",
+            "الاتصال الوسيطي",
+            "الاتصال الثقافي"
+        ],
+        "answer": "الاتصال الشخصي (Interpersonal)"
+    },
+    {
+        "id": 41,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "يتميز الاتصال الشخصي المباشر بـ:",
+        "options": [
+            "الاستجابة الفورية المباشرة ومشاركة الحواس الخمس",
+            "ضعف رجع الصدى وتأخره",
+            "عدم معرفة هوية المستقبل",
+            "اعتماده الكلي على المحررين"
+        ],
+        "answer": "الاستجابة الفورية المباشرة ومشاركة الحواس الخمس"
+    },
+    {
+        "id": 42,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "أكثر أنواع الاتصال قدرة على الإقناع وبناء العلاقات العاطفية والثقة هو:",
+        "options": [
+            "الاتصال الشخصي (Interpersonal)",
+            "الاتصال الجماهيري",
+            "الاتصال بقواعد البيانات",
+            "الإعلان التلفزيوني"
+        ],
+        "answer": "الاتصال الشخصي (Interpersonal)"
+    },
+    {
+        "id": 43,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "عندما يستعين أطراف الاتصال الشخصي بوسيلة ميكانيكية أو إلكترونية لتقريب المسافات مثل الهاتف، يُسمى ذلك:",
+        "options": [
+            "الاتصال الوسيطي (Media Communication)",
+            "الاتصال الجماهيري",
+            "الاتصال الذاتي",
+            "الاتصال التنظيمي"
+        ],
+        "answer": "الاتصال الوسيطي (Media Communication)"
+    },
+    {
+        "id": 44,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "إرسال رسائل علنية عامة وموحدة تصدر عن مؤسسات إعلامية متخصصة إلى جمهور واسع ومتباين يُسمى:",
+        "options": [
+            "الاتصال الجماهيري (Mass Communication)",
+            "الاتصال الذاتي",
+            "الاتصال الشخصي",
+            "الاتصال الثقافي الخاسر"
+        ],
+        "answer": "الاتصال الجماهيري (Mass Communication)"
+    },
+    {
+        "id": 45,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "الاتصال الذي يتم بشكل رسمي أو غير رسمي داخل المؤسسات والمنظمات لتطوير العمل الإداري هو:",
+        "options": [
+            "الاتصال التنظيمي (Organizational)",
+            "الاتصال الرقمي الشامل",
+            "الاتصال الجماهيري",
+            "الاتصال الفضائي"
+        ],
+        "answer": "الاتصال التنظيمي (Organizational)"
+    },
+    {
+        "id": 46,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "الاتصال الذي يحدث بين أفراد ينتمون إلى ثقافات وخلفيات وقيم مختلفة يُعرف بـ:",
+        "options": [
+            "الاتصال الثقافي / الحضاري (Intercultural)",
+            "الاتصال التنظيمي",
+            "الاتصال الشخصي المباشر",
+            "الاتصال الذاتي"
+        ],
+        "answer": "الاتصال الثقافي / الحضاري (Intercultural)"
+    },
+    {
+        "id": 47,
+        "chapter": "الفصل الثاني: أنواع الاتصال",
+        "question": "يعد الاتصال الثقافي (Intercultural) أساساً لـ:",
+        "options": [
+            "التفاهم والسلم العالمي وبناء حوار الثقافات",
+            "إلغاء التنوع الاجتماعي",
+            "التحكم في سوق الترانزستور",
+            "تقليل التفاعلية الرقمية"
+        ],
+        "answer": "التفاهم والسلم العالمي وبناء حوار الثقافات"
+    },
+    {
+        "id": 48,
+        "chapter": "خصائص الاتصال الجماهيري ورقابة حارس البوابة",
+        "question": "ما هي السمة المتعلقة بنوعية الجهة القائمة بالاتصال الجماهيري؟",
+        "options": [
+            "المؤسسية والتعقيد (تطلب مؤسسة إعلامية معقدة)",
+            "الفردية والسرية",
+            "العفوية والتلقائية",
+            "الاعتماد على جهود فردية فقط"
+        ],
+        "answer": "المؤسسية والتعقيد (تطلب مؤسسة إعلامية معقدة)"
+    },
+    {
+        "id": 49,
+        "chapter": "خصائص الاتصال الجماهيري ورقابة حارس البوابة",
+        "question": "يتصف رجع الصدى في الاتصال الجماهيري الكلاسيكي بأنه:",
+        "options": [
+            "أحادي الاتجاه وضعيف ومتردد أو متأخر",
+            "فوري ومباشر للغاية",
+            "معدوم تماماً في كل الأحوال",
+            "تفاعلي لحظي كالاتصال الشخصي"
+        ],
+        "answer": "أحادي الاتجاه وضعيف ومتردد أو متأخر"
+    },
+    {
+        "id": 50,
+        "chapter": "خصائص الاتصال الجماهيري ورقابة حارس البوابة",
+        "question": "الجمهور في الاتصال الجماهيري يتميز بأنه:",
+        "options": [
+            "جمهور غير متجانس ومتنوع في الثقافات والأعمار والتعليم",
+            "مجموعة متجانسة ومتطابقة تماماً",
+            "جمهور معروف بالاسم للمرسل",
+            "عدد محدود جداً من الأفراد"
+        ],
+        "answer": "جمهور غير متجانس ومتنوع في الثقافات والأعمار والتعليم"
+    },
+    {
+        "id": 51,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "ما المقصود بمفهوم 'حارس البوابة' (Gatekeeper) في الإعلام؟ (سؤال رقم 51)",
+        "options": [
+            "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها",
+            "الجهاز المستعمل في تقوية الإشارة الفضائية",
+            "المستقبل الذاتي للرسالة",
+            "برنامج الحماية من الفيروسات"
+        ],
+        "answer": "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها"
+    },
+    {
+        "id": 52,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "من بين التالين، أي دور لا يعتبر من أدوار حارس البوابة الإعلامي؟ (سؤال رقم 52)",
+        "options": [
+            "تشفير البيانات الشخصية لدى المتلقي",
+            "اختيار الأخبار وتعديلها",
+            "حجب بعض الفقرات من النشر",
+            "تحديد التوقيت المناسب للبث"
+        ],
+        "answer": "تشفير البيانات الشخصية لدى المتلقي"
+    },
+    {
+        "id": 53,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "تتميز الرسائل الجماهيرية بالانتشار الهائل والتغطية العابرة للقارات بفضل استخدام: (سؤال رقم 53)",
+        "options": [
+            "الأقمار الصناعية والتقنيات الحديثة",
+            "الاتصال الذاتي الصامت",
+            "الرسائل البريدية التقليدية فقط",
+            "اللغة غير اللفظية المجردة"
+        ],
+        "answer": "الأقمار الصناعية والتقنيات الحديثة"
+    },
+    {
+        "id": 54,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "يُعرف الاتصال الرقمي بأنه عملية اجتماعية تفاعلية يتم بموجبها تبادل الرسائل عبر: (سؤال رقم 54)",
+        "options": [
+            "النظم والشبكات الرقمية كالحواسب والويب",
+            "الصحف الورقية القديمة فقط",
+            "الهاتف السلكي الكلاسيكي بدائريته",
+            "الإشارات الضوئية اليدوية"
+        ],
+        "answer": "النظم والشبكات الرقمية كالحواسب والويب"
+    },
+    {
+        "id": 55,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "كم عدد الخصائص الجوهرية الكبرى للاتصال الرقمي كما وردت في الملخص؟ (سؤال رقم 55)",
+        "options": [
+            "5 خصائص",
+            "6 خصائص",
+            "7 خصائص",
+            "9 خصائص"
+        ],
+        "answer": "7 خصائص"
+    },
+    {
+        "id": 56,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تحول المتلقي من مجرد مستمع سلبي إلى مشارك نشط ومؤثر يتبادل الأدوار يعكس خاصية: (سؤال رقم 56)",
+        "options": [
+            "التفاعلية (Interactivity)",
+            "التكامل",
+            "الفردية",
+            "الاستغراق"
+        ],
+        "answer": "التفاعلية (Interactivity)"
+    },
+    {
+        "id": 57,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "خاصية 'التنوع' (Variety) في الاتصال الرقمي تشير إلى: (سؤال رقم 57)",
+        "options": [
+            "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)",
+            "تثبيت نوع واحد من الوسائط",
+            "قصر الاتصال على النصوص المكتوبة",
+            "إلغاء الوسائط الفائقة"
+        ],
+        "answer": "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)"
+    },
+    {
+        "id": 58,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "اندماج نظم وشبكات الاتصال والوسائط الرقمية في بنية واحدة تتيح التعرض والتخزين والطباعة هي خاصية: (سؤال رقم 58)",
+        "options": [
+            "التكامل (Integration)",
+            "تجاوز الزمان",
+            "الفردية",
+            "التشويش"
+        ],
+        "answer": "التكامل (Integration)"
+    },
+    {
+        "id": 59,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "احترام خصوصية الفرد وتوفير بروتوكولات الأمان وتشفير البيانات تُعبر عن خاصية: (سؤال رقم 59)",
+        "options": [
+            "الفردية والذاتية (Individuality)",
+            "تجاوز الحدود السياسية",
+            "التفاعلية السلبية",
+            "ضعف رجع الصدى"
+        ],
+        "answer": "الفردية والذاتية (Individuality)"
+    },
+    {
+        "id": 60,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تجاوز الحدود السياسية والجغرافية وسقوط الحواجز بين الشعوب يعكس خاصية الاتصال الرقمي بـ: (سؤال رقم 60)",
+        "options": [
+            "العولمة وتجاوز الحدود الثقافية (Globalisation)",
+            "المؤسسية المعقدة",
+            "الجمهور المتجانس",
+            "الاتصال الذاتي"
+        ],
+        "answer": "العولمة وتجاوز الحدود الثقافية (Globalisation)"
+    },
+    {
+        "id": 61,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "عدم اشتراط تواجد المرسل والمستقبل في نفس اللحظة أو المكان لإتمام الاتصال الرقمي يعني أنه يتجاوز: (سؤال رقم 61)",
+        "options": [
+            "وحدة المكان والزمان",
+            "التفاعلية",
+            "بروتوكولات الأمان",
+            "هرم المعرفة"
+        ],
+        "answer": "وحدة المكان والزمان"
+    },
+    {
+        "id": 62,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "انخفاض تكاليف الشبكات والبرمجيات الذي يشجع المستعمل على قضاء ساعات طويلة في التجول يُسمى: (سؤال رقم 62)",
+        "options": [
+            "الاستغراق في الاتصال (Flow)",
+            "التشويش الميكانيكي",
+            "رقابة حارس البوابة",
+            "الجيل الأول للحواسب"
+        ],
+        "answer": "الاستغراق في الاتصال (Flow)"
+    },
+    {
+        "id": 63,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "ما هي مستويات الاتصال الرقمي والإنترنت الأربعة المتصاعدة؟ (سؤال رقم 63)",
+        "options": [
+            "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية",
+            "الذاتي، الشخصي، الجمعي، الجماهيري",
+            "الجيل 1، 2، 3، 4",
+            "المرسل، المستقبل، الرسالة، الأثر"
+        ],
+        "answer": "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 64,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تفاعل الفرد المباشر مع برنامج كمبيوتر أو قاعدة بيانات تعليمية يمثل مستوى: (سؤال رقم 64)",
+        "options": [
+            "الاتصال بالحاسب وبرامجه",
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الجماهيري احادي الاتجاه",
+            "الاتصال الثقافي المباشر"
+        ],
+        "answer": "الاتصال بالحاسب وبرامجه"
+    },
+    {
+        "id": 65,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "استخدام الحواسب كأجهزة طرفية للوصول للمعلومات المخزنة في خوادم مركزية (Servers) هو مستوى: (سؤال رقم 65)",
+        "options": [
+            "الاتصال بقواعد البيانات",
+            "الاتصال الذاتي",
+            "الاتصال غير المتزامن بـ الفاكس",
+            "الاتصال الشخصي المباشر"
+        ],
+        "answer": "الاتصال بقواعد البيانات"
+    },
+    {
+        "id": 66,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "التفاعل عبر المحادثات المباشرة (Video Conference) أو البريد الإلكتروني هو مستوى: (سؤال رقم 66)",
+        "options": [
+            "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)",
+            "الاتصال الكلاسيكي",
+            "الاتصال الذاتي العميـق",
+            "رقابة حارس البوابة"
+        ],
+        "answer": "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)"
+    },
+    {
+        "id": 67,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "إنشاء المؤسسات الإعلامية لمواقع إخبارية إلكترونية تجذب ملايين الزوار يمثل مستوى: (سؤال رقم 67)",
+        "options": [
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الذاتي المعقد",
+            "الجيل الثالث للحواسب",
+            "الاتصال الوسيطي الفردي"
+        ],
+        "answer": "الاتصال بمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 68,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تثبت الدراسات أن شبكة الإنترنت تمثل وسيلة اتصال جماهيري بالغة الفعالية بالإضافة إلى دورها كـ: (سؤال رقم 68)",
+        "options": [
+            "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي",
+            "بديل كامل للحواس البشرية",
+            "لغة غير لفظية بديلة",
+            "عائق دلالي أمام الفهم"
+        ],
+        "answer": "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي"
+    },
+    {
+        "id": 69,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "في عصر المعلوماتية، أصبحت المعيار الحقيقي للقوة والثروة والتنمية المستدامة بدل الموارد المادية: (سؤال رقم 69)",
+        "options": [
+            "المعرفة والمعلومات",
+            "الآلات البخارية",
+            "الأراضي الزراعية فقط",
+            "العمل العضلي المباشر"
+        ],
+        "answer": "المعرفة والمعلومات"
+    },
+    {
+        "id": 70,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "مر تطور الكمبيوتر عبر كم جيل متتالي؟ (سؤال رقم 70)",
+        "options": [
+            "3 أجيال",
+            "5 أجيال",
+            "7 أجيال",
+            "10 أجيال"
+        ],
+        "answer": "5 أجيال"
+    },
+    {
+        "id": 71,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تميز الجيل الأول للحواسب (1946-1959) باستخدام: (سؤال رقم 71)",
+        "options": [
+            "الصمامات المفرغة (Vacuum Tubes)",
+            "الترانزستور",
+            "الدوائر المتكاملة",
+            "المعالجات الدقيقة"
+        ],
+        "answer": "الصمامات المفرغة (Vacuum Tubes)"
+    },
+    {
+        "id": 72,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ما هي المشكلة الأساسية لحواسب الجيل الأول؟ (سؤال رقم 72)",
+        "options": [
+            "حجمها الضخم واستهلاكها الهائل للطاقة والحرارة",
+            "صغر حجمها الشديد",
+            "اعتمادها على الذكاء الاصطناعي",
+            "ارتفاع التفاعلية"
+        ],
+        "answer": "حجمها الضخم واستهلاكها الهائل للطاقة والحرارة"
+    },
+    {
+        "id": 73,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "التقنية التي تم استخدامها في الجيل الثاني (1959-1965) ووفرت في الطاقة والحرارة هي: (سؤال رقم 73)",
+        "options": [
+            "الترانزستور (Transistor)",
+            "الصمامات المفرغة",
+            "الشبكات اللاسلكية",
+            "الشرائح الكمومية"
+        ],
+        "answer": "الترانزستور (Transistor)"
+    },
+    {
+        "id": 74,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "شهد الجيل الثالث (1964-1970) دخول تقنية: (سؤال رقم 74)",
+        "options": [
+            "الإلكترونيات الدقيقة والدوائر المتكاملة (Integrated Circuits)",
+            "المعالجات الفائقة ذات الذكاء الاصطناعي",
+            "الصمامات المفرغة",
+            "البرمجيات الجاهزة كـ Office"
+        ],
+        "answer": "الإلكترونيات الدقيقة والدوائر المتكاملة (Integrated Circuits)"
+    },
+    {
+        "id": 75,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "من لغات البرمجة التي ظهرت وتطورت في فترة الجيل الثالث: (سؤال رقم 75)",
+        "options": [
+            "بيسيك (BASIC) وباسكال (Pascal)",
+            "Python 3.12",
+            "Swift",
+            "Rust"
+        ],
+        "answer": "بيسيك (BASIC) وباسكال (Pascal)"
+    },
+    {
+        "id": 76,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ابتكار المعالجات الدقيقة (Micro-processors) والذاكرات صغيرة الحجم عالية السعة يعود إلى: (سؤال رقم 76)",
+        "options": [
+            "الجيل الرابع (منذ 1970)",
+            "الجيل الأول",
+            "الجيل الثاني",
+            "الجيل الخامس"
+        ],
+        "answer": "الجيل الرابع (منذ 1970)"
+    },
+    {
+        "id": 77,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "حواسب الجيل الخامس (المستقبل) تهدف بالأساس إلى تحقيق: (سؤال رقم 77)",
+        "options": [
+            "الذكاء الاصطناعي والتواصل الصوتي واللغوي المباشر مع الآلة",
+            "العودة للصمامات المفرغة",
+            "إلغاء لغات البرمجة بالكامل",
+            "الحد من استخدام الإنترنت"
+        ],
+        "answer": "الذكاء الاصطناعي والتواصل الصوتي واللغوي المباشر مع الآلة"
+    },
+    {
+        "id": 78,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تطورت أجهزة الاتصالات عبر التاريخ لتشمل وسائل متعددة منها: (سؤال رقم 78)",
+        "options": [
+            "الهاتف، التلكس، التليتكس، الفاكس، والأقمار الصناعية",
+            "الطباعة اليدوية الخشبية فقط",
+            "التلغراف الحجري",
+            "الاتصال الروحي الصامت"
+        ],
+        "answer": "الهاتف، التلكس، التليتكس، الفاكس، والأقمار الصناعية"
+    },
+    {
+        "id": 79,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ما الدور الأساسي الذي تلعبه الأقمار الصناعية في شبكات الاتصال الحديثة؟ (سؤال رقم 79)",
+        "options": [
+            "محطات تحويل فضائية تبث المعلومات والاتصالات بدقة دون التأثر بالظروف الطبيعية",
+            "تخزين البيانات الورقية",
+            "إلغاء التشفير الرقمي",
+            "إنشاء البرامج التطبيقية"
+        ],
+        "answer": "محطات تحويل فضائية تبث المعلومات والاتصالات بدقة دون التأثر بالظروف الطبيعية"
+    },
+    {
+        "id": 80,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تُشبه البرمجيات (Software) في الجسد التكنولوجي بـ: (سؤال رقم 80)",
+        "options": [
+            "الروح في الجسد وبدونها لا يمكن الاستفادة من الأجهزة (Hardware)",
+            "الهيكل العظمي الصلب",
+            "أجهزة الإدخال المادية",
+            "الأسلاك الميكانيكية"
+        ],
+        "answer": "الروح في الجسد وبدونها لا يمكن الاستفادة من الأجهزة (Hardware)"
+    },
+    {
+        "id": 81,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تنقسم البرمجيات بشكل عام إلى قسمين رئيسيين هما: (سؤال رقم 81)",
+        "options": [
+            "أنظمة التشغيل (Operating Systems) والبرامج التطبيقية (Applications)",
+            "أجهزة إدخال وأجهزة إخراج",
+            "بيانات ومعلومات",
+            "رموز لفظية ورموز صامتة"
+        ],
+        "answer": "أنظمة التشغيل (Operating Systems) والبرامج التطبيقية (Applications)"
+    },
+    {
+        "id": 82,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "وظيفة أنظمة التشغيل (مثل Windows / Linux) هي: (سؤال رقم 82)",
+        "options": [
+            "تنظيم وأدارة المكونات المادية والعمليات الأساسية للحاسب",
+            "كتابة المقالات الصحفية تلقائياً",
+            "البث الفضائي المباشر",
+            "تصميم الصور فقط"
+        ],
+        "answer": "تنظيم وأدارة المكونات المادية والعمليات الأساسية للحاسب"
+    },
+    {
+        "id": 83,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "من أمثلة البرامج التطبيقية الملحقة في الحاسوب: (سؤال رقم 83)",
+        "options": [
+            "حزمة Microsoft Office وبرامج التحليل الإحصائي وقواعد البيانات",
+            "المعالج Microprocessor",
+            "الترانزستور",
+            "اللوحة الأم Motherboard"
+        ],
+        "answer": "حزمة Microsoft Office وبرامج التحليل الإحصائي وقواعد البيانات"
+    },
+    {
+        "id": 84,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "ما المقصود بمفهوم 'حارس البوابة' (Gatekeeper) في الإعلام؟ (سؤال رقم 84)",
+        "options": [
+            "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها",
+            "الجهاز المستعمل في تقوية الإشارة الفضائية",
+            "المستقبل الذاتي للرسالة",
+            "برنامج الحماية من الفيروسات"
+        ],
+        "answer": "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها"
+    },
+    {
+        "id": 85,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "من بين التالين، أي دور لا يعتبر من أدوار حارس البوابة الإعلامي؟ (سؤال رقم 85)",
+        "options": [
+            "تشفير البيانات الشخصية لدى المتلقي",
+            "اختيار الأخبار وتعديلها",
+            "حجب بعض الفقرات من النشر",
+            "تحديد التوقيت المناسب للبث"
+        ],
+        "answer": "تشفير البيانات الشخصية لدى المتلقي"
+    },
+    {
+        "id": 86,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "تتميز الرسائل الجماهيرية بالانتشار الهائل والتغطية العابرة للقارات بفضل استخدام: (سؤال رقم 86)",
+        "options": [
+            "الأقمار الصناعية والتقنيات الحديثة",
+            "الاتصال الذاتي الصامت",
+            "الرسائل البريدية التقليدية فقط",
+            "اللغة غير اللفظية المجردة"
+        ],
+        "answer": "الأقمار الصناعية والتقنيات الحديثة"
+    },
+    {
+        "id": 87,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "يُعرف الاتصال الرقمي بأنه عملية اجتماعية تفاعلية يتم بموجبها تبادل الرسائل عبر: (سؤال رقم 87)",
+        "options": [
+            "النظم والشبكات الرقمية كالحواسب والويب",
+            "الصحف الورقية القديمة فقط",
+            "الهاتف السلكي الكلاسيكي بدائريته",
+            "الإشارات الضوئية اليدوية"
+        ],
+        "answer": "النظم والشبكات الرقمية كالحواسب والويب"
+    },
+    {
+        "id": 88,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "كم عدد الخصائص الجوهرية الكبرى للاتصال الرقمي كما وردت في الملخص؟ (سؤال رقم 88)",
+        "options": [
+            "5 خصائص",
+            "6 خصائص",
+            "7 خصائص",
+            "9 خصائص"
+        ],
+        "answer": "7 خصائص"
+    },
+    {
+        "id": 89,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تحول المتلقي من مجرد مستمع سلبي إلى مشارك نشط ومؤثر يتبادل الأدوار يعكس خاصية: (سؤال رقم 89)",
+        "options": [
+            "التفاعلية (Interactivity)",
+            "التكامل",
+            "الفردية",
+            "الاستغراق"
+        ],
+        "answer": "التفاعلية (Interactivity)"
+    },
+    {
+        "id": 90,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "خاصية 'التنوع' (Variety) في الاتصال الرقمي تشير إلى: (سؤال رقم 90)",
+        "options": [
+            "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)",
+            "تثبيت نوع واحد من الوسائط",
+            "قصر الاتصال على النصوص المكتوبة",
+            "إلغاء الوسائط الفائقة"
+        ],
+        "answer": "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)"
+    },
+    {
+        "id": 91,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "اندماج نظم وشبكات الاتصال والوسائط الرقمية في بنية واحدة تتيح التعرض والتخزين والطباعة هي خاصية: (سؤال رقم 91)",
+        "options": [
+            "التكامل (Integration)",
+            "تجاوز الزمان",
+            "الفردية",
+            "التشويش"
+        ],
+        "answer": "التكامل (Integration)"
+    },
+    {
+        "id": 92,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "احترام خصوصية الفرد وتوفير بروتوكولات الأمان وتشفير البيانات تُعبر عن خاصية: (سؤال رقم 92)",
+        "options": [
+            "الفردية والذاتية (Individuality)",
+            "تجاوز الحدود السياسية",
+            "التفاعلية السلبية",
+            "ضعف رجع الصدى"
+        ],
+        "answer": "الفردية والذاتية (Individuality)"
+    },
+    {
+        "id": 93,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تجاوز الحدود السياسية والجغرافية وسقوط الحواجز بين الشعوب يعكس خاصية الاتصال الرقمي بـ: (سؤال رقم 93)",
+        "options": [
+            "العولمة وتجاوز الحدود الثقافية (Globalisation)",
+            "المؤسسية المعقدة",
+            "الجمهور المتجانس",
+            "الاتصال الذاتي"
+        ],
+        "answer": "العولمة وتجاوز الحدود الثقافية (Globalisation)"
+    },
+    {
+        "id": 94,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "عدم اشتراط تواجد المرسل والمستقبل في نفس اللحظة أو المكان لإتمام الاتصال الرقمي يعني أنه يتجاوز: (سؤال رقم 94)",
+        "options": [
+            "وحدة المكان والزمان",
+            "التفاعلية",
+            "بروتوكولات الأمان",
+            "هرم المعرفة"
+        ],
+        "answer": "وحدة المكان والزمان"
+    },
+    {
+        "id": 95,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "انخفاض تكاليف الشبكات والبرمجيات الذي يشجع المستعمل على قضاء ساعات طويلة في التجول يُسمى: (سؤال رقم 95)",
+        "options": [
+            "الاستغراق في الاتصال (Flow)",
+            "التشويش الميكانيكي",
+            "رقابة حارس البوابة",
+            "الجيل الأول للحواسب"
+        ],
+        "answer": "الاستغراق في الاتصال (Flow)"
+    },
+    {
+        "id": 96,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "ما هي مستويات الاتصال الرقمي والإنترنت الأربعة المتصاعدة؟ (سؤال رقم 96)",
+        "options": [
+            "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية",
+            "الذاتي، الشخصي، الجمعي، الجماهيري",
+            "الجيل 1، 2، 3، 4",
+            "المرسل، المستقبل، الرسالة، الأثر"
+        ],
+        "answer": "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 97,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تفاعل الفرد المباشر مع برنامج كمبيوتر أو قاعدة بيانات تعليمية يمثل مستوى: (سؤال رقم 97)",
+        "options": [
+            "الاتصال بالحاسب وبرامجه",
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الجماهيري احادي الاتجاه",
+            "الاتصال الثقافي المباشر"
+        ],
+        "answer": "الاتصال بالحاسب وبرامجه"
+    },
+    {
+        "id": 98,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "استخدام الحواسب كأجهزة طرفية للوصول للمعلومات المخزنة في خوادم مركزية (Servers) هو مستوى: (سؤال رقم 98)",
+        "options": [
+            "الاتصال بقواعد البيانات",
+            "الاتصال الذاتي",
+            "الاتصال غير المتزامن بـ الفاكس",
+            "الاتصال الشخصي المباشر"
+        ],
+        "answer": "الاتصال بقواعد البيانات"
+    },
+    {
+        "id": 99,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "التفاعل عبر المحادثات المباشرة (Video Conference) أو البريد الإلكتروني هو مستوى: (سؤال رقم 99)",
+        "options": [
+            "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)",
+            "الاتصال الكلاسيكي",
+            "الاتصال الذاتي العميـق",
+            "رقابة حارس البوابة"
+        ],
+        "answer": "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)"
+    },
+    {
+        "id": 100,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "إنشاء المؤسسات الإعلامية لمواقع إخبارية إلكترونية تجذب ملايين الزوار يمثل مستوى: (سؤال رقم 100)",
+        "options": [
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الذاتي المعقد",
+            "الجيل الثالث للحواسب",
+            "الاتصال الوسيطي الفردي"
+        ],
+        "answer": "الاتصال بمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 101,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تثبت الدراسات أن شبكة الإنترنت تمثل وسيلة اتصال جماهيري بالغة الفعالية بالإضافة إلى دورها كـ: (سؤال رقم 101)",
+        "options": [
+            "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي",
+            "بديل كامل للحواس البشرية",
+            "لغة غير لفظية بديلة",
+            "عائق دلالي أمام الفهم"
+        ],
+        "answer": "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي"
+    },
+    {
+        "id": 102,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "في عصر المعلوماتية، أصبحت المعيار الحقيقي للقوة والثروة والتنمية المستدامة بدل الموارد المادية: (سؤال رقم 102)",
+        "options": [
+            "المعرفة والمعلومات",
+            "الآلات البخارية",
+            "الأراضي الزراعية فقط",
+            "العمل العضلي المباشر"
+        ],
+        "answer": "المعرفة والمعلومات"
+    },
+    {
+        "id": 103,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "مر تطور الكمبيوتر عبر كم جيل متتالي؟ (سؤال رقم 103)",
+        "options": [
+            "3 أجيال",
+            "5 أجيال",
+            "7 أجيال",
+            "10 أجيال"
+        ],
+        "answer": "5 أجيال"
+    },
+    {
+        "id": 104,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تميز الجيل الأول للحواسب (1946-1959) باستخدام: (سؤال رقم 104)",
+        "options": [
+            "الصمامات المفرغة (Vacuum Tubes)",
+            "الترانزستور",
+            "الدوائر المتكاملة",
+            "المعالجات الدقيقة"
+        ],
+        "answer": "الصمامات المفرغة (Vacuum Tubes)"
+    },
+    {
+        "id": 105,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ما هي المشكلة الأساسية لحواسب الجيل الأول؟ (سؤال رقم 105)",
+        "options": [
+            "حجمها الضخم واستهلاكها الهائل للطاقة والحرارة",
+            "صغر حجمها الشديد",
+            "اعتمادها على الذكاء الاصطناعي",
+            "ارتفاع التفاعلية"
+        ],
+        "answer": "حجمها الضخم واستهلاكها الهائل للطاقة والحرارة"
+    },
+    {
+        "id": 106,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "التقنية التي تم استخدامها في الجيل الثاني (1959-1965) ووفرت في الطاقة والحرارة هي: (سؤال رقم 106)",
+        "options": [
+            "الترانزستور (Transistor)",
+            "الصمامات المفرغة",
+            "الشبكات اللاسلكية",
+            "الشرائح الكمومية"
+        ],
+        "answer": "الترانزستور (Transistor)"
+    },
+    {
+        "id": 107,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "شهد الجيل الثالث (1964-1970) دخول تقنية: (سؤال رقم 107)",
+        "options": [
+            "الإلكترونيات الدقيقة والدوائر المتكاملة (Integrated Circuits)",
+            "المعالجات الفائقة ذات الذكاء الاصطناعي",
+            "الصمامات المفرغة",
+            "البرمجيات الجاهزة كـ Office"
+        ],
+        "answer": "الإلكترونيات الدقيقة والدوائر المتكاملة (Integrated Circuits)"
+    },
+    {
+        "id": 108,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "من لغات البرمجة التي ظهرت وتطورت في فترة الجيل الثالث: (سؤال رقم 108)",
+        "options": [
+            "بيسيك (BASIC) وباسكال (Pascal)",
+            "Python 3.12",
+            "Swift",
+            "Rust"
+        ],
+        "answer": "بيسيك (BASIC) وباسكال (Pascal)"
+    },
+    {
+        "id": 109,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ابتكار المعالجات الدقيقة (Micro-processors) والذاكرات صغيرة الحجم عالية السعة يعود إلى: (سؤال رقم 109)",
+        "options": [
+            "الجيل الرابع (منذ 1970)",
+            "الجيل الأول",
+            "الجيل الثاني",
+            "الجيل الخامس"
+        ],
+        "answer": "الجيل الرابع (منذ 1970)"
+    },
+    {
+        "id": 110,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "حواسب الجيل الخامس (المستقبل) تهدف بالأساس إلى تحقيق: (سؤال رقم 110)",
+        "options": [
+            "الذكاء الاصطناعي والتواصل الصوتي واللغوي المباشر مع الآلة",
+            "العودة للصمامات المفرغة",
+            "إلغاء لغات البرمجة بالكامل",
+            "الحد من استخدام الإنترنت"
+        ],
+        "answer": "الذكاء الاصطناعي والتواصل الصوتي واللغوي المباشر مع الآلة"
+    },
+    {
+        "id": 111,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تطورت أجهزة الاتصالات عبر التاريخ لتشمل وسائل متعددة منها: (سؤال رقم 111)",
+        "options": [
+            "الهاتف، التلكس، التليتكس، الفاكس، والأقمار الصناعية",
+            "الطباعة اليدوية الخشبية فقط",
+            "التلغراف الحجري",
+            "الاتصال الروحي الصامت"
+        ],
+        "answer": "الهاتف، التلكس، التليتكس، الفاكس، والأقمار الصناعية"
+    },
+    {
+        "id": 112,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ما الدور الأساسي الذي تلعبه الأقمار الصناعية في شبكات الاتصال الحديثة؟ (سؤال رقم 112)",
+        "options": [
+            "محطات تحويل فضائية تبث المعلومات والاتصالات بدقة دون التأثر بالظروف الطبيعية",
+            "تخزين البيانات الورقية",
+            "إلغاء التشفير الرقمي",
+            "إنشاء البرامج التطبيقية"
+        ],
+        "answer": "محطات تحويل فضائية تبث المعلومات والاتصالات بدقة دون التأثر بالظروف الطبيعية"
+    },
+    {
+        "id": 113,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تُشبه البرمجيات (Software) في الجسد التكنولوجي بـ: (سؤال رقم 113)",
+        "options": [
+            "الروح في الجسد وبدونها لا يمكن الاستفادة من الأجهزة (Hardware)",
+            "الهيكل العظمي الصلب",
+            "أجهزة الإدخال المادية",
+            "الأسلاك الميكانيكية"
+        ],
+        "answer": "الروح في الجسد وبدونها لا يمكن الاستفادة من الأجهزة (Hardware)"
+    },
+    {
+        "id": 114,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تنقسم البرمجيات بشكل عام إلى قسمين رئيسيين هما: (سؤال رقم 114)",
+        "options": [
+            "أنظمة التشغيل (Operating Systems) والبرامج التطبيقية (Applications)",
+            "أجهزة إدخال وأجهزة إخراج",
+            "بيانات ومعلومات",
+            "رموز لفظية ورموز صامتة"
+        ],
+        "answer": "أنظمة التشغيل (Operating Systems) والبرامج التطبيقية (Applications)"
+    },
+    {
+        "id": 115,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "وظيفة أنظمة التشغيل (مثل Windows / Linux) هي: (سؤال رقم 115)",
+        "options": [
+            "تنظيم وأدارة المكونات المادية والعمليات الأساسية للحاسب",
+            "كتابة المقالات الصحفية تلقائياً",
+            "البث الفضائي المباشر",
+            "تصميم الصور فقط"
+        ],
+        "answer": "تنظيم وأدارة المكونات المادية والعمليات الأساسية للحاسب"
+    },
+    {
+        "id": 116,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "من أمثلة البرامج التطبيقية الملحقة في الحاسوب: (سؤال رقم 116)",
+        "options": [
+            "حزمة Microsoft Office وبرامج التحليل الإحصائي وقواعد البيانات",
+            "المعالج Microprocessor",
+            "الترانزستور",
+            "اللوحة الأم Motherboard"
+        ],
+        "answer": "حزمة Microsoft Office وبرامج التحليل الإحصائي وقواعد البيانات"
+    },
+    {
+        "id": 117,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "ما المقصود بمفهوم 'حارس البوابة' (Gatekeeper) في الإعلام؟ (سؤال رقم 117)",
+        "options": [
+            "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها",
+            "الجهاز المستعمل في تقوية الإشارة الفضائية",
+            "المستقبل الذاتي للرسالة",
+            "برنامج الحماية من الفيروسات"
+        ],
+        "answer": "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها"
+    },
+    {
+        "id": 118,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "من بين التالين، أي دور لا يعتبر من أدوار حارس البوابة الإعلامي؟ (سؤال رقم 118)",
+        "options": [
+            "تشفير البيانات الشخصية لدى المتلقي",
+            "اختيار الأخبار وتعديلها",
+            "حجب بعض الفقرات من النشر",
+            "تحديد التوقيت المناسب للبث"
+        ],
+        "answer": "تشفير البيانات الشخصية لدى المتلقي"
+    },
+    {
+        "id": 119,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "تتميز الرسائل الجماهيرية بالانتشار الهائل والتغطية العابرة للقارات بفضل استخدام: (سؤال رقم 119)",
+        "options": [
+            "الأقمار الصناعية والتقنيات الحديثة",
+            "الاتصال الذاتي الصامت",
+            "الرسائل البريدية التقليدية فقط",
+            "اللغة غير اللفظية المجردة"
+        ],
+        "answer": "الأقمار الصناعية والتقنيات الحديثة"
+    },
+    {
+        "id": 120,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "يُعرف الاتصال الرقمي بأنه عملية اجتماعية تفاعلية يتم بموجبها تبادل الرسائل عبر: (سؤال رقم 120)",
+        "options": [
+            "النظم والشبكات الرقمية كالحواسب والويب",
+            "الصحف الورقية القديمة فقط",
+            "الهاتف السلكي الكلاسيكي بدائريته",
+            "الإشارات الضوئية اليدوية"
+        ],
+        "answer": "النظم والشبكات الرقمية كالحواسب والويب"
+    },
+    {
+        "id": 121,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "كم عدد الخصائص الجوهرية الكبرى للاتصال الرقمي كما وردت في الملخص؟ (سؤال رقم 121)",
+        "options": [
+            "5 خصائص",
+            "6 خصائص",
+            "7 خصائص",
+            "9 خصائص"
+        ],
+        "answer": "7 خصائص"
+    },
+    {
+        "id": 122,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تحول المتلقي من مجرد مستمع سلبي إلى مشارك نشط ومؤثر يتبادل الأدوار يعكس خاصية: (سؤال رقم 122)",
+        "options": [
+            "التفاعلية (Interactivity)",
+            "التكامل",
+            "الفردية",
+            "الاستغراق"
+        ],
+        "answer": "التفاعلية (Interactivity)"
+    },
+    {
+        "id": 123,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "خاصية 'التنوع' (Variety) في الاتصال الرقمي تشير إلى: (سؤال رقم 123)",
+        "options": [
+            "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)",
+            "تثبيت نوع واحد من الوسائط",
+            "قصر الاتصال على النصوص المكتوبة",
+            "إلغاء الوسائط الفائقة"
+        ],
+        "answer": "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)"
+    },
+    {
+        "id": 124,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "اندماج نظم وشبكات الاتصال والوسائط الرقمية في بنية واحدة تتيح التعرض والتخزين والطباعة هي خاصية: (سؤال رقم 124)",
+        "options": [
+            "التكامل (Integration)",
+            "تجاوز الزمان",
+            "الفردية",
+            "التشويش"
+        ],
+        "answer": "التكامل (Integration)"
+    },
+    {
+        "id": 125,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "احترام خصوصية الفرد وتوفير بروتوكولات الأمان وتشفير البيانات تُعبر عن خاصية: (سؤال رقم 125)",
+        "options": [
+            "الفردية والذاتية (Individuality)",
+            "تجاوز الحدود السياسية",
+            "التفاعلية السلبية",
+            "ضعف رجع الصدى"
+        ],
+        "answer": "الفردية والذاتية (Individuality)"
+    },
+    {
+        "id": 126,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تجاوز الحدود السياسية والجغرافية وسقوط الحواجز بين الشعوب يعكس خاصية الاتصال الرقمي بـ: (سؤال رقم 126)",
+        "options": [
+            "العولمة وتجاوز الحدود الثقافية (Globalisation)",
+            "المؤسسية المعقدة",
+            "الجمهور المتجانس",
+            "الاتصال الذاتي"
+        ],
+        "answer": "العولمة وتجاوز الحدود الثقافية (Globalisation)"
+    },
+    {
+        "id": 127,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "عدم اشتراط تواجد المرسل والمستقبل في نفس اللحظة أو المكان لإتمام الاتصال الرقمي يعني أنه يتجاوز: (سؤال رقم 127)",
+        "options": [
+            "وحدة المكان والزمان",
+            "التفاعلية",
+            "بروتوكولات الأمان",
+            "هرم المعرفة"
+        ],
+        "answer": "وحدة المكان والزمان"
+    },
+    {
+        "id": 128,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "انخفاض تكاليف الشبكات والبرمجيات الذي يشجع المستعمل على قضاء ساعات طويلة في التجول يُسمى: (سؤال رقم 128)",
+        "options": [
+            "الاستغراق في الاتصال (Flow)",
+            "التشويش الميكانيكي",
+            "رقابة حارس البوابة",
+            "الجيل الأول للحواسب"
+        ],
+        "answer": "الاستغراق في الاتصال (Flow)"
+    },
+    {
+        "id": 129,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "ما هي مستويات الاتصال الرقمي والإنترنت الأربعة المتصاعدة؟ (سؤال رقم 129)",
+        "options": [
+            "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية",
+            "الذاتي، الشخصي، الجمعي، الجماهيري",
+            "الجيل 1، 2، 3، 4",
+            "المرسل، المستقبل، الرسالة، الأثر"
+        ],
+        "answer": "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 130,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تفاعل الفرد المباشر مع برنامج كمبيوتر أو قاعدة بيانات تعليمية يمثل مستوى: (سؤال رقم 130)",
+        "options": [
+            "الاتصال بالحاسب وبرامجه",
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الجماهيري احادي الاتجاه",
+            "الاتصال الثقافي المباشر"
+        ],
+        "answer": "الاتصال بالحاسب وبرامجه"
+    },
+    {
+        "id": 131,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "استخدام الحواسب كأجهزة طرفية للوصول للمعلومات المخزنة في خوادم مركزية (Servers) هو مستوى: (سؤال رقم 131)",
+        "options": [
+            "الاتصال بقواعد البيانات",
+            "الاتصال الذاتي",
+            "الاتصال غير المتزامن بـ الفاكس",
+            "الاتصال الشخصي المباشر"
+        ],
+        "answer": "الاتصال بقواعد البيانات"
+    },
+    {
+        "id": 132,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "التفاعل عبر المحادثات المباشرة (Video Conference) أو البريد الإلكتروني هو مستوى: (سؤال رقم 132)",
+        "options": [
+            "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)",
+            "الاتصال الكلاسيكي",
+            "الاتصال الذاتي العميـق",
+            "رقابة حارس البوابة"
+        ],
+        "answer": "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)"
+    },
+    {
+        "id": 133,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "إنشاء المؤسسات الإعلامية لمواقع إخبارية إلكترونية تجذب ملايين الزوار يمثل مستوى: (سؤال رقم 133)",
+        "options": [
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الذاتي المعقد",
+            "الجيل الثالث للحواسب",
+            "الاتصال الوسيطي الفردي"
+        ],
+        "answer": "الاتصال بمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 134,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تثبت الدراسات أن شبكة الإنترنت تمثل وسيلة اتصال جماهيري بالغة الفعالية بالإضافة إلى دورها كـ: (سؤال رقم 134)",
+        "options": [
+            "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي",
+            "بديل كامل للحواس البشرية",
+            "لغة غير لفظية بديلة",
+            "عائق دلالي أمام الفهم"
+        ],
+        "answer": "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي"
+    },
+    {
+        "id": 135,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "في عصر المعلوماتية، أصبحت المعيار الحقيقي للقوة والثروة والتنمية المستدامة بدل الموارد المادية: (سؤال رقم 135)",
+        "options": [
+            "المعرفة والمعلومات",
+            "الآلات البخارية",
+            "الأراضي الزراعية فقط",
+            "العمل العضلي المباشر"
+        ],
+        "answer": "المعرفة والمعلومات"
+    },
+    {
+        "id": 136,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "مر تطور الكمبيوتر عبر كم جيل متتالي؟ (سؤال رقم 136)",
+        "options": [
+            "3 أجيال",
+            "5 أجيال",
+            "7 أجيال",
+            "10 أجيال"
+        ],
+        "answer": "5 أجيال"
+    },
+    {
+        "id": 137,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تميز الجيل الأول للحواسب (1946-1959) باستخدام: (سؤال رقم 137)",
+        "options": [
+            "الصمامات المفرغة (Vacuum Tubes)",
+            "الترانزستور",
+            "الدوائر المتكاملة",
+            "المعالجات الدقيقة"
+        ],
+        "answer": "الصمامات المفرغة (Vacuum Tubes)"
+    },
+    {
+        "id": 138,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ما هي المشكلة الأساسية لحواسب الجيل الأول؟ (سؤال رقم 138)",
+        "options": [
+            "حجمها الضخم واستهلاكها الهائل للطاقة والحرارة",
+            "صغر حجمها الشديد",
+            "اعتمادها على الذكاء الاصطناعي",
+            "ارتفاع التفاعلية"
+        ],
+        "answer": "حجمها الضخم واستهلاكها الهائل للطاقة والحرارة"
+    },
+    {
+        "id": 139,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "التقنية التي تم استخدامها في الجيل الثاني (1959-1965) ووفرت في الطاقة والحرارة هي: (سؤال رقم 139)",
+        "options": [
+            "الترانزستور (Transistor)",
+            "الصمامات المفرغة",
+            "الشبكات اللاسلكية",
+            "الشرائح الكمومية"
+        ],
+        "answer": "الترانزستور (Transistor)"
+    },
+    {
+        "id": 140,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "شهد الجيل الثالث (1964-1970) دخول تقنية: (سؤال رقم 140)",
+        "options": [
+            "الإلكترونيات الدقيقة والدوائر المتكاملة (Integrated Circuits)",
+            "المعالجات الفائقة ذات الذكاء الاصطناعي",
+            "الصمامات المفرغة",
+            "البرمجيات الجاهزة كـ Office"
+        ],
+        "answer": "الإلكترونيات الدقيقة والدوائر المتكاملة (Integrated Circuits)"
+    },
+    {
+        "id": 141,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "من لغات البرمجة التي ظهرت وتطورت في فترة الجيل الثالث: (سؤال رقم 141)",
+        "options": [
+            "بيسيك (BASIC) وباسكال (Pascal)",
+            "Python 3.12",
+            "Swift",
+            "Rust"
+        ],
+        "answer": "بيسيك (BASIC) وباسكال (Pascal)"
+    },
+    {
+        "id": 142,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ابتكار المعالجات الدقيقة (Micro-processors) والذاكرات صغيرة الحجم عالية السعة يعود إلى: (سؤال رقم 142)",
+        "options": [
+            "الجيل الرابع (منذ 1970)",
+            "الجيل الأول",
+            "الجيل الثاني",
+            "الجيل الخامس"
+        ],
+        "answer": "الجيل الرابع (منذ 1970)"
+    },
+    {
+        "id": 143,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "حواسب الجيل الخامس (المستقبل) تهدف بالأساس إلى تحقيق: (سؤال رقم 143)",
+        "options": [
+            "الذكاء الاصطناعي والتواصل الصوتي واللغوي المباشر مع الآلة",
+            "العودة للصمامات المفرغة",
+            "إلغاء لغات البرمجة بالكامل",
+            "الحد من استخدام الإنترنت"
+        ],
+        "answer": "الذكاء الاصطناعي والتواصل الصوتي واللغوي المباشر مع الآلة"
+    },
+    {
+        "id": 144,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تطورت أجهزة الاتصالات عبر التاريخ لتشمل وسائل متعددة منها: (سؤال رقم 144)",
+        "options": [
+            "الهاتف، التلكس، التليتكس، الفاكس، والأقمار الصناعية",
+            "الطباعة اليدوية الخشبية فقط",
+            "التلغراف الحجري",
+            "الاتصال الروحي الصامت"
+        ],
+        "answer": "الهاتف، التلكس، التليتكس، الفاكس، والأقمار الصناعية"
+    },
+    {
+        "id": 145,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ما الدور الأساسي الذي تلعبه الأقمار الصناعية في شبكات الاتصال الحديثة؟ (سؤال رقم 145)",
+        "options": [
+            "محطات تحويل فضائية تبث المعلومات والاتصالات بدقة دون التأثر بالظروف الطبيعية",
+            "تخزين البيانات الورقية",
+            "إلغاء التشفير الرقمي",
+            "إنشاء البرامج التطبيقية"
+        ],
+        "answer": "محطات تحويل فضائية تبث المعلومات والاتصالات بدقة دون التأثر بالظروف الطبيعية"
+    },
+    {
+        "id": 146,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تُشبه البرمجيات (Software) في الجسد التكنولوجي بـ: (سؤال رقم 146)",
+        "options": [
+            "الروح في الجسد وبدونها لا يمكن الاستفادة من الأجهزة (Hardware)",
+            "الهيكل العظمي الصلب",
+            "أجهزة الإدخال المادية",
+            "الأسلاك الميكانيكية"
+        ],
+        "answer": "الروح في الجسد وبدونها لا يمكن الاستفادة من الأجهزة (Hardware)"
+    },
+    {
+        "id": 147,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تنقسم البرمجيات بشكل عام إلى قسمين رئيسيين هما: (سؤال رقم 147)",
+        "options": [
+            "أنظمة التشغيل (Operating Systems) والبرامج التطبيقية (Applications)",
+            "أجهزة إدخال وأجهزة إخراج",
+            "بيانات ومعلومات",
+            "رموز لفظية ورموز صامتة"
+        ],
+        "answer": "أنظمة التشغيل (Operating Systems) والبرامج التطبيقية (Applications)"
+    },
+    {
+        "id": 148,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "وظيفة أنظمة التشغيل (مثل Windows / Linux) هي: (سؤال رقم 148)",
+        "options": [
+            "تنظيم وأدارة المكونات المادية والعمليات الأساسية للحاسب",
+            "كتابة المقالات الصحفية تلقائياً",
+            "البث الفضائي المباشر",
+            "تصميم الصور فقط"
+        ],
+        "answer": "تنظيم وأدارة المكونات المادية والعمليات الأساسية للحاسب"
+    },
+    {
+        "id": 149,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "من أمثلة البرامج التطبيقية الملحقة في الحاسوب: (سؤال رقم 149)",
+        "options": [
+            "حزمة Microsoft Office وبرامج التحليل الإحصائي وقواعد البيانات",
+            "المعالج Microprocessor",
+            "الترانزستور",
+            "اللوحة الأم Motherboard"
+        ],
+        "answer": "حزمة Microsoft Office وبرامج التحليل الإحصائي وقواعد البيانات"
+    },
+    {
+        "id": 150,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "ما المقصود بمفهوم 'حارس البوابة' (Gatekeeper) في الإعلام؟ (سؤال رقم 150)",
+        "options": [
+            "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها",
+            "الجهاز المستعمل في تقوية الإشارة الفضائية",
+            "المستقبل الذاتي للرسالة",
+            "برنامج الحماية من الفيروسات"
+        ],
+        "answer": "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها"
+    },
+    {
+        "id": 151,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "من بين التالين، أي دور لا يعتبر من أدوار حارس البوابة الإعلامي؟ (سؤال رقم 151)",
+        "options": [
+            "تشفير البيانات الشخصية لدى المتلقي",
+            "اختيار الأخبار وتعديلها",
+            "حجب بعض الفقرات من النشر",
+            "تحديد التوقيت المناسب للبث"
+        ],
+        "answer": "تشفير البيانات الشخصية لدى المتلقي"
+    },
+    {
+        "id": 152,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "تتميز الرسائل الجماهيرية بالانتشار الهائل والتغطية العابرة للقارات بفضل استخدام: (سؤال رقم 152)",
+        "options": [
+            "الأقمار الصناعية والتقنيات الحديثة",
+            "الاتصال الذاتي الصامت",
+            "الرسائل البريدية التقليدية فقط",
+            "اللغة غير اللفظية المجردة"
+        ],
+        "answer": "الأقمار الصناعية والتقنيات الحديثة"
+    },
+    {
+        "id": 153,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "يُعرف الاتصال الرقمي بأنه عملية اجتماعية تفاعلية يتم بموجبها تبادل الرسائل عبر: (سؤال رقم 153)",
+        "options": [
+            "النظم والشبكات الرقمية كالحواسب والويب",
+            "الصحف الورقية القديمة فقط",
+            "الهاتف السلكي الكلاسيكي بدائريته",
+            "الإشارات الضوئية اليدوية"
+        ],
+        "answer": "النظم والشبكات الرقمية كالحواسب والويب"
+    },
+    {
+        "id": 154,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "كم عدد الخصائص الجوهرية الكبرى للاتصال الرقمي كما وردت في الملخص؟ (سؤال رقم 154)",
+        "options": [
+            "5 خصائص",
+            "6 خصائص",
+            "7 خصائص",
+            "9 خصائص"
+        ],
+        "answer": "7 خصائص"
+    },
+    {
+        "id": 155,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تحول المتلقي من مجرد مستمع سلبي إلى مشارك نشط ومؤثر يتبادل الأدوار يعكس خاصية: (سؤال رقم 155)",
+        "options": [
+            "التفاعلية (Interactivity)",
+            "التكامل",
+            "الفردية",
+            "الاستغراق"
+        ],
+        "answer": "التفاعلية (Interactivity)"
+    },
+    {
+        "id": 156,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "خاصية 'التنوع' (Variety) في الاتصال الرقمي تشير إلى: (سؤال رقم 156)",
+        "options": [
+            "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)",
+            "تثبيت نوع واحد من الوسائط",
+            "قصر الاتصال على النصوص المكتوبة",
+            "إلغاء الوسائط الفائقة"
+        ],
+        "answer": "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)"
+    },
+    {
+        "id": 157,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "اندماج نظم وشبكات الاتصال والوسائط الرقمية في بنية واحدة تتيح التعرض والتخزين والطباعة هي خاصية: (سؤال رقم 157)",
+        "options": [
+            "التكامل (Integration)",
+            "تجاوز الزمان",
+            "الفردية",
+            "التشويش"
+        ],
+        "answer": "التكامل (Integration)"
+    },
+    {
+        "id": 158,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "احترام خصوصية الفرد وتوفير بروتوكولات الأمان وتشفير البيانات تُعبر عن خاصية: (سؤال رقم 158)",
+        "options": [
+            "الفردية والذاتية (Individuality)",
+            "تجاوز الحدود السياسية",
+            "التفاعلية السلبية",
+            "ضعف رجع الصدى"
+        ],
+        "answer": "الفردية والذاتية (Individuality)"
+    },
+    {
+        "id": 159,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تجاوز الحدود السياسية والجغرافية وسقوط الحواجز بين الشعوب يعكس خاصية الاتصال الرقمي بـ: (سؤال رقم 159)",
+        "options": [
+            "العولمة وتجاوز الحدود الثقافية (Globalisation)",
+            "المؤسسية المعقدة",
+            "الجمهور المتجانس",
+            "الاتصال الذاتي"
+        ],
+        "answer": "العولمة وتجاوز الحدود الثقافية (Globalisation)"
+    },
+    {
+        "id": 160,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "عدم اشتراط تواجد المرسل والمستقبل في نفس اللحظة أو المكان لإتمام الاتصال الرقمي يعني أنه يتجاوز: (سؤال رقم 160)",
+        "options": [
+            "وحدة المكان والزمان",
+            "التفاعلية",
+            "بروتوكولات الأمان",
+            "هرم المعرفة"
+        ],
+        "answer": "وحدة المكان والزمان"
+    },
+    {
+        "id": 161,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "انخفاض تكاليف الشبكات والبرمجيات الذي يشجع المستعمل على قضاء ساعات طويلة في التجول يُسمى: (سؤال رقم 161)",
+        "options": [
+            "الاستغراق في الاتصال (Flow)",
+            "التشويش الميكانيكي",
+            "رقابة حارس البوابة",
+            "الجيل الأول للحواسب"
+        ],
+        "answer": "الاستغراق في الاتصال (Flow)"
+    },
+    {
+        "id": 162,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "ما هي مستويات الاتصال الرقمي والإنترنت الأربعة المتصاعدة؟ (سؤال رقم 162)",
+        "options": [
+            "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية",
+            "الذاتي، الشخصي، الجمعي، الجماهيري",
+            "الجيل 1، 2، 3، 4",
+            "المرسل، المستقبل، الرسالة، الأثر"
+        ],
+        "answer": "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 163,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تفاعل الفرد المباشر مع برنامج كمبيوتر أو قاعدة بيانات تعليمية يمثل مستوى: (سؤال رقم 163)",
+        "options": [
+            "الاتصال بالحاسب وبرامجه",
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الجماهيري احادي الاتجاه",
+            "الاتصال الثقافي المباشر"
+        ],
+        "answer": "الاتصال بالحاسب وبرامجه"
+    },
+    {
+        "id": 164,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "استخدام الحواسب كأجهزة طرفية للوصول للمعلومات المخزنة في خوادم مركزية (Servers) هو مستوى: (سؤال رقم 164)",
+        "options": [
+            "الاتصال بقواعد البيانات",
+            "الاتصال الذاتي",
+            "الاتصال غير المتزامن بـ الفاكس",
+            "الاتصال الشخصي المباشر"
+        ],
+        "answer": "الاتصال بقواعد البيانات"
+    },
+    {
+        "id": 165,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "التفاعل عبر المحادثات المباشرة (Video Conference) أو البريد الإلكتروني هو مستوى: (سؤال رقم 165)",
+        "options": [
+            "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)",
+            "الاتصال الكلاسيكي",
+            "الاتصال الذاتي العميـق",
+            "رقابة حارس البوابة"
+        ],
+        "answer": "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)"
+    },
+    {
+        "id": 166,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "إنشاء المؤسسات الإعلامية لمواقع إخبارية إلكترونية تجذب ملايين الزوار يمثل مستوى: (سؤال رقم 166)",
+        "options": [
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الذاتي المعقد",
+            "الجيل الثالث للحواسب",
+            "الاتصال الوسيطي الفردي"
+        ],
+        "answer": "الاتصال بمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 167,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تثبت الدراسات أن شبكة الإنترنت تمثل وسيلة اتصال جماهيري بالغة الفعالية بالإضافة إلى دورها كـ: (سؤال رقم 167)",
+        "options": [
+            "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي",
+            "بديل كامل للحواس البشرية",
+            "لغة غير لفظية بديلة",
+            "عائق دلالي أمام الفهم"
+        ],
+        "answer": "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي"
+    },
+    {
+        "id": 168,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "في عصر المعلوماتية، أصبحت المعيار الحقيقي للقوة والثروة والتنمية المستدامة بدل الموارد المادية: (سؤال رقم 168)",
+        "options": [
+            "المعرفة والمعلومات",
+            "الآلات البخارية",
+            "الأراضي الزراعية فقط",
+            "العمل العضلي المباشر"
+        ],
+        "answer": "المعرفة والمعلومات"
+    },
+    {
+        "id": 169,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "مر تطور الكمبيوتر عبر كم جيل متتالي؟ (سؤال رقم 169)",
+        "options": [
+            "3 أجيال",
+            "5 أجيال",
+            "7 أجيال",
+            "10 أجيال"
+        ],
+        "answer": "5 أجيال"
+    },
+    {
+        "id": 170,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تميز الجيل الأول للحواسب (1946-1959) باستخدام: (سؤال رقم 170)",
+        "options": [
+            "الصمامات المفرغة (Vacuum Tubes)",
+            "الترانزستور",
+            "الدوائر المتكاملة",
+            "المعالجات الدقيقة"
+        ],
+        "answer": "الصمامات المفرغة (Vacuum Tubes)"
+    },
+    {
+        "id": 171,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ما هي المشكلة الأساسية لحواسب الجيل الأول؟ (سؤال رقم 171)",
+        "options": [
+            "حجمها الضخم واستهلاكها الهائل للطاقة والحرارة",
+            "صغر حجمها الشديد",
+            "اعتمادها على الذكاء الاصطناعي",
+            "ارتفاع التفاعلية"
+        ],
+        "answer": "حجمها الضخم واستهلاكها الهائل للطاقة والحرارة"
+    },
+    {
+        "id": 172,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "التقنية التي تم استخدامها في الجيل الثاني (1959-1965) ووفرت في الطاقة والحرارة هي: (سؤال رقم 172)",
+        "options": [
+            "الترانزستور (Transistor)",
+            "الصمامات المفرغة",
+            "الشبكات اللاسلكية",
+            "الشرائح الكمومية"
+        ],
+        "answer": "الترانزستور (Transistor)"
+    },
+    {
+        "id": 173,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "شهد الجيل الثالث (1964-1970) دخول تقنية: (سؤال رقم 173)",
+        "options": [
+            "الإلكترونيات الدقيقة والدوائر المتكاملة (Integrated Circuits)",
+            "المعالجات الفائقة ذات الذكاء الاصطناعي",
+            "الصمامات المفرغة",
+            "البرمجيات الجاهزة كـ Office"
+        ],
+        "answer": "الإلكترونيات الدقيقة والدوائر المتكاملة (Integrated Circuits)"
+    },
+    {
+        "id": 174,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "من لغات البرمجة التي ظهرت وتطورت في فترة الجيل الثالث: (سؤال رقم 174)",
+        "options": [
+            "بيسيك (BASIC) وباسكال (Pascal)",
+            "Python 3.12",
+            "Swift",
+            "Rust"
+        ],
+        "answer": "بيسيك (BASIC) وباسكال (Pascal)"
+    },
+    {
+        "id": 175,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ابتكار المعالجات الدقيقة (Micro-processors) والذاكرات صغيرة الحجم عالية السعة يعود إلى: (سؤال رقم 175)",
+        "options": [
+            "الجيل الرابع (منذ 1970)",
+            "الجيل الأول",
+            "الجيل الثاني",
+            "الجيل الخامس"
+        ],
+        "answer": "الجيل الرابع (منذ 1970)"
+    },
+    {
+        "id": 176,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "حواسب الجيل الخامس (المستقبل) تهدف بالأساس إلى تحقيق: (سؤال رقم 176)",
+        "options": [
+            "الذكاء الاصطناعي والتواصل الصوتي واللغوي المباشر مع الآلة",
+            "العودة للصمامات المفرغة",
+            "إلغاء لغات البرمجة بالكامل",
+            "الحد من استخدام الإنترنت"
+        ],
+        "answer": "الذكاء الاصطناعي والتواصل الصوتي واللغوي المباشر مع الآلة"
+    },
+    {
+        "id": 177,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تطورت أجهزة الاتصالات عبر التاريخ لتشمل وسائل متعددة منها: (سؤال رقم 177)",
+        "options": [
+            "الهاتف، التلكس، التليتكس، الفاكس، والأقمار الصناعية",
+            "الطباعة اليدوية الخشبية فقط",
+            "التلغراف الحجري",
+            "الاتصال الروحي الصامت"
+        ],
+        "answer": "الهاتف، التلكس، التليتكس، الفاكس، والأقمار الصناعية"
+    },
+    {
+        "id": 178,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "ما الدور الأساسي الذي تلعبه الأقمار الصناعية في شبكات الاتصال الحديثة؟ (سؤال رقم 178)",
+        "options": [
+            "محطات تحويل فضائية تبث المعلومات والاتصالات بدقة دون التأثر بالظروف الطبيعية",
+            "تخزين البيانات الورقية",
+            "إلغاء التشفير الرقمي",
+            "إنشاء البرامج التطبيقية"
+        ],
+        "answer": "محطات تحويل فضائية تبث المعلومات والاتصالات بدقة دون التأثر بالظروف الطبيعية"
+    },
+    {
+        "id": 179,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تُشبه البرمجيات (Software) في الجسد التكنولوجي بـ: (سؤال رقم 179)",
+        "options": [
+            "الروح في الجسد وبدونها لا يمكن الاستفادة من الأجهزة (Hardware)",
+            "الهيكل العظمي الصلب",
+            "أجهزة الإدخال المادية",
+            "الأسلاك الميكانيكية"
+        ],
+        "answer": "الروح في الجسد وبدونها لا يمكن الاستفادة من الأجهزة (Hardware)"
+    },
+    {
+        "id": 180,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "تنقسم البرمجيات بشكل عام إلى قسمين رئيسيين هما: (سؤال رقم 180)",
+        "options": [
+            "أنظمة التشغيل (Operating Systems) والبرامج التطبيقية (Applications)",
+            "أجهزة إدخال وأجهزة إخراج",
+            "بيانات ومعلومات",
+            "رموز لفظية ورموز صامتة"
+        ],
+        "answer": "أنظمة التشغيل (Operating Systems) والبرامج التطبيقية (Applications)"
+    },
+    {
+        "id": 181,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "وظيفة أنظمة التشغيل (مثل Windows / Linux) هي: (سؤال رقم 181)",
+        "options": [
+            "تنظيم وأدارة المكونات المادية والعمليات الأساسية للحاسب",
+            "كتابة المقالات الصحفية تلقائياً",
+            "البث الفضائي المباشر",
+            "تصميم الصور فقط"
+        ],
+        "answer": "تنظيم وأدارة المكونات المادية والعمليات الأساسية للحاسب"
+    },
+    {
+        "id": 182,
+        "chapter": "الفصل الرابع: تكنولوجيا المعلومات والعتاد والبرمجيات",
+        "question": "من أمثلة البرامج التطبيقية الملحقة في الحاسوب: (سؤال رقم 182)",
+        "options": [
+            "حزمة Microsoft Office وبرامج التحليل الإحصائي وقواعد البيانات",
+            "المعالج Microprocessor",
+            "الترانزستور",
+            "اللوحة الأم Motherboard"
+        ],
+        "answer": "حزمة Microsoft Office وبرامج التحليل الإحصائي وقواعد البيانات"
+    },
+    {
+        "id": 183,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "ما المقصود بمفهوم 'حارس البوابة' (Gatekeeper) في الإعلام؟ (سؤال رقم 183)",
+        "options": [
+            "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها",
+            "الجهاز المستعمل في تقوية الإشارة الفضائية",
+            "المستقبل الذاتي للرسالة",
+            "برنامج الحماية من الفيروسات"
+        ],
+        "answer": "المحرر أو الرقيب أو المخرج الذي يتحكم في انتقاء الأخبار والمعلومات وبثها أو حجبها"
+    },
+    {
+        "id": 184,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "من بين التالين، أي دور لا يعتبر من أدوار حارس البوابة الإعلامي؟ (سؤال رقم 184)",
+        "options": [
+            "تشفير البيانات الشخصية لدى المتلقي",
+            "اختيار الأخبار وتعديلها",
+            "حجب بعض الفقرات من النشر",
+            "تحديد التوقيت المناسب للبث"
+        ],
+        "answer": "تشفير البيانات الشخصية لدى المتلقي"
+    },
+    {
+        "id": 185,
+        "chapter": "الفصل الثاني: الاتصال الجماهيري وحارس البوابة",
+        "question": "تتميز الرسائل الجماهيرية بالانتشار الهائل والتغطية العابرة للقارات بفضل استخدام: (سؤال رقم 185)",
+        "options": [
+            "الأقمار الصناعية والتقنيات الحديثة",
+            "الاتصال الذاتي الصامت",
+            "الرسائل البريدية التقليدية فقط",
+            "اللغة غير اللفظية المجردة"
+        ],
+        "answer": "الأقمار الصناعية والتقنيات الحديثة"
+    },
+    {
+        "id": 186,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "يُعرف الاتصال الرقمي بأنه عملية اجتماعية تفاعلية يتم بموجبها تبادل الرسائل عبر: (سؤال رقم 186)",
+        "options": [
+            "النظم والشبكات الرقمية كالحواسب والويب",
+            "الصحف الورقية القديمة فقط",
+            "الهاتف السلكي الكلاسيكي بدائريته",
+            "الإشارات الضوئية اليدوية"
+        ],
+        "answer": "النظم والشبكات الرقمية كالحواسب والويب"
+    },
+    {
+        "id": 187,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "كم عدد الخصائص الجوهرية الكبرى للاتصال الرقمي كما وردت في الملخص؟ (سؤال رقم 187)",
+        "options": [
+            "5 خصائص",
+            "6 خصائص",
+            "7 خصائص",
+            "9 خصائص"
+        ],
+        "answer": "7 خصائص"
+    },
+    {
+        "id": 188,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تحول المتلقي من مجرد مستمع سلبي إلى مشارك نشط ومؤثر يتبادل الأدوار يعكس خاصية: (سؤال رقم 188)",
+        "options": [
+            "التفاعلية (Interactivity)",
+            "التكامل",
+            "الفردية",
+            "الاستغراق"
+        ],
+        "answer": "التفاعلية (Interactivity)"
+    },
+    {
+        "id": 189,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "خاصية 'التنوع' (Variety) في الاتصال الرقمي تشير إلى: (سؤال رقم 189)",
+        "options": [
+            "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)",
+            "تثبيت نوع واحد من الوسائط",
+            "قصر الاتصال على النصوص المكتوبة",
+            "إلغاء الوسائط الفائقة"
+        ],
+        "answer": "تعدد أشكال الاتصال والمحتوى المعروض (نصوص، صور، صوت، فيديو)"
+    },
+    {
+        "id": 190,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "اندماج نظم وشبكات الاتصال والوسائط الرقمية في بنية واحدة تتيح التعرض والتخزين والطباعة هي خاصية: (سؤال رقم 190)",
+        "options": [
+            "التكامل (Integration)",
+            "تجاوز الزمان",
+            "الفردية",
+            "التشويش"
+        ],
+        "answer": "التكامل (Integration)"
+    },
+    {
+        "id": 191,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "احترام خصوصية الفرد وتوفير بروتوكولات الأمان وتشفير البيانات تُعبر عن خاصية: (سؤال رقم 191)",
+        "options": [
+            "الفردية والذاتية (Individuality)",
+            "تجاوز الحدود السياسية",
+            "التفاعلية السلبية",
+            "ضعف رجع الصدى"
+        ],
+        "answer": "الفردية والذاتية (Individuality)"
+    },
+    {
+        "id": 192,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تجاوز الحدود السياسية والجغرافية وسقوط الحواجز بين الشعوب يعكس خاصية الاتصال الرقمي بـ: (سؤال رقم 192)",
+        "options": [
+            "العولمة وتجاوز الحدود الثقافية (Globalisation)",
+            "المؤسسية المعقدة",
+            "الجمهور المتجانس",
+            "الاتصال الذاتي"
+        ],
+        "answer": "العولمة وتجاوز الحدود الثقافية (Globalisation)"
+    },
+    {
+        "id": 193,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "عدم اشتراط تواجد المرسل والمستقبل في نفس اللحظة أو المكان لإتمام الاتصال الرقمي يعني أنه يتجاوز: (سؤال رقم 193)",
+        "options": [
+            "وحدة المكان والزمان",
+            "التفاعلية",
+            "بروتوكولات الأمان",
+            "هرم المعرفة"
+        ],
+        "answer": "وحدة المكان والزمان"
+    },
+    {
+        "id": 194,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "انخفاض تكاليف الشبكات والبرمجيات الذي يشجع المستعمل على قضاء ساعات طويلة في التجول يُسمى: (سؤال رقم 194)",
+        "options": [
+            "الاستغراق في الاتصال (Flow)",
+            "التشويش الميكانيكي",
+            "رقابة حارس البوابة",
+            "الجيل الأول للحواسب"
+        ],
+        "answer": "الاستغراق في الاتصال (Flow)"
+    },
+    {
+        "id": 195,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "ما هي مستويات الاتصال الرقمي والإنترنت الأربعة المتصاعدة؟ (سؤال رقم 195)",
+        "options": [
+            "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية",
+            "الذاتي، الشخصي، الجمعي، الجماهيري",
+            "الجيل 1، 2، 3، 4",
+            "المرسل، المستقبل، الرسالة، الأثر"
+        ],
+        "answer": "الاتصال بالحاسب، بقواعد البيانات، المباشر عبر الشبكات، وبمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 196,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تفاعل الفرد المباشر مع برنامج كمبيوتر أو قاعدة بيانات تعليمية يمثل مستوى: (سؤال رقم 196)",
+        "options": [
+            "الاتصال بالحاسب وبرامجه",
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الجماهيري احادي الاتجاه",
+            "الاتصال الثقافي المباشر"
+        ],
+        "answer": "الاتصال بالحاسب وبرامجه"
+    },
+    {
+        "id": 197,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "استخدام الحواسب كأجهزة طرفية للوصول للمعلومات المخزنة في خوادم مركزية (Servers) هو مستوى: (سؤال رقم 197)",
+        "options": [
+            "الاتصال بقواعد البيانات",
+            "الاتصال الذاتي",
+            "الاتصال غير المتزامن بـ الفاكس",
+            "الاتصال الشخصي المباشر"
+        ],
+        "answer": "الاتصال بقواعد البيانات"
+    },
+    {
+        "id": 198,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "التفاعل عبر المحادثات المباشرة (Video Conference) أو البريد الإلكتروني هو مستوى: (سؤال رقم 198)",
+        "options": [
+            "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)",
+            "الاتصال الكلاسيكي",
+            "الاتصال الذاتي العميـق",
+            "رقابة حارس البوابة"
+        ],
+        "answer": "الاتصال المباشر عبر الشبكات (متزامن وغير متزامن)"
+    },
+    {
+        "id": 199,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "إنشاء المؤسسات الإعلامية لمواقع إخبارية إلكترونية تجذب ملايين الزوار يمثل مستوى: (سؤال رقم 199)",
+        "options": [
+            "الاتصال بمواقع الوسائل الإعلامية",
+            "الاتصال الذاتي المعقد",
+            "الجيل الثالث للحواسب",
+            "الاتصال الوسيطي الفردي"
+        ],
+        "answer": "الاتصال بمواقع الوسائل الإعلامية"
+    },
+    {
+        "id": 200,
+        "chapter": "الفصل الثالث: الاتصال الرقمي وخصائصه",
+        "question": "تثبت الدراسات أن شبكة الإنترنت تمثل وسيلة اتصال جماهيري بالغة الفعالية بالإضافة إلى دورها كـ: (سؤال رقم 200)",
+        "options": [
+            "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي",
+            "بديل كامل للحواس البشرية",
+            "لغة غير لفظية بديلة",
+            "عائق دلالي أمام الفهم"
+        ],
+        "answer": "وسيط اتصالي يربط وسائل الإعلام الكلاسيكية بالجمهور الرقمي"
+    }
+];
+
+const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+function toArabicNum(n){
+  return String(n).replace(/[0-9]/g, d => arabicDigits[d]);
+}
+
+// Build ordered unique chapter list, preserving first-seen order
+const chapters = [];
+QUIZ_DATA.forEach(q => { if(!chapters.includes(q.chapter)) chapters.push(q.chapter); });
+
+const chapterCounts = {};
+chapters.forEach(c => chapterCounts[c] = QUIZ_DATA.filter(q => q.chapter === c).length);
+
+let selectedChapters = new Set(chapters);
+let sessionQuestions = [];
+let sessionOptionOrder = [];   // fixed shuffled options per question index
+let sessionState = [];         // per-question: {chosen, correct, hintRemoved, hintUsed} or null
+let currentIndex = 0;
+
+const chapterListEl = document.getElementById('chapter-list');
+const countNoteEl = document.getElementById('count-note');
+const startBtn = document.getElementById('start-btn');
+
+function renderChapterList(){
+  chapterListEl.innerHTML = '';
+  chapters.forEach(ch => {
+    const row = document.createElement('div');
+    row.className = 'chapter-item checked';
+    row.innerHTML = `
+      <span class="ch-check"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="ch-name">${ch}</span>
+      <span class="ch-count">${toArabicNum(chapterCounts[ch])} سؤال</span>
+    `;
+    row.addEventListener('click', () => {
+      if(selectedChapters.has(ch)){
+        selectedChapters.delete(ch);
+        row.classList.remove('checked');
+      } else {
+        selectedChapters.add(ch);
+        row.classList.add('checked');
+      }
+      updateCountNote();
+    });
+    chapterListEl.appendChild(row);
+  });
+  updateCountNote();
+}
+
+function updateCountNote(){
+  const total = chapters.reduce((sum,c) => selectedChapters.has(c) ? sum + chapterCounts[c] : sum, 0);
+  countNoteEl.textContent = `${toArabicNum(total)} سؤال محدد`;
+  startBtn.disabled = total === 0;
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function beginSession(questions){
+  sessionQuestions = questions;
+  sessionOptionOrder = sessionQuestions.map(q => shuffle(q.options));
+  sessionState = sessionQuestions.map(() => null);
+  currentIndex = 0;
+  document.getElementById('setup-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  showQuestion();
+}
+
+startBtn.addEventListener('click', () => {
+  beginSession(shuffle(QUIZ_DATA.filter(q => selectedChapters.has(q.chapter))));
+});
+
+const qPosition = document.getElementById('q-position');
+const qScore = document.getElementById('q-score');
+const progressFill = document.getElementById('progress-fill');
+const qChapter = document.getElementById('q-chapter');
+const qText = document.getElementById('q-text');
+const optionsEl = document.getElementById('options');
+const feedbackEl = document.getElementById('feedback');
+const nextBtn = document.getElementById('next-btn');
+const prevBtn = document.getElementById('prev-btn');
+const hintBtn = document.getElementById('hint-btn');
+const hintNote = document.getElementById('hint-note');
+
+function currentScore(){
+  return sessionState.filter(s => s && s.correct).length;
+}
+
+function showQuestion(){
+  const q = sessionQuestions[currentIndex];
+  const state = sessionState[currentIndex];
+
+  qPosition.textContent = `السؤال ${toArabicNum(currentIndex + 1)} من ${toArabicNum(sessionQuestions.length)}`;
+  qScore.textContent = `الصحيح: ${toArabicNum(currentScore())}`;
+  progressFill.style.width = (currentIndex / sessionQuestions.length * 100) + '%';
+  qChapter.textContent = q.chapter;
+  qText.textContent = q.question;
+
+  prevBtn.disabled = currentIndex === 0;
+
+  const letters = ['أ','ب','ج','د','هـ','و'];
+  optionsEl.innerHTML = '';
+  sessionOptionOrder[currentIndex].forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt';
+    div.dataset.value = opt;
+    div.innerHTML = `<span class="bullet">${letters[i] || (i+1)}</span><span>${opt}</span>`;
+    div.addEventListener('click', () => selectOption(div, opt, q));
+    optionsEl.appendChild(div);
+  });
+
+  feedbackEl.className = 'feedback';
+  feedbackEl.textContent = '';
+  hintNote.className = 'hint-note';
+  hintNote.textContent = '';
+  nextBtn.classList.remove('show');
+  hintBtn.disabled = false;
+  hintBtn.classList.remove('hidden');
+
+  if(state && state.hintUsed){
+    applyHintVisual(state.hintRemoved);
+  }
+
+  if(state && state.chosen){
+    // question already answered before — restore locked view
+    lockOptions(q, state.chosen);
+    hintBtn.disabled = true;
+    nextBtn.classList.add('show');
+    nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? 'عرض النتيجة' : 'التالي';
+  }
+}
+
+function applyHintVisual(removedValue){
+  const optDivs = [...optionsEl.children];
+  optDivs.forEach(child => {
+    if(child.dataset.value === removedValue){
+      child.classList.add('locked', 'dim');
+      child.style.pointerEvents = 'none';
+    }
+  });
+  hintNote.className = 'hint-note show';
+  hintNote.textContent = 'تم استبعاد إجابة خاطئة واحدة';
+  hintBtn.disabled = true;
+}
+
+hintBtn.addEventListener('click', () => {
+  const q = sessionQuestions[currentIndex];
+  if(sessionState[currentIndex] && sessionState[currentIndex].chosen) return;
+
+  const wrongDivs = [...optionsEl.children].filter(d => d.dataset.value !== q.answer);
+  if(wrongDivs.length < 2) return; // keep at least 2 options total
+  const pick = wrongDivs[Math.floor(Math.random() * wrongDivs.length)];
+
+  sessionState[currentIndex] = sessionState[currentIndex] || {chosen:null, correct:false};
+  sessionState[currentIndex].hintUsed = true;
+  sessionState[currentIndex].hintRemoved = pick.dataset.value;
+
+  applyHintVisual(pick.dataset.value);
+});
+
+function lockOptions(q, chosen){
+  [...optionsEl.children].forEach(child => {
+    child.classList.add('locked', 'dim');
+    child.style.pointerEvents = 'none';
+    if(child.dataset.value === q.answer){
+      child.classList.remove('dim');
+      child.classList.add('correct');
+    }
+    if(child.dataset.value === chosen && chosen !== q.answer){
+      child.classList.remove('dim');
+      child.classList.add('wrong');
+    }
+  });
+  const isCorrect = chosen === q.answer;
+  feedbackEl.className = 'feedback show ' + (isCorrect ? 'ok' : 'bad');
+  feedbackEl.textContent = isCorrect ? '✓ إجابة صحيحة' : `✗ إجابة خاطئة — الصحيحة: ${q.answer}`;
+}
+
+function selectOption(div, chosen, q){
+  if(sessionState[currentIndex] && sessionState[currentIndex].chosen) return;
+
+  const isCorrect = chosen === q.answer;
+  const prior = sessionState[currentIndex] || {};
+  sessionState[currentIndex] = {
+    chosen: chosen,
+    correct: isCorrect,
+    hintUsed: prior.hintUsed || false,
+    hintRemoved: prior.hintRemoved || null
+  };
+
+  lockOptions(q, chosen);
+  hintBtn.disabled = true;
+  qScore.textContent = `الصحيح: ${toArabicNum(currentScore())}`;
+  nextBtn.classList.add('show');
+  nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? 'عرض النتيجة' : 'التالي';
+}
+
+prevBtn.addEventListener('click', () => {
+  if(currentIndex > 0){
+    currentIndex -= 1;
+    showQuestion();
+  }
+});
+
+nextBtn.addEventListener('click', () => {
+  if(currentIndex < sessionQuestions.length - 1){
+    currentIndex += 1;
+    showQuestion();
+  } else {
+    progressFill.style.width = '100%';
+    showResult();
+  }
+});
+
+function showResult(){
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+
+  const answeredCount = sessionState.filter(s => s && s.chosen).length || sessionQuestions.length;
+  const score = currentScore();
+  const pct = Math.round((score / sessionQuestions.length) * 100);
+  document.getElementById('result-pct').innerHTML = `${toArabicNum(pct)}<span>٪</span>`;
+  document.getElementById('result-label').textContent =
+    `أجبت بشكل صحيح على ${toArabicNum(score)} من ${toArabicNum(sessionQuestions.length)} سؤالاً`;
+
+  const chapterStats = {};
+  sessionQuestions.forEach((q, i) => {
+    const s = sessionState[i];
+    if(!chapterStats[q.chapter]) chapterStats[q.chapter] = {correct:0, total:0};
+    chapterStats[q.chapter].total += 1;
+    if(s && s.correct) chapterStats[q.chapter].correct += 1;
+  });
+
+  const breakdownEl = document.getElementById('breakdown');
+  breakdownEl.innerHTML = '';
+  Object.keys(chapterStats).forEach(ch => {
+    const s = chapterStats[ch];
+    const row = document.createElement('div');
+    row.className = 'bk-row';
+    row.innerHTML = `<span class="bk-name">${ch}</span><span class="bk-val">${toArabicNum(s.correct)} / ${toArabicNum(s.total)}</span>`;
+    breakdownEl.appendChild(row);
+  });
+}
+
+document.getElementById('retry-btn').addEventListener('click', () => {
+  beginSession(shuffle(sessionQuestions));
+});
+
+document.getElementById('home-btn').addEventListener('click', () => {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('setup-screen').classList.remove('hidden');
+});
+
+renderChapterList();
+</script>
+</body>
+</html>
