@@ -1,420 +1,923 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اختبار الاتصال الإنساني</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --paper:#F5F1E7;
-    --paper-2:#EDE6D6;
-    --ink:#252220;
-    --ink-soft:#5C554C;
-    --teal:#1F6B66;
-    --teal-deep:#134744;
-    --gold:#C89B3C;
-    --wrong:#A8402F;
-    --line:#D8CFBB;
-    --card:#FBF9F3;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:var(--paper);
-    background-image:
-      radial-gradient(circle at 15% 8%, rgba(31,107,102,0.07), transparent 40%),
-      radial-gradient(circle at 90% 85%, rgba(200,155,60,0.09), transparent 45%);
-    color:var(--ink);
-    font-family:'Tajawal', sans-serif;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:32px 16px 60px;
-  }
-  .brand{
-    text-align:center;
-    margin-bottom:28px;
-    max-width:640px;
-  }
-  .brand .mark{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    color:var(--teal-deep);
-    font-weight:900;
-    font-size:13px;
-    letter-spacing:0.02em;
-    margin-bottom:10px;
-  }
-  .brand .mark svg{width:20px;height:20px;}
-  .brand h1{
-    font-family:'Amiri', serif;
-    font-size:clamp(28px,4.5vw,40px);
-    font-weight:700;
-    margin:0 0 8px;
-    color:var(--ink);
-    line-height:1.25;
-  }
-  .brand p{
-    color:var(--ink-soft);
-    font-size:15px;
-    margin:0;
-    line-height:1.7;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  .stage{width:100%;max-width:640px;}
+  <title>Interactive Exam</title>
 
-  /* ---------- Setup screen ---------- */
-  .setup-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    padding:28px 26px;
-  }
-  .setup-card h2{
-    font-family:'Amiri', serif;
-    font-size:20px;
-    margin:0 0 4px;
-  }
-  .setup-card .hint{
-    color:var(--ink-soft);
-    font-size:14px;
-    margin:0 0 20px;
-  }
-  .chapter-list{
-    display:flex;
-    flex-direction:column;
-    gap:0;
-    border-top:1px solid var(--line);
-  }
-  .chapter-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    padding:14px 4px;
-    border-bottom:1px solid var(--line);
-    cursor:pointer;
-  }
-  .chapter-item .ch-name{
-    font-size:15px;
-    font-weight:500;
-    line-height:1.5;
-  }
-  .chapter-item .ch-count{
-    flex:none;
-    font-size:13px;
-    color:var(--ink-soft);
-    font-variant-numeric:tabular-nums;
-  }
-  .chapter-item .ch-check{
-    flex:none;
-    width:18px;height:18px;
-    border:1.5px solid var(--ink-soft);
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    transition:background .15s, border-color .15s;
-  }
-  .chapter-item.checked .ch-check{
-    background:var(--teal);
-    border-color:var(--teal);
-  }
-  .chapter-item.checked .ch-check svg{display:block;}
-  .ch-check svg{display:none;width:11px;height:11px;stroke:white;}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  .setup-actions{
-    margin-top:22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:14px;
-  }
-  .count-note{font-size:13px;color:var(--ink-soft);}
-  .btn{
-    font-family:'Tajawal', sans-serif;
-    font-weight:700;
-    font-size:15px;
-    border:none;
-    cursor:pointer;
-    padding:13px 26px;
-    background:var(--teal-deep);
-    color:var(--paper);
-    transition:background .15s;
-  }
-  .btn:hover{background:var(--teal);}
-  .btn:disabled{background:#B9B2A2;cursor:not-allowed;}
-  .btn-ghost{
-    background:transparent;
-    color:var(--teal-deep);
-    border:1.5px solid var(--teal-deep);
-    padding:11px 24px;
-  }
-  .btn-ghost:hover{background:rgba(31,107,102,0.08);}
+  <style>
 
-  /* ---------- questionuiz screen ---------- */
-  .questionuiz-head{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    margin-bottom:10px;
-    font-size:13px;
-    color:var(--ink-soft);
-  }
-  .progress-track{
-    height:3px;
-    background:var(--line);
-    width:100%;
-    margin-bottom:22px;
-    position:relative;
-  }
-  .progress-fill{
-    position:absolute;
-    inset:0;
-    background:var(--teal);
-    width:0%;
-    transition:width .35s ease;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .question-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    padding:30px 26px 26px;
-  }
-  .question-topline{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-bottom:14px;
-  }
-  .question-chapter{
-    font-size:13px;
-    color:var(--teal-deep);
-    font-weight:700;
-  }
-  .hint-btn{
-    flex:none;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-family:'Tajawal', sans-serif;
-    font-size:13px;
-    font-weight:700;
-    color:var(--gold);
-    background:transparent;
-    border:1.5px solid var(--gold);
-    padding:6px 12px;
-    cursor:pointer;
-    transition:background .12s, opacity .12s;
-  }
-  .hint-btn:hover:not(:disabled){background:rgba(200,155,60,0.12);}
-  .hint-btn:disabled{
-    opacity:0.4;
-    cursor:default;
-  }
-  .hint-btn svg{width:15px;height:15px;}
-  .hint-note{
-    font-size:13px;
-    color:var(--gold);
-    font-weight:700;
-    margin:-8px 0 16px;
-    display:none;
-  }
-  .hint-note.show{display:block;}
-  .question-text{
-    font-family:'Amiri', serif;
-    font-size:clamp(19px,3vw,22px);
-    line-height:1.6;
-    margin:0 0 22px;
-  }
-  .options{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-  .opt{
-    text-align:right;
-    font-family:'Tajawal', sans-serif;
-    font-size:15px;
-    line-height:1.5;
-    padding:14px 16px;
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    cursor:pointer;
-    color:var(--ink);
-    display:flex;
-    align-items:center;
-    gap:12px;
-    transition:border-color .12s, background .12s;
-  }
-  .opt:hover:not(.locked){border-color:var(--teal);background:#F3EFE1;}
-  .opt .bullet{
-    flex:none;
-    width:20px;height:20px;
-    border:1.5px solid var(--ink-soft);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-    font-weight:700;
-    color:var(--ink-soft);
-  }
-  .opt.correct{border-color:var(--teal);background:rgba(31,107,102,0.12);}
-  .opt.correct .bullet{background:var(--teal);border-color:var(--teal);color:#fff;}
-  .opt.wrong{border-color:var(--wrong);background:rgba(168,64,47,0.10);}
-  .opt.wrong .bullet{background:var(--wrong);border-color:var(--wrong);color:#fff;}
-  .opt.locked{cursor:default;}
-  .opt.dim{opacity:0.55;}
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --danger: #ef4444;
+      --text: #111827;
+      --muted: #64748b;
+      --border: #e5e7eb;
+      --bg: #f8fafc;
+      --card: #ffffff;
+    }
 
-  .feedback{
-    margin-top:18px;
-    font-size:14px;
-    font-weight:700;
-    display:none;
-    align-items:center;
-    gap:8px;
-  }
-  .feedback.show{display:flex;}
-  .feedback.ok{color:var(--teal-deep);}
-  .feedback.bad{color:var(--wrong);}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Cairo", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(99,102,241,.10), transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(16,185,129,.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+    }
 
-  .question-foot{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:22px;
-  }
-  .score-note{font-size:13px;color:var(--ink-soft);}
-  .next-btn{display:none;}
-  .next-btn.show{display:inline-block;}
+    /* =========================
+       APP
+    ========================= */
 
-  /* ---------- Result screen ---------- */
-  .result-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    padding:34px 28px;
-    text-align:center;
-  }
-  .result-card .big-score{
-    font-family:'Amiri', serif;
-    font-size:56px;
-    font-weight:700;
-    color:var(--teal-deep);
-    line-height:1;
-    margin-bottom:6px;
-  }
-  .result-card .big-score span{font-size:24px;color:var(--ink-soft);font-family:'Tajawal',sans-serif;}
-  .result-card .result-label{
-    font-size:15px;
-    color:var(--ink-soft);
-    margin-bottom:26px;
-  }
-  .breakdown{
-    text-align:right;
-    border-top:1px solid var(--line);
-    margin-bottom:24px;
-  }
-  .bk-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    padding:11px 2px;
-    border-bottom:1px solid var(--line);
-    font-size:14px;
-  }
-  .bk-row .bk-name{color:var(--ink);}
-  .bk-row .bk-val{color:var(--ink-soft);font-variant-numeric:tabular-nums;flex:none;}
-  .result-actions{display:flex;gap:12px;justify-content:center;}
+    .app {
+      width: min(1100px, 94%);
+      margin: 35px auto;
+    }
 
-  .hidden{display:none !important;}
+    /* =========================
+       TOP BAR
+    ========================= */
 
-  footer{
-    margin-top:36px;
-    font-size:12px;
-    color:var(--ink-soft);
-    text-align:center;
-  }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
 
-  @media (max-width:480px){
-    .setup-card, .question-card, .result-card{padding:22px 18px;}
-  }
-</style>
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(15px);
+
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 24px;
+
+      padding: 18px 22px;
+      margin-bottom: 18px;
+
+      box-shadow:
+        0 15px 40px rgba(15,23,42,.07);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 14px;
+
+      background: linear-gradient(
+        135deg,
+        var(--primary),
+        #8b5cf6
+      );
+
+      color: white;
+      font-size: 21px;
+
+      box-shadow:
+        0 8px 20px rgba(99,102,241,.3);
+    }
+
+    .brand h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .score-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      background: #f8fafc;
+      border: 1px solid var(--border);
+
+      padding: 8px 14px;
+      border-radius: 14px;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .score-icon {
+      color: #f59e0b;
+    }
+
+    /* =========================
+       PROGRESS
+    ========================= */
+
+    .progress-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 20px 22px;
+      margin-bottom: 18px;
+
+      box-shadow:
+        0 10px 30px rgba(15,23,42,.05);
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 10px;
+    }
+
+    .progress-info strong {
+      font-size: 14px;
+    }
+
+    .progress-info span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .progress {
+      height: 8px;
+      background: #eef2f7;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary),
+          #8b5cf6
+        );
+
+      border-radius: 20px;
+
+      transition: width .4s ease;
+    }
+
+    /* =========================
+       QUESTION NAVIGATION
+    ========================= */
+
+    .question-nav {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+
+      padding: 3px 2px 12px;
+      margin-bottom: 5px;
+
+      scrollbar-width: thin;
+    }
+
+    .question-number {
+      min-width: 38px;
+      height: 38px;
+
+      border: 1px solid var(--border);
+      background: white;
+
+      border-radius: 11px;
+
+      cursor: pointer;
+
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+
+      color: var(--muted);
+
+      transition: .2s;
+    }
+
+    .question-number:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .question-number.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+
+      box-shadow:
+        0 5px 15px rgba(99,102,241,.25);
+    }
+
+    .question-number.answered {
+      background: #ecfdf5;
+      color: #059669;
+      border-color: #a7f3d0;
+    }
+
+    .question-number.active.answered {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* =========================
+       QUESTION CARD
+    ========================= */
+
+    .question-card {
+      background: rgba(255,255,255,.95);
+      border: 1px solid rgba(255,255,255,.9);
+
+      border-radius: 28px;
+
+      padding: 35px;
+
+      box-shadow:
+        0 20px 60px rgba(15,23,42,.08);
+
+      animation: fadeIn .3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .chapter {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      background: #eef2ff;
+      color: var(--primary-dark);
+
+      padding: 7px 13px;
+
+      border-radius: 10px;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      margin-bottom: 20px;
+    }
+
+    .chapter::before {
+      content: "◆";
+      font-size: 8px;
+    }
+
+    .question {
+      font-size: 25px;
+      line-height: 1.8;
+
+      font-weight: 800;
+
+      margin: 0 0 28px;
+
+      max-width: 900px;
+    }
+
+    /* =========================
+       OPTIONS
+    ========================= */
+
+    .options {
+      display: grid;
+      gap: 13px;
+    }
+
+    .option {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      width: 100%;
+
+      padding: 17px 18px;
+
+      border: 2px solid var(--border);
+      background: white;
+
+      border-radius: 16px;
+
+      cursor: pointer;
+
+      transition:
+        transform .18s,
+        border .18s,
+        background .18s,
+        box-shadow .18s;
+    }
+
+    .option:hover {
+      transform: translateY(-2px);
+
+      border-color: #a5b4fc;
+
+      box-shadow:
+        0 8px 20px rgba(99,102,241,.08);
+    }
+
+    .option-letter {
+      flex-shrink: 0;
+
+      width: 39px;
+      height: 39px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+
+      background: #f1f5f9;
+
+      color: #475569;
+
+      font-weight: 800;
+    }
+
+    .option-text {
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .option.correct {
+      border-color: var(--success);
+      background: #f0fdf4;
+      color: #047857;
+    }
+
+    .option.correct .option-letter {
+      background: var(--success);
+      color: white;
+    }
+
+    .option.wrong {
+      border-color: var(--danger);
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .option.wrong .option-letter {
+      background: var(--danger);
+      color: white;
+    }
+
+    .option.disabled {
+      pointer-events: none;
+    }
+
+    /* =========================
+       EXPLANATION
+    ========================= */
+
+    .explanation {
+      display: none;
+
+      margin-top: 22px;
+
+      padding: 18px 20px;
+
+      border-radius: 16px;
+
+      background: #f8fafc;
+
+      border: 1px solid var(--border);
+
+      animation: fadeIn .25s ease;
+    }
+
+    .explanation.show {
+      display: block;
+    }
+
+    .explanation-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .explanation-text {
+      color: #475569;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    /* =========================
+       ACTIONS
+    ========================= */
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+
+      margin-top: 28px;
+      padding-top: 22px;
+
+      border-top: 1px solid #eef2f7;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      border: none;
+
+      padding: 13px 20px;
+
+      border-radius: 13px;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .back-btn {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .back-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .next-btn {
+      background: var(--primary);
+      color: white;
+
+      box-shadow:
+        0 7px 18px rgba(99,102,241,.25);
+    }
+
+    .next-btn:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .next-btn:disabled {
+      background: #cbd5e1;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       RESULT
+    ========================= */
+
+    .result {
+      display: none;
+
+      background: white;
+
+      border-radius: 28px;
+
+      padding: 50px 30px;
+
+      text-align: center;
+
+      box-shadow:
+        0 20px 60px rgba(15,23,42,.08);
+    }
+
+    .result.show {
+      display: block;
+      animation: fadeIn .4s ease;
+    }
+
+    .result-icon {
+      width: 80px;
+      height: 80px;
+
+      display: grid;
+      place-items: center;
+
+      margin: auto;
+
+      border-radius: 24px;
+
+      background: #eef2ff;
+
+      font-size: 38px;
+    }
+
+    .result h1 {
+      margin: 20px 0 5px;
+      font-size: 28px;
+    }
+
+    .result-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .final-score {
+      font-size: 65px;
+      font-weight: 900;
+
+      margin: 15px 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          #8b5cf6
+        );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 13px;
+
+      max-width: 650px;
+      margin: 30px auto;
+    }
+
+    .stat {
+      background: #f8fafc;
+
+      border: 1px solid var(--border);
+
+      padding: 18px;
+
+      border-radius: 16px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      margin-top: 5px;
+    }
+
+    .green {
+      color: var(--success);
+    }
+
+    .red {
+      color: var(--danger);
+    }
+
+    .restart-btn {
+      border: none;
+
+      padding: 14px 28px;
+
+      border-radius: 13px;
+
+      background: #111827;
+      color: white;
+
+      font-size: 15px;
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    .restart-btn:hover {
+      background: #1f2937;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 700px) {
+
+      .app {
+        width: 94%;
+        margin: 15px auto;
+      }
+
+      .topbar {
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .brand-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .brand h2 {
+        font-size: 15px;
+      }
+
+      .score-box {
+        padding: 7px 10px;
+        font-size: 12px;
+      }
+
+      .question-card {
+        padding: 21px;
+        border-radius: 21px;
+      }
+
+      .question {
+        font-size: 20px;
+        line-height: 1.8;
+      }
+
+      .option {
+        padding: 13px;
+      }
+
+      .option-text {
+        font-size: 14px;
+      }
+
+      .option-letter {
+        width: 34px;
+        height: 34px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        gap: 10px;
+      }
+
+      .nav-btn {
+        flex: 1;
+        justify-content: center;
+      }
+
+    }
+
+  </style>
 </head>
+
 <body>
 
-<div class="brand">
-  <div class="mark">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="2.4" fill="currentColor"/>
-      <path d="M7.8 7.8a6 6 0 000 8.4M16.2 7.8a6 6 0 010 8.4M4.6 4.6a10.6 10.6 0 000 14.8M19.4 4.6a10.6 10.6 0 010 14.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-    </svg>
-    <span>اختبار تفاعلي</span>
+<div class="app">
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <div class="topbar" id="topbar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        📝
+      </div>
+
+      <div>
+        <h2>اختبار عن ماده تواصل وعرض فعال</h2>
+        <span>اختبر معلوماتك وتابع تقدمك</span>
+      </div>
+
+    </div>
+
+    <div class="score-box">
+      <span class="score-icon">⭐</span>
+      <span id="scoreText">0 نقطة</span>
+    </div>
+
   </div>
-  <h1>مبادئ الاتصال الإنساني</h1>
-  <p>74 سؤال عبر فصول المقرر — اختر ما تريد مراجعته وابدأ</p>
+
+
+  <!-- =========================
+       PROGRESS
+  ========================== -->
+
+  <div class="progress-card" id="progressCard">
+
+    <div class="progress-info">
+
+      <strong id="questionNumber">
+        السؤال 1 من 74
+      </strong>
+
+      <span id="percentage">
+        0%
+      </span>
+
+    </div>
+
+    <div class="progress">
+      <div
+        class="progress-bar"
+        id="progressBar">
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       QUESTION NAVIGATION
+  ========================== -->
+
+  <div
+    class="question-nav"
+    id="questionNav">
+  </div>
+
+
+  <!-- =========================
+       QUESTION
+  ========================== -->
+
+  <div
+    class="question-card"
+    id="questionCard">
+
+    <div
+      class="chapter"
+      id="chapter">
+    </div>
+
+    <h1
+      class="question"
+      id="question">
+    </h1>
+
+    <div
+      class="options"
+      id="options">
+    </div>
+
+
+    <div
+      class="explanation"
+      id="explanation">
+
+      <div class="explanation-title">
+        💡 شرح الإجابة
+      </div>
+
+      <div
+        class="explanation-text"
+        id="explanationText">
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        class="nav-btn back-btn"
+        id="backBtn"
+        onclick="previousQuestion()">
+
+        → السابق
+
+      </button>
+
+
+      <button
+        class="nav-btn next-btn"
+        id="nextBtn"
+        onclick="nextQuestion()"
+        disabled>
+
+        التالي ←
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       RESULT
+  ========================== -->
+
+  <div
+    class="result"
+    id="result">
+
+    <div class="result-icon">
+      🏆
+    </div>
+
+    <h1>انتهى الامتحان!</h1>
+
+    <div class="result-subtitle">
+      هذه هي نتيجتك النهائية
+    </div>
+
+    <div
+      class="final-score"
+      id="finalScore">
+      0%
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <span>إجمالي الأسئلة</span>
+        <strong id="totalQuestions">0</strong>
+      </div>
+
+      <div class="stat">
+        <span>الإجابات الصحيحة</span>
+        <strong
+          class="green"
+          id="correctAnswers">
+          0
+        </strong>
+      </div>
+
+      <div class="stat">
+        <span>الإجابات الخاطئة</span>
+        <strong
+          class="red"
+          id="wrongAnswers">
+          0
+        </strong>
+      </div>
+
+    </div>
+
+
+    <button
+      class="restart-btn"
+      onclick="restartQuiz()">
+
+      🔄 إعادة الامتحان
+
+    </button>
+
+  </div>
+
 </div>
 
-<div class="stage">
-
-  <!-- SETUP SCREEN -->
-  <div id="setup-screen" class="setup-card">
-    <h2>اختر الفصول</h2>
-    <p class="hint">حدد فصلاً واحداً أو أكثر، أو اترك الكل محدداً لخوض الاختبار الشامل</p>
-    <div id="chapter-list" class="chapter-list"></div>
-    <div class="setup-actions">
-      <span id="count-note" class="count-note">74 سؤال محدد</span>
-      <button id="start-btn" class="btn">ابدأ الاختبار</button>
-    </div>
-  </div>
-
-  <!-- questionUIZ SCREEN -->
-  <div id="questionuiz-screen" class="hidden">
-    <div class="questionuiz-head">
-      <span id="question-position">السؤال ١ من 74</span>
-      <span id="question-score">الصحيح: ٠</span>
-    </div>
-    <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
-    <div class="question-card">
-      <div class="question-topline">
-        <div id="question-chapter" class="question-chapter"></div>
-        <button id="hint-btn" class="hint-btn">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.5.36.8.95.8 1.6v.5h5.4v-.5c0-.65.3-1.24.8-1.6A6 6 0 0012 3z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span id="hint-label">تلميح</span>
-        </button>
-      </div>
-      <p id="question-text" class="question-text"></p>
-      <div id="options" class="options"></div>
-      <p id="hint-note" class="hint-note"></p>
-      <div id="feedback" class="feedback"></div>
-      <div class="question-foot">
-        <button id="prev-btn" class="btn btn-ghost" disabled>السابق</button>
-        <button id="next-btn" class="btn next-btn">التالي</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- RESULT SCREEN -->
-  <div id="result-screen" class="hidden result-card">
-    <div class="big-score"><span id="result-pct">٠٪</span></div>
-    <div class="result-label" id="result-label"></div>
-    <div id="breakdown" class="breakdown"></div>
-    <div class="result-actions">
-      <button id="retry-btn" class="btn">إعادة نفس الاختيار</button>
-      <button id="home-btn" class="btn btn-ghost">اختيار فصول أخرى</button>
-    </div>
-  </div>
-
-</div>
-
-<footer>تُعرض الأسئلة بترتيب عشوائي في كل محاولة</footer>
 
 <script>
-const questionUIZ_DATA = [
+
+/* =========================================================
+   DATA
+   =========================================================
+
+   الصق هنا الـ JSON الكامل الذي أرسلته.
+   ========================================================= */
+
+const questions = [
   {
     "id": 1,
     "chapter": "الفصل الأول: تاريخ الاتصال",
@@ -1379,265 +1882,579 @@ const questionUIZ_DATA = [
   }
 ];
 
-const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
-function toArabicNum(n){
-  return String(n).replace(/[0-9]/g, d => arabicDigits[d]);
-}
 
-// Build ordered uniquestionue chapter list, preserving first-seen order
-const chapters = [];
-questionUIZ_DATA.forEach(question => { if(!chapters.includes(question.chapter)) chapters.push(question.chapter); });
+/* =========================================================
+   STATE
+   ========================================================= */
 
-const chapterCounts = {};
-chapters.forEach(c => chapterCounts[c] = questionUIZ_DATA.filter(question => question.chapter === c).length);
+let currentQuestion = 0;
 
-let selectedChapters = new Set(chapters);
-let sessionquestionuestions = [];
-let sessionOptionOrder = [];   // fixed shuffled options per questionuestion index
-let sessionState = [];         // per-questionuestion: {chosen, correct, hintRemoved, hintUsed} or null
-let currentIndex = 0;
+let score = 0;
 
-const chapterListEl = document.getElementById('chapter-list');
-const countNoteEl = document.getElementById('count-note');
-const startBtn = document.getElementById('start-btn');
+let answered = [];
 
-function renderChapterList(){
-  chapterListEl.innerHTML = '';
-  chapters.forEach(ch => {
-    const row = document.createElement('div');
-    row.className = 'chapter-item checked';
-    row.innerHTML = `
-      <span class="ch-check"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="ch-name">${ch}</span>
-      <span class="ch-count">${toArabicNum(chapterCounts[ch])} سؤال</span>
-    `;
-    row.addEventListener('click', () => {
-      if(selectedChapters.has(ch)){
-        selectedChapters.delete(ch);
-        row.classList.remove('checked');
-      } else {
-        selectedChapters.add(ch);
-        row.classList.add('checked');
-      }
-      updateCountNote();
-    });
-    chapterListEl.appendChild(row);
-  });
-  updateCountNote();
-}
+let selectedAnswers = [];
 
-function updateCountNote(){
-  const total = chapters.reduce((sum,c) => selectedChapters.has(c) ? sum + chapterCounts[c] : sum, 0);
-  countNoteEl.textContent = `${toArabicNum(total)} سؤال محدد`;
-  startBtn.disabled = total === 0;
-}
 
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i = a.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
 
-function beginSession(questionuestions){
-  sessionquestionuestions = questionuestions;
-  sessionOptionOrder = sessionquestionuestions.map(question => shuffle(question.options));
-  sessionState = sessionquestionuestions.map(() => null);
-  currentIndex = 0;
-  document.getElementById('setup-screen').classList.add('hidden');
-  document.getElementById('questionuiz-screen').classList.remove('hidden');
-  document.getElementById('result-screen').classList.add('hidden');
-  showquestionuestion();
-}
+const chapter =
+  document.getElementById("chapter");
 
-startBtn.addEventListener('click', () => {
-  beginSession(shuffle(questionUIZ_DATA.filter(question => selectedChapters.has(question.chapter))));
-});
+const question =
+  document.getElementById("question");
 
-const questionPosition = document.getElementById('question-position');
-const questionScore = document.getElementById('question-score');
-const progressFill = document.getElementById('progress-fill');
-const questionChapter = document.getElementById('question-chapter');
-const questionText = document.getElementById('question-text');
-const optionsEl = document.getElementById('options');
-const feedbackEl = document.getElementById('feedback');
-const nextBtn = document.getElementById('next-btn');
-const prevBtn = document.getElementById('prev-btn');
-const hintBtn = document.getElementById('hint-btn');
-const hintNote = document.getElementById('hint-note');
+const options =
+  document.getElementById("options");
 
-function currentScore(){
-  return sessionState.filter(s => s && s.correct).length;
-}
+const explanation =
+  document.getElementById("explanation");
 
-function showquestionuestion(){
-  const question = sessionquestionuestions[currentIndex];
-  const state = sessionState[currentIndex];
+const explanationText =
+  document.getElementById("explanationText");
 
-  questionPosition.textContent = `السؤال ${toArabicNum(currentIndex + 1)} من ${toArabicNum(sessionquestionuestions.length)}`;
-  questionScore.textContent = `الصحيح: ${toArabicNum(currentScore())}`;
-  progressFill.style.width = (currentIndex / sessionquestionuestions.length * 100) + '%';
-  questionChapter.textContent = question.chapter;
-  questionText.textContent = question.questionuestion;
+const nextBtn =
+  document.getElementById("nextBtn");
 
-  prevBtn.disabled = currentIndex === 0;
+const backBtn =
+  document.getElementById("backBtn");
 
-  const letters = ['أ','ب','ج','د','هـ','و'];
-  optionsEl.innerHTML = '';
-  sessionOptionOrder[currentIndex].forEach((opt, i) => {
-    const div = document.createElement('div');
-    div.className = 'opt';
-    div.dataset.value = opt;
-    div.innerHTML = `<span class="bullet">${letters[i] || (i+1)}</span><span>${opt}</span>`;
-    div.addEventListener('click', () => selectOption(div, opt, question));
-    optionsEl.appendChild(div);
+const scoreText =
+  document.getElementById("scoreText");
+
+const questionNumber =
+  document.getElementById("questionNumber");
+
+const percentage =
+  document.getElementById("percentage");
+
+const progressBar =
+  document.getElementById("progressBar");
+
+const questionNav =
+  document.getElementById("questionNav");
+
+const questionCard =
+  document.getElementById("questionCard");
+
+const topbar =
+  document.getElementById("topbar");
+
+const progressCard =
+  document.getElementById("progressCard");
+
+const result =
+  document.getElementById("result");
+
+
+/* =========================================================
+   CREATE QUESTION NAVIGATION
+   ========================================================= */
+
+function createQuestionNavigation() {
+
+  questionNav.innerHTML = "";
+
+  questions.forEach((q, index) => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "question-number";
+
+    button.textContent = index + 1;
+
+    button.onclick = () => {
+
+      currentQuestion = index;
+
+      loadQuestion();
+
+    };
+
+    questionNav.appendChild(button);
+
   });
 
-  feedbackEl.className = 'feedback';
-  feedbackEl.textContent = '';
-  hintNote.className = 'hint-note';
-  hintNote.textContent = '';
-  nextBtn.classList.remove('show');
-  hintBtn.disabled = false;
-  hintBtn.classList.remove('hidden');
-
-  if(state && state.hintUsed){
-    applyHintVisual(state.hintRemoved);
-  }
-
-  if(state && state.chosen){
-    // questionuestion already answered before — restore locked view
-    lockOptions(question, state.chosen);
-    hintBtn.disabled = true;
-    nextBtn.classList.add('show');
-    nextBtn.textContent = currentIndex === sessionquestionuestions.length - 1 ? 'عرض النتيجة' : 'التالي';
-  }
 }
 
-function applyHintVisual(removedValue){
-  const optDivs = [...optionsEl.children];
-  optDivs.forEach(child => {
-    if(child.dataset.value === removedValue){
-      child.classList.add('locked', 'dim');
-      child.style.pointerEvents = 'none';
+
+/* =========================================================
+   UPDATE QUESTION NAVIGATION
+   ========================================================= */
+
+function updateQuestionNavigation() {
+
+  const buttons =
+    document.querySelectorAll(".question-number");
+
+  buttons.forEach((button, index) => {
+
+    button.classList.remove("active");
+
+    button.classList.remove("answered");
+
+    if (index === currentQuestion) {
+
+      button.classList.add("active");
+
     }
-  });
-  hintNote.className = 'hint-note show';
-  hintNote.textContent = 'تم استبعاد إجابة خاطئة واحدة';
-  hintBtn.disabled = true;
-}
 
-hintBtn.addEventListener('click', () => {
-  const question = sessionquestionuestions[currentIndex];
-  if(sessionState[currentIndex] && sessionState[currentIndex].chosen) return;
+    if (answered[index]) {
 
-  const wrongDivs = [...optionsEl.children].filter(d => d.dataset.value !== question.answer);
-  if(wrongDivs.length < 2) return; // keep at least 2 options total
-  const pick = wrongDivs[Math.floor(Math.random() * wrongDivs.length)];
+      button.classList.add("answered");
 
-  sessionState[currentIndex] = sessionState[currentIndex] || {chosen:null, correct:false};
-  sessionState[currentIndex].hintUsed = true;
-  sessionState[currentIndex].hintRemoved = pick.dataset.value;
-
-  applyHintVisual(pick.dataset.value);
-});
-
-function lockOptions(question, chosen){
-  [...optionsEl.children].forEach(child => {
-    child.classList.add('locked', 'dim');
-    child.style.pointerEvents = 'none';
-    if(child.dataset.value === question.answer){
-      child.classList.remove('dim');
-      child.classList.add('correct');
     }
-    if(child.dataset.value === chosen && chosen !== question.answer){
-      child.classList.remove('dim');
-      child.classList.add('wrong');
-    }
+
   });
-  const isCorrect = chosen === question.answer;
-  feedbackEl.className = 'feedback show ' + (isCorrect ? 'ok' : 'bad');
-  feedbackEl.textContent = isCorrect ? '✓ إجابة صحيحة' : `✗ إجابة خاطئة — الصحيحة: ${question.answer}`;
+
 }
 
-function selectOption(div, chosen, question){
-  if(sessionState[currentIndex] && sessionState[currentIndex].chosen) return;
 
-  const isCorrect = chosen === question.answer;
-  const prior = sessionState[currentIndex] || {};
-  sessionState[currentIndex] = {
-    chosen: chosen,
-    correct: isCorrect,
-    hintUsed: prior.hintUsed || false,
-    hintRemoved: prior.hintRemoved || null
-  };
+/* =========================================================
+   LOAD QUESTION
+   ========================================================= */
 
-  lockOptions(question, chosen);
-  hintBtn.disabled = true;
-  questionScore.textContent = `الصحيح: ${toArabicNum(currentScore())}`;
-  nextBtn.classList.add('show');
-  nextBtn.textContent = currentIndex === sessionquestionuestions.length - 1 ? 'عرض النتيجة' : 'التالي';
-}
+function loadQuestion() {
 
-prevBtn.addEventListener('click', () => {
-  if(currentIndex > 0){
-    currentIndex -= 1;
-    showquestionuestion();
-  }
-});
+  const q =
+    questions[currentQuestion];
 
-nextBtn.addEventListener('click', () => {
-  if(currentIndex < sessionquestionuestions.length - 1){
-    currentIndex += 1;
-    showquestionuestion();
+  questionCard.style.animation = "none";
+
+  void questionCard.offsetWidth;
+
+  questionCard.style.animation =
+    "fadeIn .3s ease";
+
+
+  chapter.textContent =
+    q.chapter;
+
+  question.textContent =
+    q.question;
+
+
+  questionNumber.textContent =
+    `السؤال ${currentQuestion + 1} من ${questions.length}`;
+
+
+  const progress =
+    ((currentQuestion + 1) / questions.length) * 100;
+
+  progressBar.style.width =
+    progress + "%";
+
+  percentage.textContent =
+    Math.round(progress) + "%";
+
+
+  scoreText.textContent =
+    `${score} نقطة`;
+
+
+  options.innerHTML = "";
+
+
+  const letters = [
+    "أ",
+    "ب",
+    "ج",
+    "د"
+  ];
+
+
+  q.options.forEach((text, index) => {
+
+    const option =
+      document.createElement("div");
+
+    option.className = "option";
+
+
+    const letter =
+      document.createElement("div");
+
+    letter.className =
+      "option-letter";
+
+    letter.textContent =
+      letters[index];
+
+
+    const optionText =
+      document.createElement("div");
+
+    optionText.className =
+      "option-text";
+
+    optionText.textContent =
+      text;
+
+
+    option.appendChild(letter);
+
+    option.appendChild(optionText);
+
+
+    option.onclick = () =>
+      selectAnswer(index);
+
+
+    options.appendChild(option);
+
+  });
+
+
+  /*
+     إذا كان السؤال تمت الإجابة عليه
+  */
+
+  if (answered[currentQuestion]) {
+
+    showPreviousAnswer();
+
   } else {
-    progressFill.style.width = '100%';
-    showResult();
+
+    explanation.classList.remove("show");
+
+    nextBtn.disabled = true;
+
   }
-});
 
-function showResult(){
-  document.getElementById('questionuiz-screen').classList.add('hidden');
-  document.getElementById('result-screen').classList.remove('hidden');
 
-  const answeredCount = sessionState.filter(s => s && s.chosen).length || sessionquestionuestions.length;
-  const score = currentScore();
-  const pct = Math.round((score / sessionquestionuestions.length) * 100);
-  document.getElementById('result-pct').innerHTML = `${toArabicNum(pct)}<span>٪</span>`;
-  document.getElementById('result-label').textContent =
-    `أجبت بشكل صحيح على ${toArabicNum(score)} من ${toArabicNum(sessionquestionuestions.length)} سؤالاً`;
+  /*
+     زر السابق
+  */
 
-  const chapterStats = {};
-  sessionquestionuestions.forEach((question, i) => {
-    const s = sessionState[i];
-    if(!chapterStats[question.chapter]) chapterStats[question.chapter] = {correct:0, total:0};
-    chapterStats[question.chapter].total += 1;
-    if(s && s.correct) chapterStats[question.chapter].correct += 1;
-  });
+  backBtn.disabled =
+    currentQuestion === 0;
 
-  const breakdownEl = document.getElementById('breakdown');
-  breakdownEl.innerHTML = '';
-  Object.keys(chapterStats).forEach(ch => {
-    const s = chapterStats[ch];
-    const row = document.createElement('div');
-    row.className = 'bk-row';
-    row.innerHTML = `<span class="bk-name">${ch}</span><span class="bk-val">${toArabicNum(s.correct)} / ${toArabicNum(s.total)}</span>`;
-    breakdownEl.appendChild(row);
-  });
+  backBtn.style.opacity =
+    currentQuestion === 0 ? ".5" : "1";
+
+
+  updateQuestionNavigation();
+
 }
 
-document.getElementById('retry-btn').addEventListener('click', () => {
-  beginSession(shuffle(sessionquestionuestions));
-});
 
-document.getElementById('home-btn').addEventListener('click', () => {
-  document.getElementById('result-screen').classList.add('hidden');
-  document.getElementById('setup-screen').classList.remove('hidden');
-});
+/* =========================================================
+   SELECT ANSWER
+   ========================================================= */
 
-renderChapterList();
+function selectAnswer(index) {
+
+  if (answered[currentQuestion]) {
+
+    return;
+
+  }
+
+
+  const q =
+    questions[currentQuestion];
+
+
+  const allOptions =
+    document.querySelectorAll(".option");
+
+
+  /*
+     حفظ الاختيار
+  */
+
+  selectedAnswers[currentQuestion] =
+    index;
+
+
+  answered[currentQuestion] =
+    true;
+
+
+  /*
+     الإجابة الصحيحة
+  */
+
+  allOptions[q.correct]
+    .classList.add("correct");
+
+
+  /*
+     الإجابة الخاطئة
+  */
+
+  if (index !== q.correct) {
+
+    allOptions[index]
+      .classList.add("wrong");
+
+  } else {
+
+    score++;
+
+  }
+
+
+  /*
+     تعطيل الاختيارات
+  */
+
+  allOptions.forEach(option => {
+
+    option.classList.add("disabled");
+
+  });
+
+
+  /*
+     الشرح
+  */
+
+  explanationText.textContent =
+    q.explain;
+
+  explanation.classList.add("show");
+
+
+  nextBtn.disabled = false;
+
+
+  scoreText.textContent =
+    `${score} نقطة`;
+
+
+  updateQuestionNavigation();
+
+}
+
+
+/* =========================================================
+   SHOW PREVIOUS ANSWER
+   ========================================================= */
+
+function showPreviousAnswer() {
+
+  const q =
+    questions[currentQuestion];
+
+  const selected =
+    selectedAnswers[currentQuestion];
+
+
+  const allOptions =
+    document.querySelectorAll(".option");
+
+
+  allOptions.forEach(option => {
+
+    option.classList.add("disabled");
+
+  });
+
+
+  /*
+     إظهار الصحيحة
+  */
+
+  allOptions[q.correct]
+    .classList.add("correct");
+
+
+  /*
+     إظهار الخاطئة التي اختارها المستخدم
+  */
+
+  if (
+    selected !== undefined &&
+    selected !== q.correct
+  ) {
+
+    allOptions[selected]
+      .classList.add("wrong");
+
+  }
+
+
+  explanationText.textContent =
+    q.explain;
+
+  explanation.classList.add("show");
+
+
+  nextBtn.disabled = false;
+
+}
+
+
+/* =========================================================
+   NEXT
+   ========================================================= */
+
+function nextQuestion() {
+
+  if (!answered[currentQuestion]) {
+
+    return;
+
+  }
+
+
+  if (
+    currentQuestion <
+    questions.length - 1
+  ) {
+
+    currentQuestion++;
+
+    loadQuestion();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  } else {
+
+    showResult();
+
+  }
+
+}
+
+
+/* =========================================================
+   PREVIOUS
+   ========================================================= */
+
+function previousQuestion() {
+
+  if (currentQuestion === 0) {
+
+    return;
+
+  }
+
+
+  currentQuestion--;
+
+  loadQuestion();
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* =========================================================
+   RESULT
+   ========================================================= */
+
+function showResult() {
+
+  questionCard.style.display =
+    "none";
+
+  questionNav.style.display =
+    "none";
+
+  topbar.style.display =
+    "none";
+
+  progressCard.style.display =
+    "none";
+
+
+  result.classList.add("show");
+
+
+  const total =
+    questions.length;
+
+  const wrong =
+    total - score;
+
+  const percent =
+    Math.round((score / total) * 100);
+
+
+  document.getElementById(
+    "finalScore"
+  ).textContent =
+    percent + "%";
+
+
+  document.getElementById(
+    "totalQuestions"
+  ).textContent =
+    total;
+
+
+  document.getElementById(
+    "correctAnswers"
+  ).textContent =
+    score;
+
+
+  document.getElementById(
+    "wrongAnswers"
+  ).textContent =
+    wrong;
+
+}
+
+
+/* =========================================================
+   RESTART
+   ========================================================= */
+
+function restartQuiz() {
+
+  currentQuestion = 0;
+
+  score = 0;
+
+  answered = [];
+
+  selectedAnswers = [];
+
+
+  result.classList.remove("show");
+
+
+  questionCard.style.display =
+    "block";
+
+  questionNav.style.display =
+    "flex";
+
+  topbar.style.display =
+    "flex";
+
+  progressCard.style.display =
+    "block";
+
+
+  loadQuestion();
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+createQuestionNavigation();
+
+loadQuestion();
+
 </script>
+
 </body>
 </html>
+
