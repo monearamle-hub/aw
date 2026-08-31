@@ -113,7 +113,21 @@ body:not(.dark) .creatorRing.r2{border-color:rgba(0,138,136,.18)}
 @keyframes pulseGlow{0%,100%{opacity:.65;transform:scale(.96)}50%{opacity:1;transform:scale(1.05)}}
 @keyframes orbit1{to{transform:translateX(-50%) rotate(360deg)}}@keyframes orbit2{to{transform:translateX(-50%) rotate(-360deg)}}
 @media(max-width:600px){.creatorRing.r1{width:270px;height:270px}.creatorRing.r2{width:320px;height:320px}.creatorSideCard{padding:8px}.creatorMiniPhoto{width:62px;height:62px;min-width:62px}}
+.exam-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: 0.2s;
+}
 
+.exam-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
 </style></head>
 <body>
 <div class="app">
@@ -135,7 +149,7 @@ body:not(.dark) .creatorRing.r2{border-color:rgba(0,138,136,.18)}
 <div class="progressTrack"><div class="progressFill" id="bar"></div></div><div class="meta"><span id="ptxt">1 / 140</span><span id="ftxt">كل الفصول</span></div>
 <div id="wrap"></div>
 <div class="nav"><button id="prev">السابق</button><button id="next" class="next">التالي</button></div>
-<div class="footer">تصميم الامتحان: Neo‑Futuristic Study Lab • المحتوى مبني على المادة المرفوعة</div>
+<a href="./lingo.html" class="exam-btn">امتحان أفضل</a>
 </section></div></main>
 <div class="modal" id="modal"><div class="modalBox"><h2>MISSION RESULT</h2><div id="result"></div><button class="close" id="close">العودة للأسئلة</button></div></div>
 </div>
