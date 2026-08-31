@@ -155,8 +155,8 @@
   }
   .btn-ghost:hover{background:rgba(31,107,102,0.08);}
 
-  /* ---------- Quiz screen ---------- */
-  .quiz-head{
+  /* ---------- questionuiz screen ---------- */
+  .questionuiz-head{
     display:flex;
     align-items:baseline;
     justify-content:space-between;
@@ -179,19 +179,19 @@
     transition:width .35s ease;
   }
 
-  .q-card{
+  .question-card{
     background:var(--card);
     border:1px solid var(--line);
     padding:30px 26px 26px;
   }
-  .q-topline{
+  .question-topline{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:12px;
     margin-bottom:14px;
   }
-  .q-chapter{
+  .question-chapter{
     font-size:13px;
     color:var(--teal-deep);
     font-weight:700;
@@ -225,7 +225,7 @@
     display:none;
   }
   .hint-note.show{display:block;}
-  .q-text{
+  .question-text{
     font-family:'Amiri', serif;
     font-size:clamp(19px,3vw,22px);
     line-height:1.6;
@@ -282,7 +282,7 @@
   .feedback.ok{color:var(--teal-deep);}
   .feedback.bad{color:var(--wrong);}
 
-  .q-foot{
+  .question-foot{
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -341,7 +341,7 @@
   }
 
   @media (max-width:480px){
-    .setup-card, .q-card, .result-card{padding:22px 18px;}
+    .setup-card, .question-card, .result-card{padding:22px 18px;}
   }
 </style>
 </head>
@@ -372,26 +372,26 @@
     </div>
   </div>
 
-  <!-- QUIZ SCREEN -->
-  <div id="quiz-screen" class="hidden">
-    <div class="quiz-head">
-      <span id="q-position">السؤال ١ من 74</span>
-      <span id="q-score">الصحيح: ٠</span>
+  <!-- questionUIZ SCREEN -->
+  <div id="questionuiz-screen" class="hidden">
+    <div class="questionuiz-head">
+      <span id="question-position">السؤال ١ من 74</span>
+      <span id="question-score">الصحيح: ٠</span>
     </div>
     <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
-    <div class="q-card">
-      <div class="q-topline">
-        <div id="q-chapter" class="q-chapter"></div>
+    <div class="question-card">
+      <div class="question-topline">
+        <div id="question-chapter" class="question-chapter"></div>
         <button id="hint-btn" class="hint-btn">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.5.36.8.95.8 1.6v.5h5.4v-.5c0-.65.3-1.24.8-1.6A6 6 0 0012 3z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span id="hint-label">تلميح</span>
         </button>
       </div>
-      <p id="q-text" class="q-text"></p>
+      <p id="question-text" class="question-text"></p>
       <div id="options" class="options"></div>
       <p id="hint-note" class="hint-note"></p>
       <div id="feedback" class="feedback"></div>
-      <div class="q-foot">
+      <div class="question-foot">
         <button id="prev-btn" class="btn btn-ghost" disabled>السابق</button>
         <button id="next-btn" class="btn next-btn">التالي</button>
       </div>
@@ -414,11 +414,11 @@
 <footer>تُعرض الأسئلة بترتيب عشوائي في كل محاولة</footer>
 
 <script>
-const QUIZ_DATA = [
+const questionUIZ_DATA = [
   {
     "id": 1,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما هو محور الحياة الاجتماعية الذي يميز الإنسان عن الكائنات الأخرى؟",
+    "question": "ما هو محور الحياة الاجتماعية الذي يميز الإنسان عن الكائنات الأخرى؟",
     "options": [
       "الاتصال الإنساني",
       "التطور البيولوجي",
@@ -431,7 +431,7 @@ const QUIZ_DATA = [
   {
     "id": 2,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "هل كان الاتصال الإنساني وليد الصدفة وفق النص؟",
+    "question": "هل كان الاتصال الإنساني وليد الصدفة وفق النص؟",
     "options": [
       "نعم، نشأ فجأة",
       "لا، بل تطور تاريخياً عبر مراحل متتابعة",
@@ -444,7 +444,7 @@ const QUIZ_DATA = [
   {
     "id": 3,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "كم عدد المراحل الرئيسية التي مر بها تطور الاتصال والاجتماع؟",
+    "question": "كم عدد المراحل الرئيسية التي مر بها تطور الاتصال والاجتماع؟",
     "options": [
       "ثلاث مراحل",
       "أربع مراحل",
@@ -457,7 +457,7 @@ const QUIZ_DATA = [
   {
     "id": 4,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم المرحلة الأولى من مراحل تطور الاتصال؟",
+    "question": "ما اسم المرحلة الأولى من مراحل تطور الاتصال؟",
     "options": [
       "مرحلة الكتابة والتدوين",
       "مرحلة ما قبل اللغة والإشارات",
@@ -470,7 +470,7 @@ const QUIZ_DATA = [
   {
     "id": 5,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ماذا استخدم الإنسان في مرحلة ما قبل اللغة والإشارات؟",
+    "question": "ماذا استخدم الإنسان في مرحلة ما قبل اللغة والإشارات؟",
     "options": [
       "الكتابة الهيروغليفية",
       "الإشارات الجسدية والنيران والطبول",
@@ -483,7 +483,7 @@ const QUIZ_DATA = [
   {
     "id": 6,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم المرحلة الثانية من مراحل تطور الاتصال؟",
+    "question": "ما اسم المرحلة الثانية من مراحل تطور الاتصال؟",
     "options": [
       "مرحلة نشوء اللغة الشفهية",
       "مرحلة الكتابة والتدوين",
@@ -496,7 +496,7 @@ const QUIZ_DATA = [
   {
     "id": 7,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما الذي ميّز مرحلة نشوء اللغة الشفهية؟",
+    "question": "ما الذي ميّز مرحلة نشوء اللغة الشفهية؟",
     "options": [
       "اختراع الحاسوب",
       "تطور الإشارات والأصوات إلى رموز صوتية منظومة كوسيلة اتصال أساسية",
@@ -509,7 +509,7 @@ const QUIZ_DATA = [
   {
     "id": 8,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "لماذا اعتبرت مرحلة الكتابة والتدوين نقلة نوعية في الاتصال؟",
+    "question": "لماذا اعتبرت مرحلة الكتابة والتدوين نقلة نوعية في الاتصال؟",
     "options": [
       "لأنها لم تعد تشترط وجود المرسل والمستقبل معاً في نفس المكان والزمان",
       "لأنها أسرع من الكلام المنطوق",
@@ -522,7 +522,7 @@ const QUIZ_DATA = [
   {
     "id": 9,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "من اخترع آلة الطباعة التي ميّزت المرحلة الرابعة؟",
+    "question": "من اخترع آلة الطباعة التي ميّزت المرحلة الرابعة؟",
     "options": [
       "ألكسندر جراهام بيل",
       "يوهان جوتنبرغ الألماني",
@@ -535,7 +535,7 @@ const QUIZ_DATA = [
   {
     "id": 10,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "في أي قرن تم اختراع آلة الطباعة؟",
+    "question": "في أي قرن تم اختراع آلة الطباعة؟",
     "options": [
       "الثالث عشر",
       "الرابع عشر",
@@ -548,7 +548,7 @@ const QUIZ_DATA = [
   {
     "id": 11,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما أثر اختراع الطباعة على المجتمع وفق النص؟",
+    "question": "ما أثر اختراع الطباعة على المجتمع وفق النص؟",
     "options": [
       "ظهور المواد المطبوعة كالأوراق والكتب والمجلات ونشر العلوم والثقافة بشكل واسع",
       "اختفاء اللغة الشفهية تماماً",
@@ -561,7 +561,7 @@ const QUIZ_DATA = [
   {
     "id": 12,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم المرحلة الخامسة (الأحدث) من مراحل تطور الاتصال؟",
+    "question": "ما اسم المرحلة الخامسة (الأحدث) من مراحل تطور الاتصال؟",
     "options": [
       "مرحلة الكتابة والتدوين",
       "مرحلة نشوء اللغة الشفهية",
@@ -574,7 +574,7 @@ const QUIZ_DATA = [
   {
     "id": 13,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "أي مما يلي مثال على مرحلة تكنولوجيا الاتصالات الحديثة؟",
+    "question": "أي مما يلي مثال على مرحلة تكنولوجيا الاتصالات الحديثة؟",
     "options": [
       "الرسم على جدران الكهوف",
       "استخدام الطبول للتواصل",
@@ -587,7 +587,7 @@ const QUIZ_DATA = [
   {
     "id": 14,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما أصل كلمة \"اتصال\" اصطلاحاً بحسب النص؟",
+    "question": "ما أصل كلمة \"اتصال\" اصطلاحاً بحسب النص؟",
     "options": [
       "يونانية",
       "لاتينية (Communicare)",
@@ -600,7 +600,7 @@ const QUIZ_DATA = [
   {
     "id": 15,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ماذا تعني كلمة Communicare التي اشتق منها مصطلح الاتصال؟",
+    "question": "ماذا تعني كلمة Communicare التي اشتق منها مصطلح الاتصال؟",
     "options": [
       "القوة والسيطرة",
       "المشاركة والتبادل",
@@ -613,7 +613,7 @@ const QUIZ_DATA = [
   {
     "id": 16,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما المعنى اللغوي لكلمة \"اتصال\" في المعاجم العربية؟",
+    "question": "ما المعنى اللغوي لكلمة \"اتصال\" في المعاجم العربية؟",
     "options": [
       "الانفصال والابتعاد",
       "البلوغ والوصول",
@@ -626,7 +626,7 @@ const QUIZ_DATA = [
   {
     "id": 17,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "كيف عُرّف الاتصال اصطلاحاً في النص؟",
+    "question": "كيف عُرّف الاتصال اصطلاحاً في النص؟",
     "options": [
       "ظاهرة اجتماعية تفاعلية تتم بين طرفين بهدف تبادل الأفكار والمعلومات وتوجيه السلوك",
       "عملية تقنية بحتة لا علاقة لها بالمجتمع",
@@ -639,7 +639,7 @@ const QUIZ_DATA = [
   {
     "id": 18,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "أي مجموعة من العلوم الإنسانية والتربوية ترتبط بظاهرة الاتصال بحسب النص؟",
+    "question": "أي مجموعة من العلوم الإنسانية والتربوية ترتبط بظاهرة الاتصال بحسب النص؟",
     "options": [
       "علم الاجتماع فقط",
       "علم الاجتماع وعلم النفس والعلوم التربوية وعلم الإدارة والإعلام",
@@ -652,7 +652,7 @@ const QUIZ_DATA = [
   {
     "id": 19,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "كيف يعرّف علم الاجتماع ظاهرة الاتصال؟",
+    "question": "كيف يعرّف علم الاجتماع ظاهرة الاتصال؟",
     "options": [
       "عملية نقل الكهرباء بين الأجهزة",
       "عملية تفاعل بين الأطراف وخلق مجال مشترك للخبرة وتكوين العلاقات الاجتماعية كأداة لبقاء الجماعات وتماسكها",
@@ -665,7 +665,7 @@ const QUIZ_DATA = [
   {
     "id": 20,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "كيف يعرّف علم النفس الاتصال؟",
+    "question": "كيف يعرّف علم النفس الاتصال؟",
     "options": [
       "عملية نقل انطباع أو تأثير من منطقة سلوكية إلى منطقة سلوكية أخرى دون النقل الفعلي للمادة",
       "نقل البضائع بين الدول",
@@ -678,7 +678,7 @@ const QUIZ_DATA = [
   {
     "id": 21,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما تعريف العلوم التربوية للاتصال؟",
+    "question": "ما تعريف العلوم التربوية للاتصال؟",
     "options": [
       "تعليم اللغات الأجنبية فقط",
       "عملية نقل وتعديل السلوك وتزويد المتعلمين بالخبرات والاتجاهات والقيم المشتركة التي تساعد على التكيف مع البيئة",
@@ -691,7 +691,7 @@ const QUIZ_DATA = [
   {
     "id": 22,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما تعريف علم الإدارة للاتصال؟",
+    "question": "ما تعريف علم الإدارة للاتصال؟",
     "options": [
       "توظيف الموظفين الجدد فقط",
       "شراء المعدات والأجهزة",
@@ -704,7 +704,7 @@ const QUIZ_DATA = [
   {
     "id": 23,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما تعريف الإعلام والاتصال الجماهيري وفق النص؟",
+    "question": "ما تعريف الإعلام والاتصال الجماهيري وفق النص؟",
     "options": [
       "محادثة بين شخصين فقط",
       "اتصال داخلي في الشركة فقط",
@@ -717,7 +717,7 @@ const QUIZ_DATA = [
   {
     "id": 24,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "من كم عنصر أساسي متكامل تتكون عملية الاتصال لضمان تدفق الرسالة بفعالية؟",
+    "question": "من كم عنصر أساسي متكامل تتكون عملية الاتصال لضمان تدفق الرسالة بفعالية؟",
     "options": [
       "خمسة عناصر",
       "سبعة عناصر",
@@ -730,7 +730,7 @@ const QUIZ_DATA = [
   {
     "id": 25,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "من هو الطرف المسؤول عن تصميم الرموز والاعتماد على مهارات التعبير والإقناع في عملية الاتصال؟",
+    "question": "من هو الطرف المسؤول عن تصميم الرموز والاعتماد على مهارات التعبير والإقناع في عملية الاتصال؟",
     "options": [
       "المتلقي (Receiver)",
       "المرسل (Sender)",
@@ -743,7 +743,7 @@ const QUIZ_DATA = [
   {
     "id": 26,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "أي عنصر من عناصر الاتصال يجب دراسة خصائصه وخلفيته الثقافية لضمان الاستجابة السريعة للرسالة؟",
+    "question": "أي عنصر من عناصر الاتصال يجب دراسة خصائصه وخلفيته الثقافية لضمان الاستجابة السريعة للرسالة؟",
     "options": [
       "المرسل",
       "المتلقي (Receiver)",
@@ -756,7 +756,7 @@ const QUIZ_DATA = [
   {
     "id": 27,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم العنصر الذي يمثل مجموعة العادات والتقاليد والمعارف المشتركة بين طرفي الاتصال؟",
+    "question": "ما اسم العنصر الذي يمثل مجموعة العادات والتقاليد والمعارف المشتركة بين طرفي الاتصال؟",
     "options": [
       "الخبرة المشتركة (Field of Experience)",
       "الرسالة (Message)",
@@ -769,7 +769,7 @@ const QUIZ_DATA = [
   {
     "id": 28,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم العنصر الذي يمثل المضمون الفكري أو الوجداني الذي يرغب المرسل في نقله سواء كان لفظياً أو غير لفظي؟",
+    "question": "ما اسم العنصر الذي يمثل المضمون الفكري أو الوجداني الذي يرغب المرسل في نقله سواء كان لفظياً أو غير لفظي؟",
     "options": [
       "الرسالة (Message)",
       "الوسيلة (Medium)",
@@ -782,7 +782,7 @@ const QUIZ_DATA = [
   {
     "id": 29,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم العنصر الذي يمثل القناة أو الأداة التي تنقل الرسالة من المرسل للمستقبل، مثل الحواس الطبيعية أو القنوات التكنولوجية؟",
+    "question": "ما اسم العنصر الذي يمثل القناة أو الأداة التي تنقل الرسالة من المرسل للمستقبل، مثل الحواس الطبيعية أو القنوات التكنولوجية؟",
     "options": [
       "السياق (Context)",
       "الوسيلة (Medium/Channel)",
@@ -795,7 +795,7 @@ const QUIZ_DATA = [
   {
     "id": 30,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم العنصر الذي يمثل العوائق الميكانيكية أو الدلالية التي تعيق إرسال الرسالة أو فك رموزها وتفسيرها؟",
+    "question": "ما اسم العنصر الذي يمثل العوائق الميكانيكية أو الدلالية التي تعيق إرسال الرسالة أو فك رموزها وتفسيرها؟",
     "options": [
       "رجع الصدى (Feed Back)",
       "السياق (Context)",
@@ -808,7 +808,7 @@ const QUIZ_DATA = [
   {
     "id": 31,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم العنصر الذي يمثل إعادة المعلومات والاستجابة من المتلقي إلى المرسل، ويمكّن من تقييم مدى دقة فهم الرسالة؟",
+    "question": "ما اسم العنصر الذي يمثل إعادة المعلومات والاستجابة من المتلقي إلى المرسل، ويمكّن من تقييم مدى دقة فهم الرسالة؟",
     "options": [
       "رجع الصدى (Feed Back)",
       "الأثر (Effect)",
@@ -821,7 +821,7 @@ const QUIZ_DATA = [
   {
     "id": 32,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم العنصر الذي يمثل النتيجة النهائية والتحول المعرفي أو السلوكي الذي تحدثه الرسالة في مواقف المتلقي ومعارفه واتجاهاته؟",
+    "question": "ما اسم العنصر الذي يمثل النتيجة النهائية والتحول المعرفي أو السلوكي الذي تحدثه الرسالة في مواقف المتلقي ومعارفه واتجاهاته؟",
     "options": [
       "الأثر (Effect)",
       "التشويش (Noise)",
@@ -834,7 +834,7 @@ const QUIZ_DATA = [
   {
     "id": 33,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما اسم العنصر الذي يمثل الظروف الاجتماعية والمواقف المكانية والزمانية التي تتم فيها العملية الاتصالية وتحدد معاني الرسائل؟",
+    "question": "ما اسم العنصر الذي يمثل الظروف الاجتماعية والمواقف المكانية والزمانية التي تتم فيها العملية الاتصالية وتحدد معاني الرسائل؟",
     "options": [
       "السياق (Context)",
       "المرسل (Sender)",
@@ -847,7 +847,7 @@ const QUIZ_DATA = [
   {
     "id": 34,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "إلى كم شكل رئيسي تنقسم أشكال الاتصال الرئيسية؟",
+    "question": "إلى كم شكل رئيسي تنقسم أشكال الاتصال الرئيسية؟",
     "options": [
       "شكل واحد فقط",
       "شكلان: لفظي وغير لفظي",
@@ -860,7 +860,7 @@ const QUIZ_DATA = [
   {
     "id": 35,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما هو الاتصال اللفظي؟",
+    "question": "ما هو الاتصال اللفظي؟",
     "options": [
       "يجمع بين الألفاظ المنطوقة والمكتوبة وتتحكم فيه قواعد اللغة الرسمية للجماعة",
       "يعتمد فقط على الإشارات الجسدية",
@@ -873,7 +873,7 @@ const QUIZ_DATA = [
   {
     "id": 36,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ما هو الاتصال غير اللفظي؟",
+    "question": "ما هو الاتصال غير اللفظي؟",
     "options": [
       "هو الاتصال المكتوب فقط",
       "يشمل حركات الجسد ولغة الإشارة وتعبيرات الوجه، ويتميز بكونه أكثر صدقاً وتأثيراً ويتخطى حواجز اللغة المنطوقة",
@@ -886,7 +886,7 @@ const QUIZ_DATA = [
   {
     "id": 37,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "كم عدد خصائص عملية الاتصال الديناميكية بحسب النص؟",
+    "question": "كم عدد خصائص عملية الاتصال الديناميكية بحسب النص؟",
     "options": [
       "أربع خصائص",
       "خمس خصائص",
@@ -899,7 +899,7 @@ const QUIZ_DATA = [
   {
     "id": 38,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ماذا تعني خاصية \"عملية ديناميكية (Dynamic Process)\" في الاتصال؟",
+    "question": "ماذا تعني خاصية \"عملية ديناميكية (Dynamic Process)\" في الاتصال؟",
     "options": [
       "عملية ثابتة لا تتغير أبداً",
       "تفاعل اجتماعي دائم يتميز بالتأثير والتأثر المتبادل وتكيف السلوك مع الأوضاع المختلفة",
@@ -912,7 +912,7 @@ const QUIZ_DATA = [
   {
     "id": 39,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ماذا تعني خاصية \"عملية مستمرة (Continuous Process)\"؟",
+    "question": "ماذا تعني خاصية \"عملية مستمرة (Continuous Process)\"؟",
     "options": [
       "تتوقف بمجرد انتهاء الرسالة الواحدة",
       "حقيقة كونية مستمرة طالما استمرت الحياة الإنسانية وليس لها بداية أو نهاية جامدة",
@@ -925,7 +925,7 @@ const QUIZ_DATA = [
   {
     "id": 40,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ماذا تعني خاصية \"عملية دائرية (Circular Process)\"؟",
+    "question": "ماذا تعني خاصية \"عملية دائرية (Circular Process)\"؟",
     "options": [
       "تسير في اتجاه واحد فقط من المرسل إلى المستقبل",
       "لا تسير في خط مستقيم بل في دائرة يتبادل فيها المشاركون الأدوار والرسائل والاستجابات",
@@ -938,7 +938,7 @@ const QUIZ_DATA = [
   {
     "id": 41,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ماذا تعني خاصية \"عملية لا تُعاد (Unrepeatable Process)\"؟",
+    "question": "ماذا تعني خاصية \"عملية لا تُعاد (Unrepeatable Process)\"؟",
     "options": [
       "يمكن تكرار نفس الموقف الاتصالي بنفس المعنى دائماً",
       "لا يمكن إعادة إنتاج نفس الموقف الاتصالي بنفس المعنى والشكل نظراً لتغير الوقت والأفراد والسياق الدلالي",
@@ -951,7 +951,7 @@ const QUIZ_DATA = [
   {
     "id": 42,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ماذا تعني خاصية \"عملية لا رجعة فيها (Irreversible)\"؟",
+    "question": "ماذا تعني خاصية \"عملية لا رجعة فيها (Irreversible)\"؟",
     "options": [
       "يمكن سحب الكلمة أو إلغاء أثرها بسهولة في ذهن المتلقي",
       "بمجرد بث الرسالة وحدوث التأثير يصعب سحب الكلمة أو إلغاء أثرها في ذهن المتلقي",
@@ -964,7 +964,7 @@ const QUIZ_DATA = [
   {
     "id": 43,
     "chapter": "الفصل الأول: تاريخ الاتصال",
-    "q": "ماذا تعني خاصية \"عملية معقدة (Complex Process)\"؟",
+    "question": "ماذا تعني خاصية \"عملية معقدة (Complex Process)\"؟",
     "options": [
       "تتداخل فيها عشرات العوامل النفسية والثقافية والاجتماعية التي تتطلب دراسة دقيقة لإنجاح عملية الفهم",
       "هي عملية بسيطة لا تحتاج لأي تحليل",
@@ -977,7 +977,7 @@ const QUIZ_DATA = [
   {
     "id": 44,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "على أي أساس ينقسم الاتصال البشري بحسب الفصل الثاني؟",
+    "question": "على أي أساس ينقسم الاتصال البشري بحسب الفصل الثاني؟",
     "options": [
       "على حجم المشاركين ووسائلهم",
       "على لون البشرة فقط",
@@ -990,7 +990,7 @@ const QUIZ_DATA = [
   {
     "id": 45,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما هو الاتصال الذاتي (Intrapersonal)؟",
+    "question": "ما هو الاتصال الذاتي (Intrapersonal)؟",
     "options": [
       "اتصال بين شخصين فقط عبر وسيلة إلكترونية",
       "تفاعل داخل ذات الفرد وعقله، ويشمل التفكير والوعي والتمثيل النفسي وهو أساس فهم كافة الأشكال الأخرى",
@@ -1003,7 +1003,7 @@ const QUIZ_DATA = [
   {
     "id": 46,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما هو الاتصال الشخصي (Interpersonal)؟",
+    "question": "ما هو الاتصال الشخصي (Interpersonal)؟",
     "options": [
       "إرسال رسائل جماهيرية موحدة لعدد كبير من الناس",
       "مواجهة بين مرسل ومستقبل وجهاً لوجه دون وسائط إلكترونية، ويتميز باستجابة فورية ومشاركة مباشرة للحواس الخمس",
@@ -1016,7 +1016,7 @@ const QUIZ_DATA = [
   {
     "id": 47,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما هو الاتصال الوسيطي (Media Communication)؟",
+    "question": "ما هو الاتصال الوسيطي (Media Communication)؟",
     "options": [
       "شكل من أشكال الاتصال الشخصي ولكنه يستعين بوسيلة اتصال ميكانيكية أو إلكترونية لتقريب المسافات مثل الهاتف",
       "اتصال جماهيري واسع النطاق فقط",
@@ -1029,7 +1029,7 @@ const QUIZ_DATA = [
   {
     "id": 48,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما هو الاتصال الجماهيري (Mass Communication)؟",
+    "question": "ما هو الاتصال الجماهيري (Mass Communication)؟",
     "options": [
       "إرسال رسائل علنية عامة وموحدة ومدروسة تصدر عن مؤسسة إعلامية متخصصة باستخدام وسائل تكنولوجية جماهيرية إلى جمهور كبير ومتباين",
       "محادثة خاصة بين شخصين",
@@ -1042,7 +1042,7 @@ const QUIZ_DATA = [
   {
     "id": 49,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما هو الاتصال التنظيمي (Organizational)؟",
+    "question": "ما هو الاتصال التنظيمي (Organizational)؟",
     "options": [
       "يتم بشكل رسمي أو شفهي ومكتوب داخل المؤسسات والمنظمات، ويهدف لتطوير أساليب العمل الإداري وتقوية العلاقات والروابط بين العاملين",
       "اتصال جماهيري واسع النطاق",
@@ -1055,7 +1055,7 @@ const QUIZ_DATA = [
   {
     "id": 50,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما هو الاتصال الثقافي (Intercultural)؟",
+    "question": "ما هو الاتصال الثقافي (Intercultural)؟",
     "options": [
       "اتصال يحدث بين أفراد ينتمون إلى ثقافات وخلفيات وقيم مختلفة، ويعد أساساً للتفاهم والسلم العالمي وبناء حوار الثقافات",
       "اتصال يقتصر على أفراد نفس الثقافة فقط",
@@ -1068,7 +1068,7 @@ const QUIZ_DATA = [
   {
     "id": 51,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "لماذا يعد الاتصال الشخصي (Interpersonal) من أكثر أنواع الاتصال إقناعاً؟",
+    "question": "لماذا يعد الاتصال الشخصي (Interpersonal) من أكثر أنواع الاتصال إقناعاً؟",
     "options": [
       "لأنه يعتمد فقط على الرسائل المكتوبة",
       "لأنه يتيح استجابة فورية بالاستفادة المباشرة من مشاركة الحواس الخمس، ويعد أكثر أنواع الاتصال إقناعاً وقدرة على تكوين العلاقات العاطفية والثقة",
@@ -1081,7 +1081,7 @@ const QUIZ_DATA = [
   {
     "id": 52,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "من كم عنصر أساسي تتكون خصائص الاتصال الجماهيري المميزة له عن الاتصال الشخصي؟",
+    "question": "من كم عنصر أساسي تتكون خصائص الاتصال الجماهيري المميزة له عن الاتصال الشخصي؟",
     "options": [
       "خاصيتان فقط",
       "مجموعة من الخصائص الفريدة مثل المؤسسية والتعقيد، أحادية الاتجاه، عدم تجانس الجمهور، والفورية والانتشار الهائل ورقابة حارس البوابة",
@@ -1094,7 +1094,7 @@ const QUIZ_DATA = [
   {
     "id": 53,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ماذا تعني خاصية \"المؤسسية والتعقيد\" في الاتصال الجماهيري؟",
+    "question": "ماذا تعني خاصية \"المؤسسية والتعقيد\" في الاتصال الجماهيري؟",
     "options": [
       "الحاجة إلى مؤسسة إعلامية معقدة تضم فرق عمل واسعة ومحترفة للإنتاج والبرامج والمواد الإعلامية المنسقة",
       "أن الاتصال يتم بين شخصين فقط",
@@ -1107,7 +1107,7 @@ const QUIZ_DATA = [
   {
     "id": 54,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ماذا تعني خاصية \"أحادية الاتجاه وضعف رجع الصدى\" في الاتصال الجماهيري؟",
+    "question": "ماذا تعني خاصية \"أحادية الاتجاه وضعف رجع الصدى\" في الاتصال الجماهيري؟",
     "options": [
       "يسير الاتصال الجماهيري غالباً في اتجاه واحد من المرسل نحو المستقبلين، مما يضعف رجع الصدى ويجعله متأخراً وضعيفاً مقارنة بالاتصال المباشر",
       "أن الرسالة تصل فوراً برجع صدى قوي ومباشر",
@@ -1120,7 +1120,7 @@ const QUIZ_DATA = [
   {
     "id": 55,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ماذا تعني خاصية \"عدم تجانس الجمهور وتنوعه\" في الاتصال الجماهيري؟",
+    "question": "ماذا تعني خاصية \"عدم تجانس الجمهور وتنوعه\" في الاتصال الجماهيري؟",
     "options": [
       "يخاطب الاتصال الجماهيري جمهوراً متبايناً متنوعاً في الأعمار والثقافات والتعليم والانتماءات، مما يتطلب إعداد برامج تلبي كافة الاهتمامات",
       "أن الجمهور متجانس تماماً في كل الصفات",
@@ -1133,7 +1133,7 @@ const QUIZ_DATA = [
   {
     "id": 56,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ماذا تعني خاصية \"الفورية والانتشار الهائل\" في الاتصال الجماهيري؟",
+    "question": "ماذا تعني خاصية \"الفورية والانتشار الهائل\" في الاتصال الجماهيري؟",
     "options": [
       "تتميز الرسائل الجماهيرية بالفورية والسرعة العالية في التوزيع والبث العابر للقارات بمساعدة الأقمار الصناعية",
       "أن الرسالة تستغرق شهوراً للوصول إلى الجمهور",
@@ -1146,7 +1146,7 @@ const QUIZ_DATA = [
   {
     "id": 57,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "من هو \"حارس البوابة\" (Gatekeeper) في الاتصال الجماهيري؟",
+    "question": "من هو \"حارس البوابة\" (Gatekeeper) في الاتصال الجماهيري؟",
     "options": [
       "الشخص الذي يخضع الرسائل الإعلامية لرقابة تحكم في انتقاء الأخبار والمعلومات وينقيها قبل حجبها أو نشرها، مثل المحرر أو الرقيب",
       "الجمهور المستهدف بالرسالة",
@@ -1159,7 +1159,7 @@ const QUIZ_DATA = [
   {
     "id": 58,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما وظيفة حارس البوابة الأساسية بحسب النص؟",
+    "question": "ما وظيفة حارس البوابة الأساسية بحسب النص؟",
     "options": [
       "إنتاج الرسائل الجماهيرية بشكل عشوائي دون معايير",
       "التحكم في انتقاء الأخبار والمعلومات وتنقيتها قبل نشرها أو حجبها",
@@ -1172,7 +1172,7 @@ const QUIZ_DATA = [
   {
     "id": 59,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "أي مما يلي يعد مثالاً على الاتصال الوسيطي (Media Communication)؟",
+    "question": "أي مما يلي يعد مثالاً على الاتصال الوسيطي (Media Communication)؟",
     "options": [
       "محادثة وجهاً لوجه بين شخصين دون أي وسيط",
       "الاتصال عبر الهاتف كوسيلة ميكانيكية أو إلكترونية لتقريب المسافات",
@@ -1185,7 +1185,7 @@ const QUIZ_DATA = [
   {
     "id": 60,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما الهدف الأساسي من الاتصال التنظيمي داخل المؤسسات؟",
+    "question": "ما الهدف الأساسي من الاتصال التنظيمي داخل المؤسسات؟",
     "options": [
       "تطوير أساليب العمل الإداري وتقوية العلاقات والروابط بين العاملين",
       "إرسال رسائل عامة لجمهور غير محدد",
@@ -1198,7 +1198,7 @@ const QUIZ_DATA = [
   {
     "id": 61,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما الهدف الأساسي من الاتصال الثقافي (Intercultural) بين الشعوب؟",
+    "question": "ما الهدف الأساسي من الاتصال الثقافي (Intercultural) بين الشعوب؟",
     "options": [
       "فرض ثقافة واحدة على جميع الشعوب",
       "التفاهم والسلم العالمي وبناء حوار الثقافات بين أفراد ذوي خلفيات وقيم مختلفة",
@@ -1211,7 +1211,7 @@ const QUIZ_DATA = [
   {
     "id": 62,
     "chapter": "الفصل الثاني: أنواع الاتصال",
-    "q": "ما الذي يميز جمهور الاتصال الجماهيري عن جمهور الاتصال الشخصي؟",
+    "question": "ما الذي يميز جمهور الاتصال الجماهيري عن جمهور الاتصال الشخصي؟",
     "options": [
       "كونه صغيراً ومتجانساً تماماً في كل الصفات",
       "كونه كبيراً جداً ومتبايناً وغير متجانس ومنتشراً في مناطق واسعة ومتفرقة",
@@ -1224,7 +1224,7 @@ const QUIZ_DATA = [
   {
     "id": 63,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ماذا شكّل الاتصال الرقمي وفق الفصل الثالث؟",
+    "question": "ماذا شكّل الاتصال الرقمي وفق الفصل الثالث؟",
     "options": [
       "ثورة اجتماعية وتقنية ألغت الفواصل الجغرافية ووحدت قنوات الاتصال",
       "توقفاً كاملاً لتطور وسائل الاتصال",
@@ -1237,7 +1237,7 @@ const QUIZ_DATA = [
   {
     "id": 64,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "كيف يمكن تعريف مفهوم الاتصال الرقمي؟",
+    "question": "كيف يمكن تعريف مفهوم الاتصال الرقمي؟",
     "options": [
       "العملية الاجتماعية التفاعلية التي يتم بموجبها بث الرسائل المتنوعة واستقبالها عبر النظم والشبكات والويب بهدف تحقيق غايات اتصالية هادفة ومدروسة",
       "اتصال يقتصر على المكالمات الهاتفية التقليدية فقط",
@@ -1250,7 +1250,7 @@ const QUIZ_DATA = [
   {
     "id": 65,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "كم عدد الخصائص الجوهرية السبع التي تميز عملية الاتصال الرقمي؟",
+    "question": "كم عدد الخصائص الجوهرية السبع التي تميز عملية الاتصال الرقمي؟",
     "options": [
       "خمس خصائص",
       "ست خصائص",
@@ -1263,7 +1263,7 @@ const QUIZ_DATA = [
   {
     "id": 66,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ما هي خاصية \"التفاعلية (Interactivity)\" في الاتصال الرقمي؟",
+    "question": "ما هي خاصية \"التفاعلية (Interactivity)\" في الاتصال الرقمي؟",
     "options": [
       "تحول المتلقي من مجرد مستمع سلبي إلى مشارك نشط ومؤثر يتبادل الأدوار مع المرسل ويتحكم في مخرجات العملية الاتصالية وطريقة تصفحها",
       "بقاء المتلقي في موقع سلبي دون أي مشاركة",
@@ -1276,7 +1276,7 @@ const QUIZ_DATA = [
   {
     "id": 67,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ما هي خاصية \"التنوع (Variety)\" في الاتصال الرقمي؟",
+    "question": "ما هي خاصية \"التنوع (Variety)\" في الاتصال الرقمي؟",
     "options": [
       "تعدد واختلاف أشكال الاتصال المتاحة (شخصي، جمعي، جماهيري) والمحتوى المعروض (نصوص، صور، صوت، فيديو) وروابطه الفائقة عبر جهاز واحد",
       "اقتصار المحتوى على النصوص المكتوبة فقط",
@@ -1289,7 +1289,7 @@ const QUIZ_DATA = [
   {
     "id": 68,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ما هي خاصية \"التكامل (Integration)\" في الاتصال الرقمي؟",
+    "question": "ما هي خاصية \"التكامل (Integration)\" في الاتصال الرقمي؟",
     "options": [
       "اندماج نظم وشبكات الاتصال والوسائط الرقمية في بنية متكاملة تتيح للمستخدم التعرض والتخزين وإعادة الإرسال بشكل مرن ومتكامل",
       "فصل تام بين نظم الاتصال المختلفة",
@@ -1302,7 +1302,7 @@ const QUIZ_DATA = [
   {
     "id": 69,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ما هي خاصية \"الفردية والذاتية (Individuality)\" في الاتصال الرقمي؟",
+    "question": "ما هي خاصية \"الفردية والذاتية (Individuality)\" في الاتصال الرقمي؟",
     "options": [
       "احترام خصوصية الفرد وقيمته مع توفير بروتوكولات الأمان لتشفير البيانات وسرية تبادل الأفكار",
       "إلغاء كل خصوصية للمستخدم في الفضاء الرقمي",
@@ -1315,7 +1315,7 @@ const QUIZ_DATA = [
   {
     "id": 70,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ما هي خاصية \"تجاوز الحدود الثقافية (Globalisation)\" في الاتصال الرقمي؟",
+    "question": "ما هي خاصية \"تجاوز الحدود الثقافية (Globalisation)\" في الاتصال الرقمي؟",
     "options": [
       "تجاوز الحدود السياسية والجغرافية لتسقط الحواجز الثقافية ويتحول الاتصال لعملية كونية تعزز الحوار والتفاهم بين الشعوب",
       "تعزيز العزلة الثقافية بين الشعوب",
@@ -1328,7 +1328,7 @@ const QUIZ_DATA = [
   {
     "id": 71,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ماذا تعني خاصية \"تجاوز وحدة المكان والزمان\" في الاتصال الرقمي؟",
+    "question": "ماذا تعني خاصية \"تجاوز وحدة المكان والزمان\" في الاتصال الرقمي؟",
     "options": [
       "لم يعد الاتصال يتطلب وحدة الزمان والمكان إذ يتيح إرسال الرسائل واستقبالها بشكل غير متزامن في الوقت والظروف التي يحددها المتلقي",
       "يشترط الاتصال الرقمي وجود الطرفين في نفس المكان والزمان دائماً",
@@ -1341,7 +1341,7 @@ const QUIZ_DATA = [
   {
     "id": 72,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ماذا تعني خاصية \"الاستغراق في الاتصال (Flow)\" في الاتصال الرقمي؟",
+    "question": "ماذا تعني خاصية \"الاستغراق في الاتصال (Flow)\" في الاتصال الرقمي؟",
     "options": [
       "انخفاض تكاليف الشبكات والبرمجيات يشجع المستخدمين على قضاء ساعات طويلة متواصلة في الاستغراق بهدف التعلم أو التحدي أو التسلية",
       "ارتفاع هائل في تكاليف استخدام الشبكات يمنع الاستمرارية",
@@ -1354,7 +1354,7 @@ const QUIZ_DATA = [
   {
     "id": 73,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "كم عدد المستويات الرئيسية التي يتجلى فيها الاتصال الرقمي والإنترنت؟",
+    "question": "كم عدد المستويات الرئيسية التي يتجلى فيها الاتصال الرقمي والإنترنت؟",
     "options": [
       "مستويان فقط",
       "ثلاثة مستويات",
@@ -1367,7 +1367,7 @@ const QUIZ_DATA = [
   {
     "id": 74,
     "chapter": "الفصل الثالث: الاتصال الرقمي",
-    "q": "ما هو المستوى الأول من مستويات الاتصال الرقمي والإنترنت؟",
+    "question": "ما هو المستوى الأول من مستويات الاتصال الرقمي والإنترنت؟",
     "options": [
       "الاتصال المباشر عبر الشبكات",
       "الاتصال بالحاسب وبرامجه: تفاعل الفرد المباشر مع جهاز الكمبيوتر والبرمجيات وقاعدة بياناته التعليمية والبحثية",
@@ -1384,17 +1384,17 @@ function toArabicNum(n){
   return String(n).replace(/[0-9]/g, d => arabicDigits[d]);
 }
 
-// Build ordered unique chapter list, preserving first-seen order
+// Build ordered uniquestionue chapter list, preserving first-seen order
 const chapters = [];
-QUIZ_DATA.forEach(q => { if(!chapters.includes(q.chapter)) chapters.push(q.chapter); });
+questionUIZ_DATA.forEach(question => { if(!chapters.includes(question.chapter)) chapters.push(question.chapter); });
 
 const chapterCounts = {};
-chapters.forEach(c => chapterCounts[c] = QUIZ_DATA.filter(q => q.chapter === c).length);
+chapters.forEach(c => chapterCounts[c] = questionUIZ_DATA.filter(question => question.chapter === c).length);
 
 let selectedChapters = new Set(chapters);
-let sessionQuestions = [];
-let sessionOptionOrder = [];   // fixed shuffled options per question index
-let sessionState = [];         // per-question: {chosen, correct, hintRemoved, hintUsed} or null
+let sessionquestionuestions = [];
+let sessionOptionOrder = [];   // fixed shuffled options per questionuestion index
+let sessionState = [];         // per-questionuestion: {chosen, correct, hintRemoved, hintUsed} or null
 let currentIndex = 0;
 
 const chapterListEl = document.getElementById('chapter-list');
@@ -1441,26 +1441,26 @@ function shuffle(arr){
   return a;
 }
 
-function beginSession(questions){
-  sessionQuestions = questions;
-  sessionOptionOrder = sessionQuestions.map(q => shuffle(q.options));
-  sessionState = sessionQuestions.map(() => null);
+function beginSession(questionuestions){
+  sessionquestionuestions = questionuestions;
+  sessionOptionOrder = sessionquestionuestions.map(question => shuffle(question.options));
+  sessionState = sessionquestionuestions.map(() => null);
   currentIndex = 0;
   document.getElementById('setup-screen').classList.add('hidden');
-  document.getElementById('quiz-screen').classList.remove('hidden');
+  document.getElementById('questionuiz-screen').classList.remove('hidden');
   document.getElementById('result-screen').classList.add('hidden');
-  showQuestion();
+  showquestionuestion();
 }
 
 startBtn.addEventListener('click', () => {
-  beginSession(shuffle(QUIZ_DATA.filter(q => selectedChapters.has(q.chapter))));
+  beginSession(shuffle(questionUIZ_DATA.filter(question => selectedChapters.has(question.chapter))));
 });
 
-const qPosition = document.getElementById('q-position');
-const qScore = document.getElementById('q-score');
+const questionPosition = document.getElementById('question-position');
+const questionScore = document.getElementById('question-score');
 const progressFill = document.getElementById('progress-fill');
-const qChapter = document.getElementById('q-chapter');
-const qText = document.getElementById('q-text');
+const questionChapter = document.getElementById('question-chapter');
+const questionText = document.getElementById('question-text');
 const optionsEl = document.getElementById('options');
 const feedbackEl = document.getElementById('feedback');
 const nextBtn = document.getElementById('next-btn');
@@ -1472,15 +1472,15 @@ function currentScore(){
   return sessionState.filter(s => s && s.correct).length;
 }
 
-function showQuestion(){
-  const q = sessionQuestions[currentIndex];
+function showquestionuestion(){
+  const question = sessionquestionuestions[currentIndex];
   const state = sessionState[currentIndex];
 
-  qPosition.textContent = `السؤال ${toArabicNum(currentIndex + 1)} من ${toArabicNum(sessionQuestions.length)}`;
-  qScore.textContent = `الصحيح: ${toArabicNum(currentScore())}`;
-  progressFill.style.width = (currentIndex / sessionQuestions.length * 100) + '%';
-  qChapter.textContent = q.chapter;
-  qText.textContent = q.question;
+  questionPosition.textContent = `السؤال ${toArabicNum(currentIndex + 1)} من ${toArabicNum(sessionquestionuestions.length)}`;
+  questionScore.textContent = `الصحيح: ${toArabicNum(currentScore())}`;
+  progressFill.style.width = (currentIndex / sessionquestionuestions.length * 100) + '%';
+  questionChapter.textContent = question.chapter;
+  questionText.textContent = question.questionuestion;
 
   prevBtn.disabled = currentIndex === 0;
 
@@ -1491,7 +1491,7 @@ function showQuestion(){
     div.className = 'opt';
     div.dataset.value = opt;
     div.innerHTML = `<span class="bullet">${letters[i] || (i+1)}</span><span>${opt}</span>`;
-    div.addEventListener('click', () => selectOption(div, opt, q));
+    div.addEventListener('click', () => selectOption(div, opt, question));
     optionsEl.appendChild(div);
   });
 
@@ -1508,11 +1508,11 @@ function showQuestion(){
   }
 
   if(state && state.chosen){
-    // question already answered before — restore locked view
-    lockOptions(q, state.chosen);
+    // questionuestion already answered before — restore locked view
+    lockOptions(question, state.chosen);
     hintBtn.disabled = true;
     nextBtn.classList.add('show');
-    nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? 'عرض النتيجة' : 'التالي';
+    nextBtn.textContent = currentIndex === sessionquestionuestions.length - 1 ? 'عرض النتيجة' : 'التالي';
   }
 }
 
@@ -1530,10 +1530,10 @@ function applyHintVisual(removedValue){
 }
 
 hintBtn.addEventListener('click', () => {
-  const q = sessionQuestions[currentIndex];
+  const question = sessionquestionuestions[currentIndex];
   if(sessionState[currentIndex] && sessionState[currentIndex].chosen) return;
 
-  const wrongDivs = [...optionsEl.children].filter(d => d.dataset.value !== q.answer);
+  const wrongDivs = [...optionsEl.children].filter(d => d.dataset.value !== question.answer);
   if(wrongDivs.length < 2) return; // keep at least 2 options total
   const pick = wrongDivs[Math.floor(Math.random() * wrongDivs.length)];
 
@@ -1544,28 +1544,28 @@ hintBtn.addEventListener('click', () => {
   applyHintVisual(pick.dataset.value);
 });
 
-function lockOptions(q, chosen){
+function lockOptions(question, chosen){
   [...optionsEl.children].forEach(child => {
     child.classList.add('locked', 'dim');
     child.style.pointerEvents = 'none';
-    if(child.dataset.value === q.answer){
+    if(child.dataset.value === question.answer){
       child.classList.remove('dim');
       child.classList.add('correct');
     }
-    if(child.dataset.value === chosen && chosen !== q.answer){
+    if(child.dataset.value === chosen && chosen !== question.answer){
       child.classList.remove('dim');
       child.classList.add('wrong');
     }
   });
-  const isCorrect = chosen === q.answer;
+  const isCorrect = chosen === question.answer;
   feedbackEl.className = 'feedback show ' + (isCorrect ? 'ok' : 'bad');
-  feedbackEl.textContent = isCorrect ? '✓ إجابة صحيحة' : `✗ إجابة خاطئة — الصحيحة: ${q.answer}`;
+  feedbackEl.textContent = isCorrect ? '✓ إجابة صحيحة' : `✗ إجابة خاطئة — الصحيحة: ${question.answer}`;
 }
 
-function selectOption(div, chosen, q){
+function selectOption(div, chosen, question){
   if(sessionState[currentIndex] && sessionState[currentIndex].chosen) return;
 
-  const isCorrect = chosen === q.answer;
+  const isCorrect = chosen === question.answer;
   const prior = sessionState[currentIndex] || {};
   sessionState[currentIndex] = {
     chosen: chosen,
@@ -1574,24 +1574,24 @@ function selectOption(div, chosen, q){
     hintRemoved: prior.hintRemoved || null
   };
 
-  lockOptions(q, chosen);
+  lockOptions(question, chosen);
   hintBtn.disabled = true;
-  qScore.textContent = `الصحيح: ${toArabicNum(currentScore())}`;
+  questionScore.textContent = `الصحيح: ${toArabicNum(currentScore())}`;
   nextBtn.classList.add('show');
-  nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? 'عرض النتيجة' : 'التالي';
+  nextBtn.textContent = currentIndex === sessionquestionuestions.length - 1 ? 'عرض النتيجة' : 'التالي';
 }
 
 prevBtn.addEventListener('click', () => {
   if(currentIndex > 0){
     currentIndex -= 1;
-    showQuestion();
+    showquestionuestion();
   }
 });
 
 nextBtn.addEventListener('click', () => {
-  if(currentIndex < sessionQuestions.length - 1){
+  if(currentIndex < sessionquestionuestions.length - 1){
     currentIndex += 1;
-    showQuestion();
+    showquestionuestion();
   } else {
     progressFill.style.width = '100%';
     showResult();
@@ -1599,22 +1599,22 @@ nextBtn.addEventListener('click', () => {
 });
 
 function showResult(){
-  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('questionuiz-screen').classList.add('hidden');
   document.getElementById('result-screen').classList.remove('hidden');
 
-  const answeredCount = sessionState.filter(s => s && s.chosen).length || sessionQuestions.length;
+  const answeredCount = sessionState.filter(s => s && s.chosen).length || sessionquestionuestions.length;
   const score = currentScore();
-  const pct = Math.round((score / sessionQuestions.length) * 100);
+  const pct = Math.round((score / sessionquestionuestions.length) * 100);
   document.getElementById('result-pct').innerHTML = `${toArabicNum(pct)}<span>٪</span>`;
   document.getElementById('result-label').textContent =
-    `أجبت بشكل صحيح على ${toArabicNum(score)} من ${toArabicNum(sessionQuestions.length)} سؤالاً`;
+    `أجبت بشكل صحيح على ${toArabicNum(score)} من ${toArabicNum(sessionquestionuestions.length)} سؤالاً`;
 
   const chapterStats = {};
-  sessionQuestions.forEach((q, i) => {
+  sessionquestionuestions.forEach((question, i) => {
     const s = sessionState[i];
-    if(!chapterStats[q.chapter]) chapterStats[q.chapter] = {correct:0, total:0};
-    chapterStats[q.chapter].total += 1;
-    if(s && s.correct) chapterStats[q.chapter].correct += 1;
+    if(!chapterStats[question.chapter]) chapterStats[question.chapter] = {correct:0, total:0};
+    chapterStats[question.chapter].total += 1;
+    if(s && s.correct) chapterStats[question.chapter].correct += 1;
   });
 
   const breakdownEl = document.getElementById('breakdown');
@@ -1629,7 +1629,7 @@ function showResult(){
 }
 
 document.getElementById('retry-btn').addEventListener('click', () => {
-  beginSession(shuffle(sessionQuestions));
+  beginSession(shuffle(sessionquestionuestions));
 });
 
 document.getElementById('home-btn').addEventListener('click', () => {
