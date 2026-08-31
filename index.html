@@ -343,7 +343,22 @@ button.chip{font-family:inherit;cursor:pointer}
 .m-dot.cur{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .m-dot.ok{background:var(--ok);border-color:var(--ok);color:var(--ok-ink)}
 .m-dot.no{background:var(--no);border-color:var(--no);color:var(--no-ink)}
+.exam-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 10px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: 0.2s;
+}
 
+.exam-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
 /* ===== النتيجة ===== */
 .res-panel{padding:30px}
 .res-hero{display:flex;gap:30px;align-items:center;flex-wrap:wrap}
@@ -589,7 +604,9 @@ function devFallback(img){
     </div>
 
     <h1>امتحان <em>التواصل والعرض الفعّال</em></h1>
-    <p class="lead">شامل لأول أربعة فصول بالكامل: 80 سؤال صح وخطأ + 60 اختيار من متعدد — بتصحيح فوري وتصويب وتلميح لكل سؤال.</p>
+
+  <a href="./lingo.html">مراجعه من الملخص</a>
+
     <div class="stat-chips">
       <span class="s-chip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l1.7 7.3L21 12l-7.3 1.7L12 21l-1.7-7.3L3 12l7.3-1.7Z"/></svg> 140 سؤالًا شاملًا</span>
       <span class="s-chip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg> 80 صح وخطأ</span>
